@@ -27,27 +27,7 @@ include_once 'hradmin.inc';
 if (!checkRights(HRADMIN_RIGHT_LOGIN)) {
     header("Location: noright.php");
 }
-/*
-.|Home||Home|home.png
-.|Organisationen|organizations.php|Organisationen|organization.png
-..|Organisationen|organizations.php|Liste der Organisationen|preview.png
-..|Neue Organisation|organization.php|Neue Organisation|add_section.png
-.|Stellenanzeigen|jobs.php|Stellenanzeigen|document.png
-..|Stellenanzeigen|jobs.php|Liste der Stellenanzeigen|preview.png
-..|Neue Stellenanzeige|job.php|Neue Stellenanzeige|edit.png
-..|---
-..|Vorlagen|jobs.php?templates=1|Liste der Vorlagen|template.png
-.|Einstellungen|configuration.php|Einstllungen|configs.png
-..|Benutzervewaltung|users.php|Benutzervewaltung|users.png
-..|---
-..|Administration|admin.php|Administration|configs.png
-...|Gruppen|groups.php|Gruppen|groups.png
-.|Abmelden|?logout=1|Abmelden|
-.|Hilfe|about.php|Hilfe|help.png
-..|Support|about.php|Support Informationen|help.png
-..|---
-..|Info|about.php|Infos über HRJobs|info.png
-*/
+
 function getMenuString() {
     $menu = ".|"    .gettext("Home")."|index.php|".gettext("Home")."|home.png\n";
     $menu .= ".|"   .gettext("Oragnizations")."|organizations.php|".gettext("Oragnizations")."|organization.png\n";
