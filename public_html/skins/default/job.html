@@ -2,11 +2,11 @@
 <script type="text/javascript" language="javascript" src="javascript/calendar/dynCalendar.js"></script>
 <script type="text/javascript" language="javascript" src="javascript/categoryBrowser.js"></script>
 <ul id="tablist">
-<li><a title="Allgemeine Daten der Stellenanzeige"href="#" class="current" onClick="return expandcontent('sc1', this)">Jobdaten</a></li>
-<li><a title="Details zur Stellenanzeige" href="#" onClick="return expandcontent('sc2', this)" >Details</a></li>
-<li><a title="Angaben zur Kontakaufnahme" href="#" onClick="return expandcontent('sc3', this)" >Kontaktdaten</a></li>
-<li><a title="Angaben zur Darstellung" href="#" onClick="return expandcontent('sc4', this)" >Design</a></li>
-<li><a title="Angaben zur Lokalität" href="#" onClick="return expandcontent('sc5', this)" >Ortsangaben</a></li>
+<li><a title="func_gettext("Common")"href="#" class="current" onClick="return expandcontent('sc1', this)">func_gettext("Common")</a></li>
+<li><a title="func_gettext("Details")" href="#" onClick="return expandcontent('sc2', this)" >func_gettext("Details")</a></li>
+<li><a title="func_gettext("Contacts")" href="#" onClick="return expandcontent('sc3', this)" >func_gettext("Contacts")</a></li>
+<li><a title="func_gettext("Design")" href="#" onClick="return expandcontent('sc4', this)" >func_gettext("Design")</a></li>
+<li><a title="func_gettext("Location")" href="#" onClick="return expandcontent('sc5', this)" >func_gettext("Location")</a></li>
 </ul>
 <form {edit_attributes}>
 <div id="tabcontentcontainer">
@@ -44,9 +44,9 @@
     <td>{edit_profession_html}
         {edit_profession_list_html}
      <a href="#" onClick="setFormValueOpenBrowser('profession'); return false;">
-     	<img title="Hinzufügen" src="/skins/default/images/new.png" alt="Hinzufügen" /></a>
+     	<img title="func_gettext("Add")" src="/skins/default/images/new.png" alt="func_gettext("Add")" /></a>
      <a href="#" onClick="setFormValueManipulate('profession','Remove'); return false;">
-     	<img title="Entfernen" src="/skins/default/images/delete.png" alt="Entfernen" /></a>
+     	<img title="func_gettext("Remove")" src="/skins/default/images/delete.png" alt="func_gettext("Remove")" /></a>
 		{profession_script}
     </td>
   </tr> 
@@ -93,9 +93,9 @@
     <td>{edit_location_html}
         {edit_location_list_html}
      <a href="#" onClick="setFormValueOpenBrowser('location'); return false;">
-     	<img title="Hinzufügen" src="/skins/default/images/new.png" alt="Hinzufügen" /></a>
+     	<img title="func_gettext("Add")" src="/skins/default/images/new.png" alt="func_gettext("Add")" /></a>
      <a href="#" onClick="setFormValueManipulate('location','Remove'); return false;">
-     	<img title="Entfernen" src="/skins/default/images/delete.png" alt="Entfernen" /></a>
+     	<img title="func_gettext("Remove")" src="/skins/default/images/delete.png" alt="func_gettext("Remove")" /></a>
 		{location_script}
     </td>
   </tr> 
