@@ -1,9 +1,9 @@
 <script type="text/javascript" language="javascript" src="javascript/categoryBrowser.js"></script>
 <ul id="tablist">
-<li><a title="Stammdaten" href="#" class="current" onClick="return expandcontent('sc1', this)">Stammdaten</a></li>
-<li><a title="Details" href="#" onClick="return expandcontent('sc2', this)" >Details</a></li>
-<li><a title="Design" href="#" onClick="return expandcontent('sc3', this)" >Design</a></li>
-<li><a title="Kontakte" href="#" onClick="return expandcontent('sc4', this)" >Kontakte</a></li>
+<li><a title="func_gettext("Common")" href="#" class="current" onClick="return expandcontent('sc1', this)">func_gettext("Common")</a></li>
+<li><a title="func_gettext("Details")" href="#" onClick="return expandcontent('sc2', this)" >func_gettext("Details")</a></li>
+<li><a title="func_gettext("Design")" href="#" onClick="return expandcontent('sc3', this)" >func_gettext("Design")</a></li>
+<li><a title="func_gettext("Contact")" href="#" onClick="return expandcontent('sc4', this)" >func_gettext("Contact")</a></li>
 </ul>
 <form {edit_attributes}>
 <div id="tabcontentcontainer">
@@ -61,9 +61,9 @@
     <td>{edit_industry_html}
         {edit_industry_list_html}
      <a href="#" onClick="setFormValueOpenBrowser('industry'); return false;">
-     	<img title="Hinzufügen" src="/skins/default/images/new.png" alt="Hinzufügen" /></a>
+     	<img title="func_gettext("Add")" src="/skins/default/images/new.png" alt="func_gettext("Add")" /></a>
      <a href="#" onClick="setFormValueManipulate('industry','Remove'); return false;">
-     	<img title="Entfernen" src="/skins/default/images/delete.png" alt="Entfernen" /></a>
+     	<img title="func_gettext("Remove")" src="/skins/default/images/delete.png" alt="func_gettext("Remove")" /></a>
 		{industry_script}
     </td>
   </tr> 
@@ -85,7 +85,7 @@
 </table>
 </div>
 <div id="sc4" class="tabcontent">
-<h2>Kontakte</h2>
+<h2>func_gettext("Contacts")</h2>
 {new_contact}
 {contacts}
 </div>

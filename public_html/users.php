@@ -30,8 +30,8 @@ $listrenderer = new DBTableList_Renderer_Sigma(
     new UserRowRenderer(& $objRightsAdminAuth)
 );
 $list->accept($listrenderer);
-$tpl->setVariable('add_user','<a href="user.php"><img src="'.IMAGES_DIR.'/new.png" alt="Neuer Benutzer" /><br/>Neuer Benutzer</a>');
-$tpl->setVariable('title', "Benutzerverwaltung");
+$tpl->setVariable('add_user','<a href="user.php"><img src="'.IMAGES_DIR.'/new.png" alt="'._("New User").'" /><br/>'._("New User").'</a>');
+$tpl->setVariable('title', _("User Administration"));
 $tpl->show();
 
 ?>

@@ -1,17 +1,21 @@
 <?php
 require_once 'configuration.inc';
+include_once 'i18n.inc';
 require_once 'HTML/Template/Sigma.php';
 require_once 'layersmenu/lib/PHPLIB.php';
 require_once 'layersmenu/lib/layersmenu-common.inc.php';
 require_once 'layersmenu/lib/layersmenu.inc.php';
+header('Content-Type: text/html; charset='.CHARSET);
 $tpl =& new HTML_Template_Sigma(TEMPLATE_DIR);
 $tpl->loadTemplateFile('template.html');
+$tpl->setCallbackFunction('gettext','gettext');
 $tpl->setVariable("base",HTML_BASE);
 $tpl->setVariable('theme',HTML_BASE.'/'.THEME_BASE.'/'.THEME_SKIN);
 $layersmenu = '<script language="JavaScript" type="text/javascript" src="/layersmenu/libjs/layersmenu-library.js"></script>'."\n";
 $layersmenu .= '<script language="JavaScript" type="text/javascript" src="/layersmenu/libjs/layersmenu.js"></script>'."\n";
 $mid = new LayersMenu(6, 7, 2, 1);
-$mid->setMenuStructureFile('menu.txt');
+//$mid->setMenuStructureFile('menu.txt');
+$mid->setMenuStructureString(getMenuString());
 $mid->setIconsize(16, 16);
 $mid->parseStructureForMenu('hormenu1');
 $mid->newHorizontalMenu('hormenu1');
@@ -23,4 +27,48 @@ include_once 'hradmin.inc';
 if (!checkRights(HRADMIN_RIGHT_LOGIN)) {
     header("Location: noright.php");
 }
+/*
+.|Home||Home|home.png
+.|Organisationen|organizations.php|Organisationen|organization.png
+..|Organisationen|organizations.php|Liste der Organisationen|preview.png
+..|Neue Organisation|organization.php|Neue Organisation|add_section.png
+.|Stellenanzeigen|jobs.php|Stellenanzeigen|document.png
+..|Stellenanzeigen|jobs.php|Liste der Stellenanzeigen|preview.png
+..|Neue Stellenanzeige|job.php|Neue Stellenanzeige|edit.png
+..|---
+..|Vorlagen|jobs.php?templates=1|Liste der Vorlagen|template.png
+.|Einstellungen|configuration.php|Einstllungen|configs.png
+..|Benutzervewaltung|users.php|Benutzervewaltung|users.png
+..|---
+..|Administration|admin.php|Administration|configs.png
+...|Gruppen|groups.php|Gruppen|groups.png
+.|Abmelden|?logout=1|Abmelden|
+.|Hilfe|about.php|Hilfe|help.png
+..|Support|about.php|Support Informationen|help.png
+..|---
+..|Info|about.php|Infos über HRJobs|info.png
+*/
+function getMenuString() {
+    $menu = ".|"    .gettext("Home")."|index.php|".gettext("Home")."|home.png\n";
+    $menu .= ".|"   .gettext("Oragnizations")."|organizations.php|".gettext("Oragnizations")."|organization.png\n";
+    $menu .= "..|"  .gettext("Organizations")."|organizations.php|".gettext("Organizations")."|preview.png\n";
+    $menu .= "..|"  .gettext("New Organization")."|organization.php|".gettext("New Organization")."|add_section.png\n";
+    $menu .= ".|"   .gettext("Job Postings")."|jobs.php|".gettext("Job Postings")."|document.png\n";
+    $menu .= "..|"  .gettext("Jobs")."|jobs.php|".gettext("Jobs")."|preview.png\n";
+    $menu .= "..|"  .gettext("New Job")."|job.php|".gettext("New Job")."|edit.png\n";
+    $menu .= "..|---\n";
+    $menu .= "..|"  .gettext("Templates")."|jobs.php?templates=1|".gettext("Templates")."|template.png\n";
+    $menu .= ".|"   .gettext("Settings")."|configuration.php|".gettext("Settings")."|configs.png\n";
+    $menu .= "..|"  .gettext("User Administration")."|users.php|".gettext("User Administration")."|users.png\n";
+    $menu .= "..|---\n";
+    $menu .= "..|"  .gettext("Administration")."|admin.php|".gettext("Administration")."|configs.png\n";
+    $menu .= "...|" .gettext("Groups")."|groups.php|".gettext("Groups")."|groups.png\n";
+    $menu .= ".|"   .gettext("Logout")."|?logout=1|".gettext("Logout")."|\n";
+    $menu .= ".|"   .gettext("Help")."|about.php|".gettext("Help")."|help.png\n";
+    $menu .= "..|"  .gettext("Support")."|about.php|".gettext("Support")."|help.png\n";
+    $menu .= "..|---\n";
+    $menu .= "..|"  .gettext("Info")."|about.php|".gettext("About HRjobs")."|info.png\n";
+    return $menu;
+}
+
 ?>

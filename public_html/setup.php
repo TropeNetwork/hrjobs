@@ -85,11 +85,11 @@ $form->addElement('text','db_admin_pass', _("Password"),
                   'size'=>'20',
                   'class'=>'formFieldLong'));
 
-$form->addElement('submit','save',_("Weiter"));
-$form->addElement('submit','db_check',_("Verbingung prüfen"));
-$form->addElement('submit','db_admin_check',_("Verbingung prüfen"));
-$form->addElement('submit','db_create',_("Datenbank anlegen"));
-$form->addElement('submit','db_admin_create',_("Datenbank anlegen"));
+$form->addElement('submit','save',_("Continue"));
+$form->addElement('submit','db_check',_("Check Connection"));
+$form->addElement('submit','db_admin_check',_("Check Connection"));
+$form->addElement('submit','db_create',_("Create Database"));
+$form->addElement('submit','db_admin_create',_("Create Database"));
 $defaults = array(
     'base'     => $settings['html']['base'],
     'theme'     => $settings['theme']['base'],

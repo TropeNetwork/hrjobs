@@ -16,4 +16,8 @@
   <setup>
     <initialized>0</initialized>
   </setup>
+	<i18n>
+    	<locale>en_US</locale>
+    	<charset>UTF-8</charset>
+    </i18n>
 </conf>

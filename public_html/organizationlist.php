@@ -15,8 +15,8 @@ $tpl->setVariable('theme',HTML_BASE.'/'.THEME_BASE.'/'.THEME_SKIN);
 $list = new DBTableList(DSN, 10);
 $list->setTable('organization');
 $list->setColumns(array (
-    'org_id'    => 'Org Id.',
-    'org_name'  => 'Organisation'
+    'org_id'    => _("Id"),
+    'org_name'  => _("Organization")
     ));
 
 $list->orderby('org_id');
@@ -29,6 +29,6 @@ $listrenderer = new DBTableList_Renderer_Sigma(
 
 $list->accept($listrenderer);
 
-$tpl->setVariable('title', "Liste aller Organisationen");
+$tpl->setVariable('title', _("Oragnizations"));
 $tpl->show();
 ?>

@@ -1,21 +1,27 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# HRjobs messages.
+# Copyright (C) 2004
+# This file is distributed under the same license as the HRadmin package.
+# Gerrit Goetsch <goetsch@cross-solution.de>, 2004.
 #
 #, fuzzy
 msgid	""
 msgstr	"Project-Id-Version: 0.0.1\n"
 	"Report-Msgid-Bugs-To: \n"
-	"POT-Creation-Date: 2004-11-02 12:53+0100\n"
-	"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+	"POT-Creation-Date: 2004-11-04 12:53+0100\n"
+	"PO-Revision-Date: 2004-11-04 08:00+0100\n"
 	"Last-Translator: Gerrit Goetsch <goetsch@cross-solution.de>\n"
-	"Language-Team: LANGUAGE <LL@li.org>\n"
+	"Language-Team: German <DE@li.org>\n"
 	"MIME-Version: 1.0\n"
 	"Content-Type: text/plain; charset=UTF-8\n"
 	"Content-Transfer-Encoding: 8bit\n"
 
 msgid	"About HRJobs"
+msgstr	""
+
+msgid	"About HRjobs"
+msgstr	""
+
+msgid	"Address"
 msgstr	""
 
 msgid	"Admin"
@@ -27,25 +33,22 @@ msgstr	""
 msgid	"Administrators"
 msgstr	""
 
-msgid	"Adresse"
-msgstr	""
-
-msgid	"Aktiviert"
+msgid	"Back"
 msgstr	""
 
 msgid	"Base"
 msgstr	""
 
-msgid	"Beenden"
-msgstr	""
-
-msgid	"Beschreibung"
-msgstr	""
-
-msgid	"Branche"
-msgstr	""
-
 msgid	"Browser"
+msgstr	""
+
+msgid	"Building Number"
+msgstr	""
+
+msgid	"Check Connection"
+msgstr	""
+
+msgid	"City"
 msgstr	""
 
 msgid	"Common"
@@ -63,10 +66,16 @@ msgstr	""
 msgid	"Contacts"
 msgstr	""
 
-msgid	"Create an organization first!"
+msgid	"Continue"
 msgstr	""
 
-msgid	"Datenbank anlegen"
+msgid	"Country"
+msgstr	""
+
+msgid	"Create Database"
+msgstr	""
+
+msgid	"Create an organization first!"
 msgstr	""
 
 msgid	"Delete"
@@ -93,7 +102,14 @@ msgstr	""
 msgid	"Edit Group"
 msgstr	""
 
+#, fuzzy
+msgid	"Edit User"
+msgstr	"Benutzer"
+
 msgid	"Email"
+msgstr	""
+
+msgid	"Email is required"
 msgstr	""
 
 msgid	"Enable"
@@ -108,10 +124,22 @@ msgstr	""
 msgid	"End date"
 msgstr	""
 
+msgid	"Error"
+msgstr	""
+
+msgid	"Family Name"
+msgstr	""
+
 msgid	"Family name"
 msgstr	""
 
 msgid	"Fax"
+msgstr	""
+
+msgid	"Finish"
+msgstr	""
+
+msgid	"First Name"
 msgstr	""
 
 msgid	"First name"
@@ -120,17 +148,29 @@ msgstr	""
 msgid	"Group Administration"
 msgstr	""
 
+msgid	"Groups"
+msgstr	""
+
 msgid	"HRJobs is an <b>OpenSource-Entwicklung</b> development of<br>CROSS-"
 	"Solution"
 msgstr	""
 
-msgid	"Hausnummer"
+msgid	"Help"
 msgstr	""
 
 msgid	"Home"
 msgstr	""
 
 msgid	"Host"
+msgstr	""
+
+msgid	"Id"
+msgstr	""
+
+msgid	"Industry"
+msgstr	""
+
+msgid	"Info"
 msgstr	""
 
 msgid	"Job"
@@ -148,22 +188,22 @@ msgstr	""
 msgid	"Job Titel"
 msgstr	""
 
-msgid	"Kontaktaufnahme"
+msgid	"Jobs"
 msgstr	""
 
-msgid	"Land"
+msgid	"Last Login"
 msgstr	""
 
 msgid	"Location"
 msgstr	""
 
 msgid	"Login"
-msgstr	""
+msgstr	"Anmeldung"
 
 msgid	"Logo"
 msgstr	""
 
-msgid	"Löschen"
+msgid	"Logout"
 msgstr	""
 
 msgid	"Must be a number"
@@ -172,16 +212,28 @@ msgstr	""
 msgid	"Name"
 msgstr	""
 
-msgid	"Neuen User anlegen"
+msgid	"Name is required"
+msgstr	""
+
+msgid	"New Contact"
 msgstr	""
 
 msgid	"New Group"
 msgstr	""
 
+msgid	"New Job"
+msgstr	""
+
 msgid	"New Job Posting"
 msgstr	""
 
+msgid	"New Organization"
+msgstr	""
+
 msgid	"New User"
+msgstr	""
+
+msgid	"Oragnizations"
 msgstr	""
 
 msgid	"Organization"
@@ -202,10 +254,13 @@ msgstr	""
 msgid	"PHP 5"
 msgstr	""
 
-msgid	"PLZ"
+msgid	"Password"
+msgstr	"Passwort"
+
+msgid	"Password is required"
 msgstr	""
 
-msgid	"Password"
+msgid	"Passwords are not equal"
 msgstr	""
 
 msgid	"Pending"
@@ -214,7 +269,31 @@ msgstr	""
 msgid	"Phone"
 msgstr	""
 
+msgid	"Please enter a \"Building Number\" "
+msgstr	""
+
+msgid	"Please enter a \"City\" "
+msgstr	""
+
+msgid	"Please enter a \"Country\" "
+msgstr	""
+
+msgid	"Please enter a \"Name\" "
+msgstr	""
+
+msgid	"Please enter a \"Street\" "
+msgstr	""
+
+msgid	"Please enter a \"Website\" "
+msgstr	""
+
+msgid	"Please enter a \"Zip\" "
+msgstr	""
+
 msgid	"Please enter a name"
+msgstr	""
+
+msgid	"Please enter a valid \"Email\""
 msgstr	""
 
 msgid	"Please enter a valid \"Email\" "
@@ -232,6 +311,9 @@ msgstr	""
 msgid	"Profession"
 msgstr	""
 
+msgid	"Repeat"
+msgstr	""
+
 msgid	"Required"
 msgstr	""
 
@@ -244,13 +326,13 @@ msgstr	""
 msgid	"Save as Template"
 msgstr	""
 
+msgid	"Settings"
+msgstr	""
+
 msgid	"Skin"
 msgstr	""
 
 msgid	"Speichern"
-msgstr	""
-
-msgid	"Stadt"
 msgstr	""
 
 msgid	"Start"
@@ -262,13 +344,19 @@ msgstr	""
 msgid	"Status"
 msgstr	""
 
-msgid	"Strasse"
+msgid	"Street"
 msgstr	""
 
 msgid	"Stylesheet"
 msgstr	""
 
+msgid	"Support"
+msgstr	""
+
 msgid	"Template"
+msgstr	""
+
+msgid	"Templates"
 msgstr	""
 
 msgid	"Timeout"
@@ -280,22 +368,26 @@ msgstr	""
 msgid	"URL:"
 msgstr	""
 
+#, fuzzy
+msgid	"Use exist User"
+msgstr	"Benutzer"
+
 msgid	"Used OpenSource-Components"
 msgstr	""
 
 msgid	"User"
-msgstr	""
+msgstr	"Benutzer"
 
 msgid	"User Administration"
 msgstr	""
 
 msgid	"Username"
+msgstr	"Benuzername"
+
+msgid	"Username already exists"
 msgstr	""
 
-msgid	"Verbingung prüfen"
-msgstr	""
-
-msgid	"Vorhandenen User verwenden"
+msgid	"Username is required"
 msgstr	""
 
 msgid	"Web"
@@ -304,14 +396,8 @@ msgstr	""
 msgid	"Website"
 msgstr	""
 
-msgid	"Weiter"
-msgstr	""
-
-msgid	"Wiederholung"
-msgstr	""
-
 msgid	"You have no right for this site!"
 msgstr	""
 
-msgid	"Zurück"
+msgid	"Zip"
 msgstr	""

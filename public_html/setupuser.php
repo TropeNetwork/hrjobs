@@ -41,8 +41,8 @@ $tpl =& new HTML_Template_Sigma('skins/default/');
 $tpl->loadTemplateFile('setupuser.html');
 $form = new HTML_QuickForm('setup','POST');
 
-$form->addElement('select','admin', _("Vorhandenen User verwenden"),$select);
-$form->addElement('text','new_admin', _("Neuen User anlegen"),
+$form->addElement('select','admin', _("Use exist User"),$select);
+$form->addElement('text','new_admin', _("New User"),
             array('maxlength'=>'30',
                   'size'=>'20',
                   'class'=>'formFieldLong'));
@@ -50,22 +50,22 @@ $form->addElement('password', 'password', _("Password"),
             array('maxlength'=>'10',
                   'class'=>'formFieldLong'));
                   
-$form->addElement('password', 'password2', _("Wiederholung"),
+$form->addElement('password', 'password2', _("Repeat"),
             array('maxlength'=>'10',
                   'class'=>'formFieldLong'));
-$form->addElement('submit','back',_("Zurück"));
-$form->addElement('submit','save',_("Beenden"));
+$form->addElement('submit','back',_("Back"));
+$form->addElement('submit','save',_("Finish"));
 
 $defaults = array(
 
 );
 $form->setDefaults($defaults);
 $form->registerRule ('notexists', 'callback', 'notExistsUser');
-$form->addRule('new_admin', "Login bereits vergeben!", 'notexists');
+$form->addRule('new_admin', _("Username already exists"), 'notexists');
 if(isset($_POST['new_admin']) && $_POST['new_admin']!=='') {
-    $form->addRule('password', "Password darf nicht leer sein", 'required');
+    $form->addRule('password', _("Password is required"), 'required');
 }
-$form->addRule(array('password', 'password2'), 'Die Passwörter sind nicht gleich', 'compare', null, 'server');
+$form->addRule(array('password', 'password2'), _("Passwords are not equal"), 'compare', null, 'server');
     
 if ($form->validate()) {
     if ($form->exportValue('back')) {

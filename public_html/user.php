@@ -41,7 +41,7 @@ $user = $user[0];
 $form = new HTML_QuickForm('user','POST');
 $form->setRequiredNote("<font color=\"red\" size=\"1\"> *</font><font size=\"1\"> Pflichtfelder</font>");
 
-$form->addElement('text','handle', _("Login"),
+$form->addElement('text','handle', _("Username"),
             array('maxlength'=>'10',
                   'size'=>'10',
                   'class'=>'formFieldLong'));
@@ -57,16 +57,16 @@ $form->addElement('password', 'password', _("Password"));
 $tpl->setVariable(array('maxlength'=>'10',
                         'class'=>'formFieldLong'));
                   
-$form->addElement('password', 'password2', _("Wiederholung"));
+$form->addElement('password', 'password2', _("Repeat"));
 $tpl->setVariable(array('maxlength'=>'10',
                         'class'=>'formFieldLong'));
-$form->addElement('checkbox','active', null, _("Aktiviert"),
+$form->addElement('checkbox','active', null, _("Enable"),
             array('class'=>'formFieldCheckbox'));
 $form->addElement('checkbox','admin', null, _("Admin"),
             array('class'=>'formFieldCheckbox'));
 $form->addElement('submit','save',_("Speichern"));
 if (isset($id)) {
-    $form->addElement('submit','delete',_("Löschen"));
+    $form->addElement('submit','delete',_("Delete"));
 }
 
 if (isset($id)) {
@@ -85,16 +85,16 @@ $defaults = array(
 );
 $form->setDefaults($defaults);
 $form->registerRule ('notexists', 'callback', 'notExistsUser');
-$form->addRule('handle',    "Login darf nicht leer sein", 'required');
-$form->addRule('name',      "Name darf nicht leer sein", 'required');
-$form->addRule('email',     "Email darf nicht leer sein", 'required');
-$form->addRule('email',     "Bitte geben Sie eine gülige \"Email\" ein", 'email', null,'server');
+$form->addRule('handle',    _("Username is required"), 'required');
+$form->addRule('name',      _("Name is required"), 'required');
+$form->addRule('email',     _("Email is required"), 'required');
+$form->addRule('email',     _("Please enter a valid \"Email\""), 'email', null,'server');
 if (!isset($id)) {
-    $form->addRule('handle', "Login bereits vergeben", 'notexists');
-    $form->addRule('password', "Password darf nicht leer sein", 'required');
-    $form->addRule('password2', "Password darf nicht leer sein", 'required');
+    $form->addRule('handle',    _("Username already exists"), 'notexists');
+    $form->addRule('password',  _("Password is required"), 'required');
+    $form->addRule('password2', _("Password is required"), 'required');
 }
-$form->addRule(array('password', 'password2'), 'Die Passwörter sind nicht gleich', 'compare', null, 'server');
+$form->addRule(array('password', 'password2'), _("Passwords are not equal"), 'compare', null, 'server');
 if ($form->validate()) {
     $admin = new HRAdmin_Admin($objRightsAdminPerm); 
     if ($form->exportValue('save')) {
@@ -160,9 +160,9 @@ $tpl->addBlockfile('contentmain','form', 'user.html');
 $form->accept($renderer);
 
 if (isset($id)) {
-    $tpl->setVariable('title',"Benutzer bearbeiten");
+    $tpl->setVariable('title',_("Edit User"));
 } else {
-    $tpl->setVariable('title',"Neuer Benutzer");
+    $tpl->setVariable('title',_("New User"));
 }
 
 

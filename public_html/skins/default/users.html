@@ -2,18 +2,18 @@
 <table class="list">
 <tr>
   <th>{th_organization_user_id}</th>
-  <th>Login</th>
-  <th>Aktiv</th>
-  <th>Name</th>
-  <th>Email</th>
-  <th>Letzte Anmeldung</th>
+  <th>func_gettext("Login")</th>
+  <th>func_gettext("Enabled")</th>
+  <th>func_gettext("Name")</th>
+  <th>func_gettext("Email")</th>
+  <th>func_gettext("Last Login")</th>
 </tr>
 <!-- BEGIN added_user -->
 <tr>
   <td class="list">{organization_user_id}</td>  
   <td class="list">
   	<a href="user.php?id={organization_user_id}">
-	  	<img src="/skins/default/images/edit.png" alt="Editieren" />
+	  	<img src="/skins/default/images/edit.png" alt="func_gettext("Edit")" />
   	{usr_handle}
   	</a>
   </td>

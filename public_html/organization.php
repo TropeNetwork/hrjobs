@@ -19,7 +19,7 @@ if (isset($id) && !$org_usr->hasRightOnOrganization($id)
     header("Location: noright.php");
     exit;
 }
-$tpl->setVariable('title',"Organisation");
+$tpl->setVariable('title',_("Organization"));
 
 $org = new HiringOrg($id);
 
@@ -31,7 +31,7 @@ if (isset($id)) {
 
 $form = new HTML_QuickForm('edit','POST');
 $form->setRequiredNote("<font color=\"red\" size=\"1\"> *</font><font size=\"1\"> Pflichtfelder</font>");
-$form->addElement('header','test',_("Kontaktaufnahme"));
+$form->addElement('header','test',_("Contact"));
 $form->addElement('text','org_name', _("Name"),
             array('maxlength'=>'100',
                   'size'=>'40',
@@ -40,46 +40,46 @@ $form->addElement('text','website', _("Website"),
             array('maxlength'=>'100',
                   'size'=>'40',
                   'class'=>'formFieldLong'));      
-$form->addElement('textarea','org_description', _("Beschreibung"),
+$form->addElement('textarea','org_description', _("Description"),
             array('rows'=>'10',
                   'cols'=>'70',
                   'wrap'=>'on',
                   'class'=>'formFieldTextArea'));
 
-$form->addElement('text','address', _("Adresse"),
+$form->addElement('text','address', _("Address"),
             array('maxlength'=>'100',
                   'size'=>'40',
                   'class'=>'formFieldLong'));  
-$form->addElement('text','street', _("Strasse"),
+$form->addElement('text','street', _("Street"),
             array('maxlength'=>'100',
                   'size'=>'40',
                   'class'=>'formFieldLong'));  
-$form->addElement('text','building_number', _("Hausnummer"),
+$form->addElement('text','building_number', _("Building Number"),
             array('maxlength'=>'10',
                   'size'=>'3',
                   'class'=>'formFieldLong'));  
-$form->addElement('text','postal_code', _("PLZ"),
+$form->addElement('text','postal_code', _("Zip"),
             array('maxlength'=>'10',
                   'size'=>'5',
                   'class'=>'formFieldLong'));  
-$form->addElement('text','region', _("Stadt"),
+$form->addElement('text','region', _("City"),
             array('maxlength'=>'100',
                   'size'=>'40',
                   'class'=>'formFieldLong'));  
-$form->addElement('text','country_code', _("Land"),
+$form->addElement('text','country_code', _("Country"),
             array('maxlength'=>'30',
                   'size'=>'20',
                   'class'=>'formFieldLong'));  
 $file =& $form->addElement('file', 'logo', _("Logo"));
 
 
-$form->addElement('select','industry', _("Branche"),null, 
+$form->addElement('select','industry', _("Industry"),null, 
            array("size"=>"5",
                  "style"=>"width:200px;",
                  "multiple"=>"multiple") );
 $form->addElement('hidden','industry_list');
 
-$form->addElement('submit','save',_("Speichern"));
+$form->addElement('submit','save',_("Save"));
 if (isset($id)) {
     $form->addElement('hidden', 'id', $id);
 } 
@@ -95,13 +95,13 @@ $defaults = array(
     'country_code'      => $address->getValue('country_code'),
 );
 $form->setDefaults($defaults);
-$form->addRule('org_name',          "Bitte geben Sie den \"Name\" ein", 'required', null,'server');
-$form->addRule('street',            "Bitte geben Sie die \"Straße\" ein", 'required', null,'server');
-$form->addRule('building_number',   "Bitte geben Sie die \"Hausnummer\" ein", 'required', null,'server');
-$form->addRule('region',            "Bitte geben Sie die \"Stadt\" ein", 'required', null,'server');
-$form->addRule('postal_code',       "Bitte geben Sie die \"PLZ\" ein", 'required', null,'server');
-$form->addRule('country_code',      "Bitte geben Sie das \"Land\" ein", 'required', null,'server');
-$form->addRule('website',           "Bitte geben Sie die \"Website\" ein", 'required', null,'server');
+$form->addRule('org_name',          _("Please enter a \"Name\" "), 'required', null,'server');
+$form->addRule('street',            _("Please enter a \"Street\" "), 'required', null,'server');
+$form->addRule('building_number',   _("Please enter a \"Building Number\" "), 'required', null,'server');
+$form->addRule('region',            _("Please enter a \"City\" "), 'required', null,'server');
+$form->addRule('postal_code',       _("Please enter a \"Zip\" "), 'required', null,'server');
+$form->addRule('country_code',      _("Please enter a \"Country\" "), 'required', null,'server');
+$form->addRule('website',           _("Please enter a \"Website\" "), 'required', null,'server');
 
 
 if ($form->validate()) {    
@@ -163,9 +163,9 @@ $clist = new DBTableList(DSN, 10, 'contact');
 $clist->setTable('contact');
 $clist->setColumns(array (
     'contact_id'    => '',
-    'given_name'    => 'Vorname',
-    'family_name'   => 'Name',
-    'email'         => 'Email'
+    'given_name'    => _("First Name"),
+    'family_name'   => _("Family Name"),
+    'email'         => _("Email")
 ));
 $clist->orderby('family_name');
 if (!isset($id)) {
@@ -175,9 +175,8 @@ $clist->where('organization_org_id='.$id);
 $clistrenderer = new DBTableList_Renderer_Sigma(& $tpl, 'contacts.html', 'contacts', 'contact');
 $clist->accept($clistrenderer);
 
-//$tpl->setVariable('title',"Organisation");
 $tpl->setVariable('id',$id);
-$tpl->setVariable('new_contact','<a title="Neuen Kontakt anlegen" href="contact.php?id='.$id.'"><img src="'.IMAGES_DIR.'/new.png" alt="Neuer Kontakt" /></a><br/><br/>');
+$tpl->setVariable('new_contact','<a title="'._("New Contact").'" href="contact.php?id='.$id.'"><img src="'.IMAGES_DIR.'/new.png" alt="'._("New Contact").'" /></a><br/><br/>');
 $tpl->show();
 
 ?>
