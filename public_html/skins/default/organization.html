@@ -1,0 +1,96 @@
+<script type="text/javascript" language="javascript" src="javascript/categoryBrowser.js"></script>
+<ul id="tablist">
+<li><a title="Stammdaten" href="#" class="current" onClick="return expandcontent('sc1', this)">Stammdaten</a></li>
+<li><a title="Details" href="#" onClick="return expandcontent('sc2', this)" >Details</a></li>
+<li><a title="Design" href="#" onClick="return expandcontent('sc3', this)" >Design</a></li>
+<li><a title="Kontakte" href="#" onClick="return expandcontent('sc4', this)" >Kontakte</a></li>
+</ul>
+<form {edit_attributes}>
+<div id="tabcontentcontainer">
+<!-- BEGIN edit_error_loop -->
+<font color="orange">{edit_error}</font><br />
+<!-- END edit_error_loop -->
+<div id="sc1" class="tabcontent">
+<table>  
+  <tr>
+    <th>
+      {edit_org_name_label}{edit_id_html}
+    </th>
+    <td>
+      {edit_org_name_html}
+    </td>
+  </tr>
+  <tr>
+    <th>{edit_website_label}</th>
+    <td>{edit_website_html}</td>
+  </tr>
+  <tr>
+    <th>{edit_org_description_label}</th>
+    <td>{edit_org_description_html}</td>
+  </tr>
+  <tr>
+    <th>{edit_address_label}</th>
+    <td>{edit_address_html}</td>
+  </tr>
+  <tr>
+    <th>{edit_street_label}</th>
+    <td>{edit_street_html}</td>
+  </tr>
+  <tr>
+    <th>{edit_building_number_label}</th>
+    <td>{edit_building_number_html}</td>
+  </tr>
+  <tr>
+    <th>{edit_postal_code_label}</th>
+    <td>{edit_postal_code_html}</td>
+  </tr>
+  <tr>
+    <th>{edit_region_label}</th>
+    <td>{edit_region_html}</td>
+  </tr>
+  <tr>
+    <th>{edit_country_code_label}</th>
+    <td>{edit_country_code_html}</td>
+  </tr>
+</table>
+</div>
+<div id="sc2" class="tabcontent">
+<table>
+  <tr>
+    <th>{edit_industry_label}</th>
+    <td>{edit_industry_html}
+        {edit_industry_list_html}
+     <a href="#" onClick="setFormValueOpenBrowser('industry'); return false;">
+     	<img title="Hinzufügen" src="/skins/default/images/new.png" alt="Hinzufügen" /></a>
+     <a href="#" onClick="setFormValueManipulate('industry','Remove'); return false;">
+     	<img title="Entfernen" src="/skins/default/images/delete.png" alt="Entfernen" /></a>
+		{industry_script}
+    </td>
+  </tr> 
+</table>
+
+</div>
+<div id="sc3" class="tabcontent">
+<table> 
+  <tr>
+    <th>{edit_logo_label}</th>
+    <td>{edit_logo_html}</td>
+  </tr>
+  <tr>
+    <td colspan="2">{logo}</td>
+  </tr>
+  <tr>
+    <td colspan="2"><hr/></td>
+  </tr>  
+</table>
+</div>
+<div id="sc4" class="tabcontent">
+<h2>Kontakte</h2>
+{new_contact}
+{contacts}
+</div>
+<br>
+
+{edit_save_html}
+</form>
+</div>

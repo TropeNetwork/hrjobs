@@ -1,0 +1,23 @@
+{new_group}
+<table class="list">
+<tr>
+  <th>{th_group_id}</th>
+  <th>{th_disabled}</th>
+  <th>{th_group_name}</th>
+</tr>
+<!-- BEGIN added_group -->
+<tr>
+  <td class="list">{group_id}</td>  
+  <td class="list">{disabled}</td>
+  <td class="list">
+  	<a href="group.php?id={group_id}">
+	  	<img src="/skins/default/images/edit.png" alt="Editieren" />
+  	{group_name}
+  	</a>
+  </td>
+</tr>
+<!-- END added_group -->
+<tr>
+  <th colspan="6"><center>{group_pages}</center></th>
+</tr>
+</table>

@@ -1,0 +1,29 @@
+{add_user}
+<table class="list">
+<tr>
+  <th>{th_organization_user_id}</th>
+  <th>Login</th>
+  <th>Aktiv</th>
+  <th>Name</th>
+  <th>Email</th>
+  <th>Letzte Anmeldung</th>
+</tr>
+<!-- BEGIN added_user -->
+<tr>
+  <td class="list">{organization_user_id}</td>  
+  <td class="list">
+  	<a href="user.php?id={organization_user_id}">
+	  	<img src="/skins/default/images/edit.png" alt="Editieren" />
+  	{usr_handle}
+  	</a>
+  </td>
+  <td class="list">{usr_active}</td>
+  <td class="list">{usr_name}</td>
+  <td class="list">{usr_email}</td>
+  <td class="list">{usr_lastlogin}</td>
+</tr>
+<!-- END added_user -->
+<tr>
+  <th colspan="6"><center>{user_pages}</center></th>
+</tr>
+</table>

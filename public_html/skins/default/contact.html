@@ -1,0 +1,43 @@
+
+<form {post_attributes}>
+<table>
+  <tr>
+    <th colspan="2">
+      {org_name}
+    </th>
+  </tr>
+  <tr>
+    <th>
+      {post_given_name_label}{post_id_html}{post_cid_html}
+    </th>
+    <td>
+      {post_given_name_html}
+    </td>
+  </tr>
+  <tr>
+    <th>{post_family_name_label}</th>
+    <td>{post_family_name_html}</td>
+  </tr>
+  <tr>
+    <th>{post_email_label}</th>
+    <td>{post_email_html}</td>
+  </tr>
+  <tr>
+    <th>{post_phone_number_label}</th>
+    <td>{post_phone_areacode_html} / {post_phone_number_html} - {post_phone_extention_html}</td>
+  </tr>  
+  <tr>
+    <th>{post_fax_number_label}</th>
+    <td>{post_fax_areacode_html} / {post_fax_number_html} - {post_fax_extention_html}</td>
+  </tr>  
+  <tr>
+    <td colspan="2">
+      {post_required_note}
+    </td>
+  </tr>
+</table>
+<br>&nbsp;
+{post_save_html}&nbsp;
+{post_delete_html}
+<br>&nbsp;
+</form>

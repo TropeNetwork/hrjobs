@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<conf>
+    <database>
+      <user>user</user>
+      <pass>password</pass>
+      <host>host</host>
+      <name>database</name>
+    </database>
+    <!-- 
+    	DO NOT EDIT THE STUFF BELOW! 
+    	Use the setup 
+    -->
+    <application>5</application>
+    <area>9</area>
+    <group>
+      <users>26</users>
+      <admins>29</admins>
+    </group>
+</conf>

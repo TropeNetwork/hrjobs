@@ -1,0 +1,102 @@
+
+body {
+  font-family: Arial, Helvetica;
+}
+h1{
+  margin-top: 4px;
+  padding: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
+  font: bold 16px arial ;
+  background-color: #D8E7F5;
+  border: solid 1px rgb(124,192,255);
+  color: black;
+}
+h2{
+  font: bold 14px arial;
+  color: black;
+  border: solid 1px rgb(124,192,255);
+  padding: 4px;
+  background-color: #D8E7F5;
+  
+}
+table {
+  font: 13px arial;
+}
+table.list {
+  border: 1px solid rgb(124,192,255);
+  font: 13px arial;
+  border-spacing: 0px;
+  border-collapse: collapse;
+}
+td {
+  vertical-align:top;
+  text-align: left;
+  font: 13px arial;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 0px;
+  empty-cells: show;
+}
+td.list {
+  border: 1px dashed #cccccc;
+  vertical-align:top;
+  text-align: left;
+  font: 13px arial;
+  padding-left: 5px;
+  padding-right: 5px;
+  empty-cells: show;
+}
+
+th {
+  border: solid 1px rgb(124,192,255);
+  vertical-align:top;
+  text-align: left;
+  background-color: #D8E7F5;
+  padding-left: 3px;
+  padding-right: 3px;
+  white-space:nowrap;
+}
+
+table.panel {
+  border: 1px solid #cccccc;
+  margin-left: 5px; 
+  padding-bottom:5px;
+  background-color: #F1F3F5;  
+}
+
+p{
+  font: 13px arial;
+  text-align: justify;
+}
+img{
+  border: none;
+}
+.error {
+  color: red;
+  font-weight: bold;
+}
+form select,
+form input[type="text"],
+form input[type="password"],
+form input[type="file"],
+form textarea {
+  padding-left:2px;
+  border: thin solid #a0a0a0;
+  background-color : #ffffff;
+}
+form input[type="submit"] {
+  border: thin solid #a0a0a0;
+}
+form input[type="file"] {
+  border: thin solid #a0a0a0;
+}
+
+A {
+  color:rgb(84,152,215);
+  text-decoration:none;
+}
+A:hover {
+  color:rgb(250,164,39);
+  text-decoration:none;
+}

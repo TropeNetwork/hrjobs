@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<conf>
+<html>
+	<base>http://hrjobs.openhr.org</base>
+</html>
+<theme>
+	<base>skins</base>
+	<skin>default</skin>
+</theme>
+<database>
+	<user>user</user>
+	<pass>password</pass>
+	<name>database</name>
+	<host>host</host>
+</database>
+  <setup>
+    <initialized>0</initialized>
+  </setup>
+</conf>

@@ -1,0 +1,10 @@
+<VirtualHost 10.10.2.2:80>
+    ServerName hrjobs.ranger.cross.intern
+    ServerAlias hrjobs.ranger
+    SetEnv CONFIG_FILE /services/pkg_hrjobs/config/main.conf
+    DocumentRoot /services/pkg_hrjobs/public_html
+    php_admin_value include_path .:/services/pkg_hrjobs/public_html:/usr/local/lib/php
+    ErrorLog /services/pkg_hrjobs/log/error.log
+    CustomLog /services/pkg_hrjobs/log/access.log common
+</VirtualHost>
+

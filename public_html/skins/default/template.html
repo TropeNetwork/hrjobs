@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="AUTHOR" content="open-hr.org">
+<meta name="PROGRAMMER" content="CROSS Solution">
+<meta name="LANGUAGE" content="deutsch, de, at, ch, german">
+<meta name="KEYWORDS" content="{meta_keywords}">
+<meta name="Description" content="{meta_description}">
+<meta name="revisit-after" content="10 days">
+<meta name="copyright" content="CROSS Solution">
+<meta name="robots" content="all">
+<meta name="robots" content="index">
+<meta name="robots" content="follow">
+<title>{title}</title>
+<base href="{base}">
+<link rel="stylesheet" href="{theme}/dynCalendar.css" />
+<link rel="stylesheet" href="{theme}/layersmenu-gtk2.css" type="text/css" />
+<link rel="stylesheet" href="{theme}/style.css" />
+<link rel="stylesheet" href="{theme}/tabstyle.css" />
+<link rel="shortcut icon" href="{theme}/images/open-hr.ico" title="open-hr.org" />
+<script type="text/javascript" src="/layersmenu/libjs/layersmenu-browser_detection.js"></script>
+<script type="text/javascript" src="/javascript/TabPage.js"></script>
+<script type="text/javascript">
+<!--
+// PHP Layers Menu 3.2.0-rc (C) 2001-2004 Marco Pratesi - http://www.marcopratesi.it/
+
+DOM = (document.getElementById) ? 1 : 0;
+NS4 = (document.layers) ? 1 : 0;
+// We need to explicitly detect Konqueror
+// because Konqueror 3 sets IE = 1 ... AAAAAAAAAARGHHH!!!
+Konqueror = (navigator.userAgent.indexOf('Konqueror') > -1) ? 1 : 0;
+// We need to detect Konqueror 2.2 as it does not handle the window.onresize event
+Konqueror22 = (navigator.userAgent.indexOf('Konqueror 2.2') > -1 || navigator.userAgent.indexOf('Konqueror/2.2') > -1) ? 1 : 0;
+Konqueror30 =
+	(
+		navigator.userAgent.indexOf('Konqueror 3.0') > -1
+		|| navigator.userAgent.indexOf('Konqueror/3.0') > -1
+		|| navigator.userAgent.indexOf('Konqueror 3;') > -1
+		|| navigator.userAgent.indexOf('Konqueror/3;') > -1
+		|| navigator.userAgent.indexOf('Konqueror 3)') > -1
+		|| navigator.userAgent.indexOf('Konqueror/3)') > -1
+	)
+	? 1 : 0;
+Konqueror31 = (navigator.userAgent.indexOf('Konqueror 3.1') > -1 || navigator.userAgent.indexOf('Konqueror/3.1') > -1) ? 1 : 0;
+// We need to detect Konqueror 3.2 and 3.3 as they are affected by the see-through effect only for 2 form elements
+Konqueror32 = (navigator.userAgent.indexOf('Konqueror 3.2') > -1 || navigator.userAgent.indexOf('Konqueror/3.2') > -1) ? 1 : 0;
+Konqueror33 = (navigator.userAgent.indexOf('Konqueror 3.3') > -1 || navigator.userAgent.indexOf('Konqueror/3.3') > -1) ? 1 : 0;
+Opera = (navigator.userAgent.indexOf('Opera') > -1) ? 1 : 0;
+Opera5 = (navigator.userAgent.indexOf('Opera 5') > -1 || navigator.userAgent.indexOf('Opera/5') > -1) ? 1 : 0;
+Opera6 = (navigator.userAgent.indexOf('Opera 6') > -1 || navigator.userAgent.indexOf('Opera/6') > -1) ? 1 : 0;
+Opera56 = Opera5 || Opera6;
+IE = (navigator.userAgent.indexOf('MSIE') > -1) ? 1 : 0;
+IE = IE && !Opera;
+IE5 = IE && DOM;
+IE4 = (document.all) ? 1 : 0;
+IE4 = IE4 && IE && !DOM;
+// -->
+</script>
+{layersmenu_head}
+</head>
+<body bgcolor="#ffffff">
+{layersmenu}
+<br>
+<table width="100%">
+<tr>
+<td>
+<table class="panel">
+<tr>
+<td>
+<h1>{title}</h1>
+{contentmain}
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<center>
+	<br>
+	<font size="-2">
+		realized by CROSS-Solution &copy; 2004 All rights reserved.
+		<br>
+	</font>
+	<br>
+  <a href="http://validator.w3.org/check?uri=referer"><img border="0"
+          src="http://www.w3.org/Icons/valid-html401"
+          alt="Valid HTML 4.01!" height="31" width="88"></a>
+</center>
+
+{layersmenu_footer}
+</body></html>

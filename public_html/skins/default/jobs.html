@@ -1,0 +1,35 @@
+<table class="list">
+<tr>
+  <th>&nbsp;</th>
+  <th>{th_job_id}</th>
+  <th>{th_job_title}</th>
+  <th>{th_job_status}</th>
+  <th>{th_organization_org_id}</th>
+  <th>{th_start_date}</th>
+  <th>{th_end_date}</th>
+  
+</tr>
+<!-- BEGIN added_job -->
+<tr>   
+  <td class="list"><a title="Vorschau" href="jobview.php?id={job_id}" target="_blank"><img src="/skins/default/images/preview.png" alt="Vorschau" /></a></td>
+  <td class="list">{job_id}</td>
+  <td class="list">  	
+  	<a title="Job editieren" href="job.php?id={job_id}">
+	  	<img src="/skins/default/images/edit.png" alt="Editieren" />
+  		{job_title}
+  	</a>
+  </td>
+  <td class="list"><center>{status}</center></td>
+  <td class="list"><a title="Organisation editieren" href="organization.php?id={org_id}">
+  	<img src="/skins/default/images/edit.png" alt="Editieren" />
+  	{organization_org_id}
+  	</a>
+  </td>
+  <td class="list">{start_date}</td>
+  <td class="list">{end_date}</td>
+</tr>
+<!-- END added_job -->
+<tr>
+  <th colspan="7"><center>{job_pages}</center></th>
+</tr>
+</table>

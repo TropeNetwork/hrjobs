@@ -1,0 +1,957 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1_2">
+	<xs:annotation>
+		<xs:documentation>
+"Copyright  The HR-XML Consortium. All Rights Reserved. http://www.hr-xml.org"
+Name: JobPositionSeeker.xsd
+Status: Technical Note
+Date this version: 2003-02-26
+Author(s): Brad Harris - ModuleLink, RecruitingAndStaffing Work Group
+Documentation: StaffingExchangeProtocol.pdf
+
+Terms of license can be found in license.txt.
+
+		</xs:documentation>
+	</xs:annotation>
+	<xs:complexType name="BonusType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="frequency" type="xs:string"/>
+				<xs:attribute name="range" default="false">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="true"/>
+							<xs:enumeration value="false"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="currency" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ContactType">
+		<xs:sequence>
+			<xs:element name="PersonName" type="PersonNameType" minOccurs="0"/>
+			<xs:element name="PositionTitle" type="xs:string" minOccurs="0"/>
+			<xs:element name="PostalAddress" type="PostalAddressType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="VoiceNumber" type="VoiceNumberType"/>
+				<xs:element name="FaxNumber" type="FaxNumberType"/>
+				<xs:element name="PagerNumber" type="PagerNumberType"/>
+				<xs:element name="TTDNumber" type="TTDNumberType"/>
+			</xs:choice>
+			<xs:element name="E-mail" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="WebSite" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="type" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="EffectiveDateType">
+		<xs:sequence>
+			<xs:element name="StartDate" type="StartDateType" minOccurs="0"/>
+			<xs:element name="EndDate" type="EndDateType" minOccurs="0"/>
+			<xs:element name="Date" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EndDateType">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="Date" type="xs:string"/>
+				<xs:element name="CurrentFlag">
+					<xs:complexType/>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="SummaryText" type="SummaryTextType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FaxNumberType">
+		<xs:sequence>
+			<xs:element name="IntlCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="AreaCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="TelNumber" type="xs:string"/>
+			<xs:element name="Extension" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="type">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="primary"/>
+					<xs:enumeration value="secondary"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="label" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="ImgType">
+		<xs:attribute name="src" type="xs:string" use="required"/>
+		<xs:attribute name="width" type="xs:string"/>
+		<xs:attribute name="height" type="xs:string"/>
+		<xs:attribute name="alt" type="xs:string"/>
+		<xs:attribute name="mediaType" type="xs:string"/>
+	</xs:complexType>
+	<xs:element name="JobPositionSeeker">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="JobPositionSeekerId" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="idOwner" type="xs:string"/>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="JobPositionApplication" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DateApplied" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Date" type="xs:string"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="JobPositionPostingId" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute name="idOwner" type="xs:string"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SummaryText" type="SummaryTextType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Supplier" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SupplierId">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute name="idOwner" type="xs:string"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SupplierName" type="xs:string"/>
+							<xs:element name="Contact" type="ContactType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PostDetail" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="StartDate" type="StartDateType"/>
+							<xs:element name="EndDate" type="EndDateType" minOccurs="0"/>
+							<xs:element name="PostedBy" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Contact" type="ContactType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PersonalData">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="RevisionDate" type="RevisionDateType" minOccurs="0"/>
+							<xs:element name="PersonName" type="PersonNameType" maxOccurs="unbounded"/>
+							<xs:element name="PositionTitle" type="xs:string" minOccurs="0"/>
+							<xs:element name="EmployerName" type="xs:string" minOccurs="0"/>
+							<xs:element name="PostalAddress" type="PostalAddressType" minOccurs="0"/>
+							<xs:choice minOccurs="0" maxOccurs="unbounded">
+								<xs:element name="VoiceNumber" type="VoiceNumberType"/>
+								<xs:element name="FaxNumber" type="FaxNumberType"/>
+								<xs:element name="PagerNumber" type="PagerNumberType"/>
+								<xs:element name="TTDNumber" type="TTDNumberType"/>
+							</xs:choice>
+							<xs:element name="E-mail" type="xs:string" minOccurs="0"/>
+							<xs:element name="DemographicDetail" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="GovernmentId" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="countryCode" type="xs:string"/>
+														<xs:attribute name="jurisdiction" type="xs:string"/>
+														<xs:attribute name="issuingAuthority" type="xs:string"/>
+														<xs:attribute name="document" type="xs:string"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="DateOfBirth" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Date" type="xs:string"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Race" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+										<xs:element name="Sex" minOccurs="0">
+											<xs:complexType>
+												<xs:attribute name="type">
+													<xs:simpleType>
+														<xs:restriction base="xs:NMTOKEN">
+															<xs:enumeration value="0"/>
+															<xs:enumeration value="1"/>
+															<xs:enumeration value="2"/>
+															<xs:enumeration value="9"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="VeteranStatus" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+										<xs:element name="MilitaryStatus" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+										<xs:element name="Disability" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+										<xs:element name="Ethnicity" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+										<xs:element name="Religion" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+										<xs:element name="Nationality" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+										<xs:element name="VisaStatus" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+										<xs:element name="Language" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+										<xs:element name="Other" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="type" type="xs:string"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="SummaryText" type="SummaryTextType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SummaryText" type="SummaryTextType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Profile" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="AvailabilityDate" minOccurs="0">
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="SummaryText" type="SummaryTextType"/>
+										<xs:element name="Date" type="xs:string"/>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="DesiredCompensation" minOccurs="0">
+								<xs:complexType>
+									<xs:choice>
+										<xs:choice maxOccurs="unbounded">
+											<xs:element name="RatePerHour" type="RatePerHourType"/>
+											<xs:element name="RatePerDay" type="RatePerDayType"/>
+											<xs:element name="SalaryAnnual" type="SalaryAnnualType"/>
+											<xs:element name="SalaryMonthly" type="SalaryMonthlyType"/>
+											<xs:element name="Bonus" type="BonusType"/>
+										</xs:choice>
+										<xs:element name="SummaryText" type="SummaryTextType"/>
+									</xs:choice>
+									<xs:attribute name="source" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="DesiredSchedule" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute name="source" type="xs:string"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="DesiredEmployer" minOccurs="0">
+								<xs:complexType>
+									<xs:choice minOccurs="0" maxOccurs="unbounded">
+										<xs:element name="SummaryText" type="SummaryTextType"/>
+										<xs:element name="EmployerName" type="xs:string"/>
+										<xs:element name="NAICS" type="NAICSType"/>
+										<xs:element name="EmployerSize" type="xs:string"/>
+									</xs:choice>
+									<xs:attribute name="source" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="DistributionRestrictions" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="DontDistributeTo" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="source" type="xs:string"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="source" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="DemographicInfo" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute name="type" type="xs:string" use="required"/>
+											<xs:attribute name="label" type="xs:string"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Qualification" type="QualificationType" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element name="EmploymentReferenceReports" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ReferenceReport" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Contact" type="ContactType"/>
+													<xs:element name="SummaryText" type="SummaryTextType" minOccurs="0"/>
+												</xs:sequence>
+												<xs:attribute name="source" type="xs:string"/>
+												<xs:attribute name="date" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="source" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Resume" minOccurs="0">
+					<xs:complexType>
+						<xs:choice maxOccurs="unbounded">
+							<xs:element name="StructuredResume">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:choice maxOccurs="unbounded">
+											<xs:element name="Objective" type="xs:string"/>
+											<xs:element name="EmploymentHistory">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="Position" maxOccurs="unbounded">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="EmployerName" type="xs:string"/>
+																	<xs:element name="JobPositionLocation" minOccurs="0">
+																		<xs:complexType>
+																			<xs:choice>
+																				<xs:element name="PostalAddress" type="PostalAddressType"/>
+																				<xs:element name="LocationSummary" type="LocationSummaryType"/>
+																				<xs:element name="SummaryText" type="SummaryTextType"/>
+																			</xs:choice>
+																		</xs:complexType>
+																	</xs:element>
+																	<xs:element name="PositionTitle" type="xs:string" minOccurs="0"/>
+																	<xs:element name="Industry" minOccurs="0">
+																		<xs:complexType>
+																			<xs:choice minOccurs="0" maxOccurs="unbounded">
+																				<xs:element name="NAICS" type="NAICSType"/>
+																				<xs:element name="SummaryText" type="SummaryTextType"/>
+																			</xs:choice>
+																		</xs:complexType>
+																	</xs:element>
+																	<xs:element name="EmployerSize" type="xs:string" minOccurs="0"/>
+																	<xs:element name="EffectiveDate" type="EffectiveDateType"/>
+																	<xs:element name="Compensation" minOccurs="0">
+																		<xs:complexType>
+																			<xs:sequence>
+																				<xs:choice maxOccurs="unbounded">
+																					<xs:element name="RatePerHour" type="RatePerHourType"/>
+																					<xs:element name="RatePerDay" type="RatePerDayType"/>
+																					<xs:element name="SalaryAnnual" type="SalaryAnnualType"/>
+																					<xs:element name="SalaryMonthly" type="SalaryMonthlyType"/>
+																				</xs:choice>
+																				<xs:element name="SummaryText" type="SummaryTextType"/>
+																				<xs:element name="Bonus" type="BonusType" minOccurs="0" maxOccurs="unbounded"/>
+																			</xs:sequence>
+																			<xs:attribute name="source" type="xs:string"/>
+																		</xs:complexType>
+																	</xs:element>
+																	<xs:element name="SummaryText" type="SummaryTextType" minOccurs="0"/>
+																	<xs:element name="OrganizationalUnit" type="OrganizationalUnitType" minOccurs="0" maxOccurs="unbounded"/>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="EducationQualifs">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="SchoolOrInstitution" maxOccurs="unbounded">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="SchoolName">
+																		<xs:complexType>
+																			<xs:simpleContent>
+																				<xs:extension base="xs:string">
+																					<xs:attribute name="schoolType" type="xs:string"/>
+																				</xs:extension>
+																			</xs:simpleContent>
+																		</xs:complexType>
+																	</xs:element>
+																	<xs:element name="LocationSummary" type="LocationSummaryType" minOccurs="0"/>
+																	<xs:element name="Department" type="xs:string" minOccurs="0"/>
+																	<xs:element name="EduDegree" minOccurs="0">
+																		<xs:complexType>
+																			<xs:simpleContent>
+																				<xs:extension base="xs:string">
+																					<xs:attribute name="degreeType" type="xs:string"/>
+																				</xs:extension>
+																			</xs:simpleContent>
+																		</xs:complexType>
+																	</xs:element>
+																	<xs:element name="EduMajor" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+																	<xs:element name="EduMinor" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+																	<xs:element name="GPA" type="xs:string" minOccurs="0"/>
+																	<xs:element name="EffectiveDate" type="EffectiveDateType" minOccurs="0"/>
+																	<xs:element name="SummaryText" type="SummaryTextType" minOccurs="0"/>
+																	<xs:element name="EduMeasure" minOccurs="0">
+																		<xs:complexType>
+																			<xs:simpleContent>
+																				<xs:extension base="xs:string">
+																					<xs:attribute name="measureSystem" type="xs:string"/>
+																					<xs:attribute name="type" type="xs:string"/>
+																				</xs:extension>
+																			</xs:simpleContent>
+																		</xs:complexType>
+																	</xs:element>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="CertificationQualifs">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="Certification" maxOccurs="unbounded">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="CertificationName" type="xs:string"/>
+																	<xs:element name="EffectiveDate" type="EffectiveDateType" minOccurs="0"/>
+																	<xs:element name="SummaryText" type="SummaryTextType" minOccurs="0"/>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="LicenseQualifs">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="License" maxOccurs="unbounded">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="LicenseName" type="xs:string"/>
+																	<xs:element name="EffectiveDate" type="EffectiveDateType" minOccurs="0"/>
+																	<xs:element name="SummaryText" type="SummaryTextType" minOccurs="0"/>
+																	<xs:element name="LicensingAgency" type="xs:string" minOccurs="0"/>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="QualifSummary" type="xs:string"/>
+											<xs:element name="SkillQualifs">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="Skill" maxOccurs="unbounded">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="SkillName" type="xs:string"/>
+																	<xs:element name="SummaryText" type="SummaryTextType" minOccurs="0"/>
+																</xs:sequence>
+																<xs:attribute name="yearsOfExperience" type="xs:string"/>
+																<xs:attribute name="level">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:NMTOKEN">
+																			<xs:enumeration value="1"/>
+																			<xs:enumeration value="2"/>
+																			<xs:enumeration value="3"/>
+																			<xs:enumeration value="4"/>
+																			<xs:enumeration value="5"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:attribute>
+																<xs:attribute name="interest">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:NMTOKEN">
+																			<xs:enumeration value="1"/>
+																			<xs:enumeration value="2"/>
+																			<xs:enumeration value="3"/>
+																			<xs:enumeration value="4"/>
+																			<xs:enumeration value="5"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:attribute>
+																<xs:attribute name="yearLastUsed" type="xs:string"/>
+																<xs:attribute name="category" type="xs:string"/>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="ProfessionalAssociations">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="Association" maxOccurs="unbounded">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="AssociationName" type="xs:string"/>
+																	<xs:element name="EffectiveDate" type="EffectiveDateType" minOccurs="0"/>
+																	<xs:element name="SummaryText" type="SummaryTextType" minOccurs="0"/>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="SummaryText" type="SummaryTextType"/>
+										</xs:choice>
+										<xs:element name="RevisionDate" type="RevisionDateType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="FreeFormResume">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="RevisionDate" type="RevisionDateType" minOccurs="0"/>
+										<xs:element name="ResumeSection" type="ResumeSectionType" maxOccurs="unbounded"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="TextOrNonXMLResume">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:choice>
+											<xs:element name="TextResume" type="xs:string"/>
+											<xs:element name="ResumeLink">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="Link" type="LinkType"/>
+														<xs:element name="SummaryText" type="SummaryTextType" minOccurs="0"/>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+										</xs:choice>
+										<xs:element name="RevisionDate" type="RevisionDateType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="EmploymentReferences" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Reference" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Contact" type="ContactType"/>
+										<xs:element name="SummaryText" type="SummaryTextType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CampaignSource" minOccurs="0">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="type" type="xs:string"/>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="status">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="active"/>
+						<xs:enumeration value="inactive"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="LinkType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="linkEnd" type="xs:string"/>
+				<xs:attribute name="mailTo" type="xs:string"/>
+				<xs:attribute name="idRef" type="xs:IDREF"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="LocationSummaryType">
+		<xs:sequence>
+			<xs:element name="Municipality" type="xs:string" minOccurs="0"/>
+			<xs:element name="Region" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="CountryCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="PostalCode" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NAICSType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="primaryIndicator" default="primary">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="primary"/>
+							<xs:enumeration value="secondary"/>
+							<xs:enumeration value="unknown"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="OrganizationalUnitType">
+		<xs:sequence>
+			<xs:element name="Description" type="xs:string"/>
+			<xs:element name="OrganizationalUnit" type="OrganizationalUnitType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="type" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="PagerNumberType">
+		<xs:sequence>
+			<xs:element name="IntlCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="AreaCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="TelNumber" type="xs:string"/>
+			<xs:element name="Extension" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="type">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="primary"/>
+					<xs:enumeration value="secondary"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="label" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="PersonNameType">
+		<xs:sequence>
+			<xs:element name="FormattedName" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="type" default="presentation">
+								<xs:simpleType>
+									<xs:restriction base="xs:NMTOKEN">
+										<xs:enumeration value="presentation"/>
+										<xs:enumeration value="legal"/>
+										<xs:enumeration value="sortOrder"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LegalName" type="xs:string" minOccurs="0"/>
+			<xs:element name="GivenName" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PreferredGivenName" type="xs:string" minOccurs="0"/>
+			<xs:element name="MiddleName" type="xs:string" minOccurs="0"/>
+			<xs:element name="FamilyName" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="primary" default="undefined">
+								<xs:simpleType>
+									<xs:restriction base="xs:NMTOKEN">
+										<xs:enumeration value="true"/>
+										<xs:enumeration value="false"/>
+										<xs:enumeration value="undefined"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+							<xs:attribute name="prefix" type="xs:string"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Affix" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="type" use="required">
+								<xs:simpleType>
+									<xs:restriction base="xs:NMTOKEN">
+										<xs:enumeration value="academicGrade"/>
+										<xs:enumeration value="aristocraticPrefix"/>
+										<xs:enumeration value="aristocraticTitle"/>
+										<xs:enumeration value="familyNamePrefix"/>
+										<xs:enumeration value="familyNameSuffix"/>
+										<xs:enumeration value="formOfAddress"/>
+										<xs:enumeration value="generation"/>
+										<xs:enumeration value="qualification"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PostalAddressType">
+		<xs:sequence>
+			<xs:element name="CountryCode" type="xs:string"/>
+			<xs:element name="PostalCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="Region" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Municipality" type="xs:string" minOccurs="0"/>
+			<xs:element name="DeliveryAddress" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AddressLine" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="StreetName" type="xs:string" minOccurs="0"/>
+						<xs:element name="BuildingNumber" type="xs:string" minOccurs="0"/>
+						<xs:element name="Unit" type="xs:string" minOccurs="0"/>
+						<xs:element name="PostOfficeBox" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Recipient" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PersonName" type="PersonNameType" minOccurs="0"/>
+						<xs:element name="AdditionalText" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="Organization" type="xs:string" minOccurs="0"/>
+						<xs:element name="OrganizationName" type="xs:string" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="type" default="undefined">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="postOfficeBoxAddress"/>
+					<xs:enumeration value="streetAddress"/>
+					<xs:enumeration value="militaryAddress"/>
+					<xs:enumeration value="undefined"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="QualificationType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="type">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="skill"/>
+							<xs:enumeration value="experience"/>
+							<xs:enumeration value="education"/>
+							<xs:enumeration value="license"/>
+							<xs:enumeration value="certification"/>
+							<xs:enumeration value="equipment"/>
+							<xs:enumeration value="other"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="description" type="xs:string"/>
+				<xs:attribute name="yearsOfExperience" type="xs:string"/>
+				<xs:attribute name="level">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="1"/>
+							<xs:enumeration value="2"/>
+							<xs:enumeration value="3"/>
+							<xs:enumeration value="4"/>
+							<xs:enumeration value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="interest">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="1"/>
+							<xs:enumeration value="2"/>
+							<xs:enumeration value="3"/>
+							<xs:enumeration value="4"/>
+							<xs:enumeration value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="yearLastUsed" type="xs:string"/>
+				<xs:attribute name="source" type="xs:string"/>
+				<xs:attribute name="category" type="xs:string"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="RatePerDayType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="currency" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="RatePerHourType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="currency" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ResumeSectionType">
+		<xs:choice>
+			<xs:element name="SectionTitle" minOccurs="0">
+				<xs:complexType mixed="true">
+					<xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:element name="PositionTitle" type="xs:string"/>
+						<xs:element name="PostalAddress" type="PostalAddressType"/>
+						<xs:element name="VoiceNumber" type="VoiceNumberType"/>
+						<xs:element name="FaxNumber" type="FaxNumberType"/>
+						<xs:element name="PagerNumber" type="PagerNumberType"/>
+						<xs:element name="TTDNumber" type="TTDNumberType"/>
+						<xs:element name="E-mail" type="xs:string"/>
+						<xs:element name="EmployerName" type="xs:string"/>
+						<xs:element name="Qualification" type="QualificationType"/>
+						<xs:element name="StartDate" type="StartDateType"/>
+						<xs:element name="EndDate" type="EndDateType"/>
+						<xs:element name="Date" type="xs:string"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SubTitle" minOccurs="0">
+				<xs:complexType mixed="true">
+					<xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:element name="PositionTitle" type="xs:string"/>
+						<xs:element name="PostalAddress" type="PostalAddressType"/>
+						<xs:element name="VoiceNumber" type="VoiceNumberType"/>
+						<xs:element name="FaxNumber" type="FaxNumberType"/>
+						<xs:element name="PagerNumber" type="PagerNumberType"/>
+						<xs:element name="TTDNumber" type="TTDNumberType"/>
+						<xs:element name="E-mail" type="xs:string"/>
+						<xs:element name="EmployerName" type="xs:string"/>
+						<xs:element name="Qualification" type="QualificationType"/>
+						<xs:element name="StartDate" type="StartDateType"/>
+						<xs:element name="EndDate" type="EndDateType"/>
+						<xs:element name="Date" type="xs:string"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SecBody">
+				<xs:complexType>
+					<xs:choice maxOccurs="unbounded">
+						<xs:element name="P">
+							<xs:complexType mixed="true">
+								<xs:choice minOccurs="0" maxOccurs="unbounded">
+									<xs:element name="Link" type="LinkType"/>
+									<xs:element name="Img" type="ImgType"/>
+									<xs:element name="Qualification" type="QualificationType"/>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="UL">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="LI" maxOccurs="unbounded">
+										<xs:complexType mixed="true">
+											<xs:choice minOccurs="0" maxOccurs="unbounded">
+												<xs:element name="Link" type="LinkType"/>
+												<xs:element name="Img" type="ImgType"/>
+												<xs:element name="Qualification" type="QualificationType"/>
+											</xs:choice>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ResumeSection" type="ResumeSectionType"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+		<xs:attribute name="secType" default="unspecified">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="objective"/>
+					<xs:enumeration value="experience"/>
+					<xs:enumeration value="personal"/>
+					<xs:enumeration value="education"/>
+					<xs:enumeration value="certifications"/>
+					<xs:enumeration value="licenses"/>
+					<xs:enumeration value="qualifSummary"/>
+					<xs:enumeration value="skills"/>
+					<xs:enumeration value="profAssociations"/>
+					<xs:enumeration value="unspecified"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="RevisionDateType">
+		<xs:sequence>
+			<xs:element name="Date" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SalaryAnnualType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="currency" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="SalaryMonthlyType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="currency" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="StartDateType">
+		<xs:sequence>
+			<xs:element name="Date" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SummaryTextType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Link" type="LinkType"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="TTDNumberType">
+		<xs:sequence>
+			<xs:element name="IntlCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="AreaCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="TelNumber" type="xs:string"/>
+			<xs:element name="Extension" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="type">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="primary"/>
+					<xs:enumeration value="secondary"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="label" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="VoiceNumberType">
+		<xs:sequence>
+			<xs:element name="IntlCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="AreaCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="TelNumber" type="xs:string"/>
+			<xs:element name="Extension" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="type">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="primary"/>
+					<xs:enumeration value="secondary"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="label" type="xs:string"/>
+	</xs:complexType>
+</xs:schema>
