@@ -31,12 +31,12 @@ $form->addElement('text','name', _("Name"),
             array('maxlength'=>'45',
                   'size'=>'30',
                   'class'=>'formFieldLong'));
-$form->addElement('submit','save',_("Speichern"));
+$form->addElement('submit','save',_("Save"));
 if (isset($id)) {
     if ($group->getValue('disabled')) {
-        $form->addElement('submit','delete',_("Aktivieren"));
+        $form->addElement('submit','delete',_("Enable"));
     } else {
-        $form->addElement('submit','delete',_("Deaktivieren"));
+        $form->addElement('submit','delete',_("Disable"));
     }
 }
 if (isset($id)) {
@@ -46,7 +46,7 @@ $defaults = array(
     'name'     => $group->getValue('group_name'),
 );
 $form->setDefaults($defaults);
-$form->addRule('name', "Name darf nicht leer sein", 'required');
+$form->addRule('name', _("Please enter a name"), 'required');
 if ($form->validate()) {
     $group->setValue('group_name',$form->exportValue('name'));
     if ($form->exportValue('save')) {
@@ -70,9 +70,9 @@ $tpl->addBlockfile('contentmain','form', 'group.html');
 $form->accept($renderer);
 
 if (isset($id)) {
-    $tpl->setVariable('title',"Gruppe bearbeiten");
+    $tpl->setVariable('title',_("Edit Group"));
 } else {
-    $tpl->setVariable('title',"Neue Gruppe");
+    $tpl->setVariable('title',_("New Group"));
 }
 
 // Admins
@@ -97,7 +97,7 @@ $clistrenderer = new DBTableList_Renderer_Sigma(
     new UserRowRenderer(& $objRightsAdminAuth)
 );
 $clist->accept($clistrenderer);
-$tpl->setVariable('add_user','<a href="user.php?groupid='.$id.'"><img src="'.IMAGES_DIR.'/new.png" alt="Neuer Benutzer" /><br/>Neuer Benutzer</a>');
+$tpl->setVariable('add_user','<a href="user.php?groupid='.$id.'"><img src="'.IMAGES_DIR.'/new.png" alt="'._("New User").'" /><br/>'._("New User").'</a>');
 $tpl->show();
 
 ?>

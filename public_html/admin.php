@@ -9,7 +9,7 @@ if (!checkRights(HRADMIN_RIGHT_SYSTEM)) {
 }
 $tpl->addBlockfile('contentmain','main', 'admin.html');
 $tpl->touchBlock('main');
-$tpl->setVariable('title', "Administration");
+$tpl->setVariable('title', _("Administration"));
 $tpl->show();
 
 ?>

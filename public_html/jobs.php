@@ -26,10 +26,10 @@ class JobColumnRenderer implements DBTableList_Renderer_Sigma_ColumnRenderer {
         }
         if ($name=='job_status') {
             if ($column==JobPositionPosting::STATUS_ACTIVE) {
-                return '<img src="'.IMAGES_DIR.'/active.png" alt="Aktiv" />';
+                return '<img src="'.IMAGES_DIR.'/active.png" alt="'._("Enabled").'" />';
             }
             if ($column==JobPositionPosting::STATUS_INACTIVE) {
-                return '<img src="'.IMAGES_DIR.'/inactive.png" alt="Inaktiv" />';
+                return '<img src="'.IMAGES_DIR.'/inactive.png" alt="'._("Disabled").'" />';
             }
         }
         return $column;
@@ -39,15 +39,15 @@ class JobRowRenderer implements DBTableList_Renderer_Sigma_RowRenderer {
     public function renderRow(& $tpl,$row) {
         $tpl->setVariable('org_id',$row['organization_org_id']);
         if ($row['is_template']==1) {
-            $tpl->setVariable('status','<img title="Vorlage" src="'.IMAGES_DIR.'/pending.png" alt="vorlage" />');
+            $tpl->setVariable('status','<img title="'._("Template").'" src="'.IMAGES_DIR.'/pending.png" alt="'._("Template").'" />');
         } else if ($row['job_status']==='inactive') {
-            $tpl->setVariable('status','<img title="Inaktiv" src="'.IMAGES_DIR.'/inactive.png" alt="inaktiv" />');
+            $tpl->setVariable('status','<img title="'._("Disabled").'" src="'.IMAGES_DIR.'/inactive.png" alt="'._("Disabled").'" />');
         } else if (strtotime($row['start_date'])>time()) {
-            $tpl->setVariable('status','<img title="Anstehend" src="'.IMAGES_DIR.'/pending.png" alt="anstehend" />');
+            $tpl->setVariable('status','<img title="'._("Pending").'" src="'.IMAGES_DIR.'/pending.png" alt="'._("Pending").'" />');
         } else if ($row['end_date']!=='0000-00-00' && strtotime($row['end_date'])<time()) {
-            $tpl->setVariable('status','<img title="Abgelaufen" src="'.IMAGES_DIR.'/timeout.png" alt="abgelaufen" />');
+            $tpl->setVariable('status','<img title="'._("Timeout").'" src="'.IMAGES_DIR.'/timeout.png" alt="'._("Timeout").'" />');
         } else if ($row['job_status']==='active') {
-            $tpl->setVariable('status','<img title="Aktiv" src="'.IMAGES_DIR.'/publish.png" alt="aktiv" />');
+            $tpl->setVariable('status','<img title="'._("Enabled").'" src="'.IMAGES_DIR.'/publish.png" alt="'._("Enabled").'" />');
         }
     }
 }
@@ -57,20 +57,20 @@ $org_usr = new OrgUser($usr->getProperty('authUserId'));
 $list = new DBTableList(DSN, 10,'job');
 $list->setTable('job_posting, organization org');
 $list->setColumns(array (
-    'job_id'                => 'Job Id.',
-    'organization_org_id'   => 'Organisation',
-    'job_title'             => 'Titel',
-    'start_date'            => 'Start',
-    'end_date'              => 'Ende',
-    'job_status'            => 'Status',
-    'is_template'           => 'Vorlage'
+    'job_id'                => _("Job Id."),
+    'organization_org_id'   => _("Organization"),
+    'job_title'             => _("Titel"),
+    'start_date'            => _("Start"),
+    'end_date'              => _("End"),
+    'job_status'            => _("Status"),
+    'is_template'           => _("Template")
 ));
 
 $list->orderby('job_id');
 if (!checkRights(HRADMIN_RIGHT_SYSTEM)) {
-    $where = "organization_org_id=org.org_id AND org.organization_group_id=".$org_usr->getGroupId()." AND ";
+    $where = "job_posting.organization_org_id=org.org_id AND org.organization_group_id=".$org_usr->getGroupId()." AND ";
 } else {
-    $where = '';
+    $where = "job_posting.organization_org_id=org.org_id AND ";
 }
 if ($templates) {
     $list->where($where."job_status!='".JobPositionPosting::STATUS_DELETED."' and is_template=1");
@@ -89,9 +89,9 @@ $listrenderer = new DBTableList_Renderer_Sigma(
 
 $list->accept($listrenderer);
 if ($templates) {
-    $tpl->setVariable('title', "Vorlagen");
+    $tpl->setVariable('title', _("Template"));
 } else {
-    $tpl->setVariable('title', "Stellenanzeigen");
+    $tpl->setVariable('title', _("Job Posting"));
 }
 
 $tpl->show();

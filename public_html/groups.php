@@ -12,9 +12,9 @@ class GroupColumnRenderer implements DBTableList_Renderer_Sigma_ColumnRenderer {
     public function renderColumn($name,$column) {
         if ($name=='disabled') {
             if (!$column) {
-                return '<img src="'.IMAGES_DIR.'/active.png" alt="Aktiv" />';
+                return '<img src="'.IMAGES_DIR.'/active.png" alt="'._("Enabled").'" />';
             }else{
-                return '<img src="'.IMAGES_DIR.'/inactive.png" alt="Inaktiv" />';
+                return '<img src="'.IMAGES_DIR.'/inactive.png" alt="'._("Disabled").'" />';
             }
         }
         return $column;
@@ -42,8 +42,8 @@ $listrenderer = new DBTableList_Renderer_Sigma(
     new GroupRowRenderer()
 );
 $list->accept($listrenderer);
-$tpl->setVariable('new_group','<a href="group.php">Neue Gruppe</a>');
-$tpl->setVariable('title', "Gruppenverwaltung");
+$tpl->setVariable('new_group','<a href="group.php">'._("New Group").'</a>');
+$tpl->setVariable('title', _("Group Administration"));
 $tpl->show();
 
 ?>

@@ -39,7 +39,7 @@ foreach($cat AS $key=>$val){
 $main .= "</select><br/><br/>\n<input type=\"submit\" value=\"Hinzufügen\" onclick=\"return addElement(formBrowser);\">\n</form>";
 
 $tpl->touchBlock('main');
-$tpl->setVariable('title', "Browser");
+$tpl->setVariable('title', _("Browser"));
 $tpl->setVariable('script', $script);
 $tpl->setVariable('contentmain', $main);
 $tpl->show();

@@ -25,32 +25,32 @@ if (isset($id)) {
 }
 
 $form = new HTML_QuickForm('edit','POST');
-$form->setRequiredNote("<font color=\"red\" size=\"1\"> *</font><font size=\"1\"> Pflichtfelder</font>");
-$form->addElement('header','test',_("Kontaktaufnahme"));
+$form->setRequiredNote("<font color=\"red\" size=\"1\"> *</font><font size=\"1\"> "._("Required")."</font>");
+$form->addElement('header','test',_("Contact"));
 $orgs = array();
 if (empty($org)) {
-    $tpl->setVariable('error',"Bitte zuerst eine Organisation anlegen!");
+    $tpl->setVariable('error',_("Create an organization first!"));
 } else {
 foreach ($org as $orgid => $obj) {
     $orgs[$orgid] = $obj->getValue('org_name');
 }
 }
-$form->addElement('select','organization_org_id', _("Organisation"),$orgs);
+$form->addElement('select','organization_org_id', _("Organization"),$orgs);
 $form->addElement('text','job_title', _("Job Titel"),
             array('maxlength'=>'100',
                   'size'=>'40',
                   'class'=>'formFieldLong'));
-$form->addElement('textarea','job_description', _("Beschreibung"),
+$form->addElement('textarea','job_description', _("Description"),
             array('rows'=>'10',
                   'cols'=>'70',
                   'wrap'=>'on',
                   'class'=>'formFieldTextArea'));
-$form->addElement('textarea','job_requirements', _("Anforderungen"),
+$form->addElement('textarea','job_requirements', _("Requirements"),
             array('rows'=>'10',
                   'cols'=>'70',
                   'wrap'=>'on',
                   'class'=>'formFieldTextArea'));
-$form->addElement('checkbox','byphone', null, _("Telefon"),
+$form->addElement('checkbox','byphone', null, _("Phone"),
             array('class'=>'formFieldCheckbox'));
 $form->addElement('checkbox','apply_by_email', null,_("Email"),
             array('checked'=>'true',
@@ -66,34 +66,34 @@ $dateelement = 'dyndate';
 if ($disabled) {
     $dateelement = 'date';
 }
-$form->addElement($dateelement,'end_date', _("Ende"),
+$form->addElement($dateelement,'end_date', _("End date"),
     array('addEmptyOption'=>true,
           'emptyOptionValue' => '0',
           'language' => 'de',
           'minYear' => Date::minYear(),
           'maxYear' => Date::minYear()+2,
           'format' => Date::quickFormat()));
-$form->addElement($dateelement, 'start_date', _("Start"),
+$form->addElement($dateelement, 'start_date', _("Start date"),
     array('language' => 'de',
           'minYear' => Date::minYear(),
           'maxYear' => Date::minYear()+2,
           'format' => Date::quickFormat()));
 $form->addElement('select','stylesheet', _("Stylesheet"),getStylesheets());
 if (!$disabled) {
-    $form->addElement('submit','save',_("Speichern"));
+    $form->addElement('submit','save',_("Save"));
     if (isset($id)) {
         if ($job->getValue('is_template')==0) {
-            $form->addElement('submit','disable_job',_("Deaktivieren"));
+            $form->addElement('submit','disable_job',_("Disable"));
         } else {
-            $form->addElement('submit','post_job',_("Posten"));
+            $form->addElement('submit','post_job',_("Post"));
         }
     }
 } else {
-    $form->addElement('submit','save',_("Als Vorlage speichern"));
+    $form->addElement('submit','save',_("Save as Template"));
     $form->freeze();
 }
 if (isset($id)) {
-    $form->addElement('submit','delete',_("Löschen"));
+    $form->addElement('submit','delete',_("Delete"));
 }
 
 
@@ -108,14 +108,14 @@ if ($job->getValue('organization_org_id')) {
     }
     }
 }
-$contact_select = $form->addElement('select','apply_contact',_("Bewerberkontakt"));
+$contact_select = $form->addElement('select','apply_contact',_("Contact"));
 
-$form->addElement('select','profession', _("Berufsfeld"),null, 
+$form->addElement('select','profession', _("Profession"),null, 
            array("size"=>"5",
                  "style"=>"width:200px;",
                  "multiple"=>"multiple") );
 $form->addElement('hidden','profession_list');
-$form->addElement('select','location', _("Ort der Beschäftigung"),null, 
+$form->addElement('select','location', _("Location"),null, 
            array("size"=>"5",
                  "style"=>"width:200px;",
                  "multiple"=>"multiple") );
@@ -257,11 +257,11 @@ $tpl->addBlockfile('contentmain','form', 'job.html');
 $form->accept($renderer);
 
 if ($job->getValue('is_template')==true) {
-    $tpl->setVariable('title',"Vorlage");
+    $tpl->setVariable('title',_("Template"));
 } elseif (isset($id)) {
-    $tpl->setVariable('title',"Stellenanzeige");
+    $tpl->setVariable('title',_("Job Posting"));
 } else {
-    $tpl->setVariable('title',"Neue Stellenanzeige");
+    $tpl->setVariable('title',_("New Job Posting"));
 }
 
 

@@ -26,12 +26,12 @@ if (isset($id)) {
 
 $form = new HTML_QuickForm('post','POST');
 $form->setRequiredNote("<font color=\"red\" size=\"1\"> *</font><font size=\"1\"> Pflichtfelder</font>");
-$form->addElement('text','given_name', _("Vorname"),
+$form->addElement('text','given_name', _("First name"),
             array('maxlength'=>'100',
                   'size'=>'40',
                   'class'=>'formFieldLong'));
                   
-$form->addElement('text','family_name', _("Name"),
+$form->addElement('text','family_name', _("Family name"),
             array('maxlength'=>'100',
                   'size'=>'40',
                   'class'=>'formFieldLong'));
@@ -39,15 +39,15 @@ $form->addElement('text','email', _("Email"),
             array('maxlength'=>'100',
                   'size'=>'40',
                   'class'=>'formFieldLong'));
-$form->addElement('text','phone_areacode', _("Telefon"),
+$form->addElement('text','phone_areacode', _("Phone"),
             array('maxlength'=>'6',
                   'size'=>'3',
                   'class'=>'formFieldLong'));
-$form->addElement('text','phone_number', _("Telefon"),
+$form->addElement('text','phone_number', _("Phone"),
             array('maxlength'=>'20',
                   'size'=>'10',
                   'class'=>'formFieldLong'));
-$form->addElement('text','phone_extention', _("Telefon"),
+$form->addElement('text','phone_extention', _("Phone"),
             array('maxlength'=>'5',
                   'size'=>'2',
                   'class'=>'formFieldLong'));
@@ -63,8 +63,8 @@ $form->addElement('text','fax_extention', _("Fax"),
             array('maxlength'=>'5',
                   'size'=>'2',
                   'class'=>'formFieldLong'));
-$form->addElement('submit','save',_("Speichern"));
-$form->addElement('submit','delete',_("Löschen"));
+$form->addElement('submit','save',_("Save"));
+$form->addElement('submit','delete',_("Delete"));
 
 $contact = new Contact($cid);
 if (isset($id)) {
@@ -86,15 +86,15 @@ $defaults = array(
 );    
 $form->setDefaults($defaults);
 
-$form->addRule('family_name',       "Bitte geben Sie den \"Name\" ein", 'required', null,'server');
-$form->addRule('email',             "Bitte geben Sie die \"Email\" ein", 'required', null,'server');
-$form->addRule('email',             "Bitte geben Sie eine gülige \"Email\" ein", 'email', null,'server');
-$form->addRule('phone_areacode',    "Bitte Zahlen eingeben", 'numeric', null,'server');
-$form->addRule('phone_number',      "Bitte Zahlen eingeben", 'numeric', null,'server');
-$form->addRule('phone_extention',   "Bitte Zahlen eingeben", 'numeric', null,'server');
-$form->addRule('fax_areacode',      "Bitte Zahlen eingeben", 'numeric', null,'server');
-$form->addRule('fax_number',        "Bitte Zahlen eingeben", 'numeric', null,'server');
-$form->addRule('fax_extention',     "Bitte Zahlen eingeben", 'numeric', null,'server');
+$form->addRule('family_name',       _("Please enter the \"Name\" "), 'required', null,'server');
+$form->addRule('email',             _("Please enter the \"Email\" "), 'required', null,'server');
+$form->addRule('email',             _("Please enter a valid \"Email\" "), 'email', null,'server');
+$form->addRule('phone_areacode',    _("Must be a number"), 'numeric', null,'server');
+$form->addRule('phone_number',      _("Must be a number"), 'numeric', null,'server');
+$form->addRule('phone_extention',   _("Must be a number"), 'numeric', null,'server');
+$form->addRule('fax_areacode',      _("Must be a number"), 'numeric', null,'server');
+$form->addRule('fax_number',        _("Must be a number"), 'numeric', null,'server');
+$form->addRule('fax_extention',     _("Must be a number"), 'numeric', null,'server');
 
 if ($form->validate()) {
     if (isset($cid)) {  
@@ -125,7 +125,7 @@ $tpl->addBlockfile('contentmain','form', 'contact.html');
 $form->accept($renderer);
 
 
-$tpl->setVariable('title',"Kontakt");
+$tpl->setVariable('title',_("Contact"));
 if ($org!=null) {
     $tpl->setVariable('org_name',$org->getValue('org_name'));
 }

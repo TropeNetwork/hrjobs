@@ -13,7 +13,7 @@ if (!$org_usr->getValue('is_group_admin')) {
 }
 $tpl->addBlockfile('contentmain','main', 'configuration.html');
 $tpl->touchBlock('main');
-$tpl->setVariable('title', "Einstellungen");
+$tpl->setVariable('title', _("Configuration"));
 $tpl->show();
 
 ?>

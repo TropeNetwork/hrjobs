@@ -1,0 +1,317 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid	""
+msgstr	"Project-Id-Version: 0.0.1\n"
+	"Report-Msgid-Bugs-To: \n"
+	"POT-Creation-Date: 2004-11-02 12:53+0100\n"
+	"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+	"Last-Translator: Gerrit Goetsch <goetsch@cross-solution.de>\n"
+	"Language-Team: LANGUAGE <LL@li.org>\n"
+	"MIME-Version: 1.0\n"
+	"Content-Type: text/plain; charset=UTF-8\n"
+	"Content-Transfer-Encoding: 8bit\n"
+
+msgid	"About HRJobs"
+msgstr	""
+
+msgid	"Admin"
+msgstr	""
+
+msgid	"Administration"
+msgstr	""
+
+msgid	"Administrators"
+msgstr	""
+
+msgid	"Adresse"
+msgstr	""
+
+msgid	"Aktiviert"
+msgstr	""
+
+msgid	"Base"
+msgstr	""
+
+msgid	"Beenden"
+msgstr	""
+
+msgid	"Beschreibung"
+msgstr	""
+
+msgid	"Branche"
+msgstr	""
+
+msgid	"Browser"
+msgstr	""
+
+msgid	"Common"
+msgstr	""
+
+msgid	"Configuration"
+msgstr	""
+
+msgid	"Contact"
+msgstr	""
+
+msgid	"Contact your administrator!"
+msgstr	""
+
+msgid	"Contacts"
+msgstr	""
+
+msgid	"Create an organization first!"
+msgstr	""
+
+msgid	"Datenbank anlegen"
+msgstr	""
+
+msgid	"Delete"
+msgstr	""
+
+msgid	"Demo Login"
+msgstr	""
+
+msgid	"Description"
+msgstr	""
+
+msgid	"Design"
+msgstr	""
+
+msgid	"Details"
+msgstr	""
+
+msgid	"Disable"
+msgstr	""
+
+msgid	"Disabled"
+msgstr	""
+
+msgid	"Edit Group"
+msgstr	""
+
+msgid	"Email"
+msgstr	""
+
+msgid	"Enable"
+msgstr	""
+
+msgid	"Enabled"
+msgstr	""
+
+msgid	"End"
+msgstr	""
+
+msgid	"End date"
+msgstr	""
+
+msgid	"Family name"
+msgstr	""
+
+msgid	"Fax"
+msgstr	""
+
+msgid	"First name"
+msgstr	""
+
+msgid	"Group Administration"
+msgstr	""
+
+msgid	"HRJobs is an <b>OpenSource-Entwicklung</b> development of<br>CROSS-"
+	"Solution"
+msgstr	""
+
+msgid	"Hausnummer"
+msgstr	""
+
+msgid	"Home"
+msgstr	""
+
+msgid	"Host"
+msgstr	""
+
+msgid	"Job"
+msgstr	""
+
+msgid	"Job Id."
+msgstr	""
+
+msgid	"Job Posting"
+msgstr	""
+
+msgid	"Job Postings"
+msgstr	""
+
+msgid	"Job Titel"
+msgstr	""
+
+msgid	"Kontaktaufnahme"
+msgstr	""
+
+msgid	"Land"
+msgstr	""
+
+msgid	"Location"
+msgstr	""
+
+msgid	"Login"
+msgstr	""
+
+msgid	"Logo"
+msgstr	""
+
+msgid	"Löschen"
+msgstr	""
+
+msgid	"Must be a number"
+msgstr	""
+
+msgid	"Name"
+msgstr	""
+
+msgid	"Neuen User anlegen"
+msgstr	""
+
+msgid	"New Group"
+msgstr	""
+
+msgid	"New Job Posting"
+msgstr	""
+
+msgid	"New User"
+msgstr	""
+
+msgid	"Organization"
+msgstr	""
+
+msgid	"Organizations"
+msgstr	""
+
+msgid	"PEAR HTML_QuickForm"
+msgstr	""
+
+msgid	"PEAR HTML_Template_Sigma"
+msgstr	""
+
+msgid	"PEAR LiveUser"
+msgstr	""
+
+msgid	"PHP 5"
+msgstr	""
+
+msgid	"PLZ"
+msgstr	""
+
+msgid	"Password"
+msgstr	""
+
+msgid	"Pending"
+msgstr	""
+
+msgid	"Phone"
+msgstr	""
+
+msgid	"Please enter a name"
+msgstr	""
+
+msgid	"Please enter a valid \"Email\" "
+msgstr	""
+
+msgid	"Please enter the \"Email\" "
+msgstr	""
+
+msgid	"Please enter the \"Name\" "
+msgstr	""
+
+msgid	"Post"
+msgstr	""
+
+msgid	"Profession"
+msgstr	""
+
+msgid	"Required"
+msgstr	""
+
+msgid	"Requirements"
+msgstr	""
+
+msgid	"Save"
+msgstr	""
+
+msgid	"Save as Template"
+msgstr	""
+
+msgid	"Skin"
+msgstr	""
+
+msgid	"Speichern"
+msgstr	""
+
+msgid	"Stadt"
+msgstr	""
+
+msgid	"Start"
+msgstr	""
+
+msgid	"Start date"
+msgstr	""
+
+msgid	"Status"
+msgstr	""
+
+msgid	"Strasse"
+msgstr	""
+
+msgid	"Stylesheet"
+msgstr	""
+
+msgid	"Template"
+msgstr	""
+
+msgid	"Timeout"
+msgstr	""
+
+msgid	"Titel"
+msgstr	""
+
+msgid	"URL:"
+msgstr	""
+
+msgid	"Used OpenSource-Components"
+msgstr	""
+
+msgid	"User"
+msgstr	""
+
+msgid	"User Administration"
+msgstr	""
+
+msgid	"Username"
+msgstr	""
+
+msgid	"Verbingung prüfen"
+msgstr	""
+
+msgid	"Vorhandenen User verwenden"
+msgstr	""
+
+msgid	"Web"
+msgstr	""
+
+msgid	"Website"
+msgstr	""
+
+msgid	"Weiter"
+msgstr	""
+
+msgid	"Wiederholung"
+msgstr	""
+
+msgid	"You have no right for this site!"
+msgstr	""
+
+msgid	"Zurück"
+msgstr	""
