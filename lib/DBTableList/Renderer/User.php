@@ -1,6 +1,6 @@
 <?php
-require_once 'class/DBTableList.php';
-require_once 'class/DBTableList/Renderer/Sigma.php';
+require_once 'DBTableList.php';
+require_once 'DBTableList/Renderer/Sigma.php';
 class UserColumnRenderer implements DBTableList_Renderer_Sigma_ColumnRenderer {
     public function renderColumn($name,$column) {
         return $column;

@@ -1,5 +1,5 @@
 <?php
-require_once 'class/HiringOrg.php';
+require_once 'HiringOrg.php';
 class OrgUser {
     private $orgs = null;
     private $values = array();

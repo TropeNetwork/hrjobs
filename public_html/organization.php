@@ -3,15 +3,15 @@
 include_once 'skin.inc';
 require_once 'HTML/QuickForm.php';
 require_once 'HTML/QuickForm/Renderer/ITStatic.php';
-require_once 'class/Date.php';
-require_once 'class/HiringOrg.php';
-require_once 'class/PostalAddress.php';
-require_once 'class/DBTableList.php';
-require_once 'class/DBTableList/Renderer/Sigma.php';
-require_once 'class/Database.php';
-require_once 'class/HttpParameter.php';
-require_once 'class/Categories.php';
-require_once 'class/OrgUser.php';
+require_once 'Date.php';
+require_once 'HiringOrg.php';
+require_once 'PostalAddress.php';
+require_once 'DBTableList.php';
+require_once 'DBTableList/Renderer/Sigma.php';
+require_once 'Database.php';
+require_once 'HttpParameter.php';
+require_once 'Categories.php';
+require_once 'OrgUser.php';
 $id = HttpParameter::getParameter('id');
 $org_usr = new OrgUser($usr->getProperty('authUserId'));
 if (isset($id) && !$org_usr->hasRightOnOrganization($id) 

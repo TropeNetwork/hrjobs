@@ -5,8 +5,8 @@ require_once 'HTML/Template/Sigma.php';
 require_once 'HTML/QuickForm.php';
 require_once 'HTML/QuickForm/Renderer/ITStatic.php';
 
-$conf = new Config;
-$root =& $conf->parseConfig(dirname(__FILE__).'/../config/config.xml', 'XML');
+$config = new Config;
+$root =& $config->parseConfig(dirname(__FILE__).'/../config/config.xml', 'XML');
 
 if (PEAR::isError($root)) {
     die('Error while reading configuration: ' . $root->getMessage());
@@ -173,15 +173,15 @@ if ($form->validate()) {
         $hrsettings['database']['user'] = $form->exportValue('db_admin_user');
         $hrsettings['database']['pass'] = $form->exportValue('db_admin_pass');
         $settings['setup']['initialized'] = true;
-        $conf = new Config;
-        $root =& $conf->parseConfig($settings, 'phparray');
-        //$res = $conf->writeConfig(dirname(__FILE__).'/../config/config.xml', 'XML');
+        $config = new Config;
+        $root =& $config->parseConfig($settings, 'phparray');
+        $res = $config->writeConfig(dirname(__FILE__).'/../config/config.xml', 'XML');
         if (PEAR::isError($res)) {
             $tpl->setVariable('errors','<div class="error">'.$res->getMessage().'</div>');
         }
         $hrconf = new Config;
         $hrroot =& $hrconf->parseConfig($hrsettings, 'phparray');
-        //$res = $hrconf->writeConfig(dirname(__FILE__).'/../config/hradmin.xml', 'XML');
+        $res = $hrconf->writeConfig(dirname(__FILE__).'/../config/hradmin.xml', 'XML');
         if (PEAR::isError($res)) {
             $tpl->setVariable('errors','<div class="error">'.$res->getMessage().'</div>');
         } else {
@@ -201,10 +201,12 @@ $tpl->setVariable('title',"Setup");
 $tpl->show();
 
 function setupHrAdmin($settings = array()) {
-    require_once 'hradmin.config.inc';
+    global $conf;
+    include_once 'hradmin.config.inc';
     require_once 'LiveUser/Admin/Perm/Container/DB_Medium.php';
     require_once 'LiveUser/Admin/Auth/Container/DB.php';
     require_once 'LiveUser/Perm/Container/DB/Medium.php';
+    
     $lu_dsn = array('dsn' => $dsn);
     $adminAuth = new
         LiveUser_Admin_Auth_Container_DB(
@@ -213,7 +215,12 @@ function setupHrAdmin($settings = array()) {
     $adminPerm = new
         LiveUser_Admin_Perm_Container_DB_Medium($conf['permContainer']);
     if (!$adminPerm->init_ok) {
-        die('impossible to initialize: ' . $adminPerm->getMessage());
+        if (PEAR::isError($adminPerm)) {
+            die('impossible to initialize: ' . $adminPerm->getMessage());
+        } else {
+            print_r($adminPerm);
+            die('impossible to initialize: ');
+        }
     }
     $adminPerm->setCurrentLanguage('DE');
     $appid = setupApplication($adminPerm);
@@ -311,13 +318,17 @@ function db_create($params) {
     }
     $handle = fopen ("../etc/mysql/create_tables.sql", "r");
     while (!feof($handle)) {
-        $buffer .= fgets($handle);        
+        $line = fgets($handle);   
+        $buffer .= $line;
+        if (substr($line,strlen($line)-2,2)===";\n" ) {
+            if (!mysql_query($buffer)) {
+                die('Create tables failed: '. mysql_error());
+            }
+            $buffer = '';
+        }
+        
     }
     fclose($handle);
-    print $buffer;
-    if (!mysql_query($buffer)) {
-        die('Create tables failed: '. mysql_error());
-    }
     mysql_close($link);
     return true;
 }

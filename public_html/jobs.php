@@ -1,13 +1,13 @@
 <?php 
 
 include_once 'skin.inc';
-require_once 'class/DBTableList.php';
-require_once 'class/DBTableList/Renderer/Sigma.php';
-require_once 'class/Database.php';
-require_once 'class/HiringOrg.php';
-require_once 'class/JobPosition.php';
-require_once 'class/HttpParameter.php';
-require_once 'class/OrgUser.php';
+require_once 'DBTableList.php';
+require_once 'DBTableList/Renderer/Sigma.php';
+require_once 'Database.php';
+require_once 'HiringOrg.php';
+require_once 'JobPosition.php';
+require_once 'HttpParameter.php';
+require_once 'OrgUser.php';
 
 class JobColumnRenderer implements DBTableList_Renderer_Sigma_ColumnRenderer {
     public function renderColumn($name,$column) {

@@ -1,9 +1,9 @@
 <?php
 
 include_once 'skin.inc';
-require_once 'class/DBTableList.php';
-require_once 'class/DBTableList/Renderer/Sigma.php';
-require_once 'class/Database.php';
+require_once 'DBTableList.php';
+require_once 'DBTableList/Renderer/Sigma.php';
+require_once 'Database.php';
 if (!checkRights(HRADMIN_RIGHT_SYSTEM)) {
     header("Location: noright.php");
 }

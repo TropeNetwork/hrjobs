@@ -3,12 +3,12 @@
 include_once 'skin.inc';
 require_once 'HTML/QuickForm.php';
 require_once 'HTML/QuickForm/Renderer/ITStatic.php';
-require_once 'class/JobPosition.php';
-require_once 'class/OrgUser.php';
-require_once 'class/OrgGroup.php';
-require_once 'class/Date.php';
-require_once 'class/HttpParameter.php';
-require_once 'class/HRAdmin/Admin.php';
+require_once 'JobPosition.php';
+require_once 'OrgUser.php';
+require_once 'OrgGroup.php';
+require_once 'Date.php';
+require_once 'HttpParameter.php';
+require_once 'HRAdmin/Admin.php';
 
 $id = HttpParameter::getParameter('id');
 
@@ -64,7 +64,7 @@ $form->addElement('checkbox','active', null, _("Enable"),
             array('class'=>'formFieldCheckbox'));
 $form->addElement('checkbox','admin', null, _("Admin"),
             array('class'=>'formFieldCheckbox'));
-$form->addElement('submit','save',_("Speichern"));
+$form->addElement('submit','save',_("Save"));
 if (isset($id)) {
     $form->addElement('submit','delete',_("Delete"));
 }

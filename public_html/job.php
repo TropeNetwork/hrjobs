@@ -3,11 +3,11 @@
 include_once 'skin.inc';
 require_once 'HTML/QuickForm.php';
 require_once 'HTML/QuickForm/Renderer/ITStatic.php';
-require_once 'class/JobPosition.php';
-require_once 'class/OrgUser.php';
-require_once 'class/Date.php';
-require_once 'class/HttpParameter.php';
-require_once 'class/Categories.php';
+require_once 'JobPosition.php';
+require_once 'OrgUser.php';
+require_once 'Date.php';
+require_once 'HttpParameter.php';
+require_once 'Categories.php';
 
 $id = HttpParameter::getParameter('id');
 
@@ -61,7 +61,7 @@ $form->addElement('text','apply_by_web_url', _("URL:"),
             array('maxlength'=>'255',
                   'size'=>'60',
                   'class'=>'formFieldLong'));
-$form->registerElementType('dyndate','class/DynDate.php','HTML_QuickForm_dyndate');
+$form->registerElementType('dyndate','DynDate.php','HTML_QuickForm_dyndate');
 $dateelement = 'dyndate';
 if ($disabled) {
     $dateelement = 'date';

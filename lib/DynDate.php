@@ -17,7 +17,7 @@
 // |          Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
 //
-// $Id: DynDate.php,v 1.1 2004/10/20 07:43:39 goetsch Exp $
+// $Id: DynDate.php,v 1.1 2004/12/02 11:11:07 goetsch Exp $
 
 require_once("HTML/QuickForm/date.php");
 /**

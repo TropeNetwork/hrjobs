@@ -1,6 +1,6 @@
 <?php
 
-require_once 'class/DBTableList/Renderer.php';
+require_once 'DBTableList/Renderer.php';
 
 class DBTableList_Renderer_Default implements DBTableList_Renderer {
     private $html = '';

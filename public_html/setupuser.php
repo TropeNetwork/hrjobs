@@ -9,7 +9,7 @@ require_once 'hradmin.config.inc';
 require_once 'LiveUser/Admin/Perm/Container/DB_Medium.php';
 require_once 'LiveUser/Admin/Auth/Container/DB.php';
 require_once 'LiveUser/Perm/Container/DB/Medium.php';
-require_once 'class/HRAdmin/Admin.php';
+require_once 'HRAdmin/Admin.php';
 
 $lu_dsn = array('dsn' => $dsn);
 $adminAuth = new

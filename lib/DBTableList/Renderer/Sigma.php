@@ -1,5 +1,5 @@
 <?php
-require_once 'class/DBTableList/Renderer.php';
+require_once 'DBTableList/Renderer.php';
 require_once 'Pager/Pager.php';
 
 class DBTableList_Renderer_Sigma implements DBTableList_Renderer {

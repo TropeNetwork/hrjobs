@@ -3,14 +3,14 @@
 include_once 'skin.inc';
 require_once 'HTML/QuickForm.php';
 require_once 'HTML/QuickForm/Renderer/ITStatic.php';
-require_once 'class/JobPosition.php';
-require_once 'class/OrgUser.php';
-require_once 'class/OrgGroup.php';
-require_once 'class/Date.php';
-require_once 'class/HttpParameter.php';
-require_once 'class/DBTableList.php';
-require_once 'class/DBTableList/Renderer/Sigma.php';
-require_once 'class/DBTableList/Renderer/User.php';
+require_once 'JobPosition.php';
+require_once 'OrgUser.php';
+require_once 'OrgGroup.php';
+require_once 'Date.php';
+require_once 'HttpParameter.php';
+require_once 'DBTableList.php';
+require_once 'DBTableList/Renderer/Sigma.php';
+require_once 'DBTableList/Renderer/User.php';
 
 if (!checkRights(HRADMIN_RIGHT_SYSTEM)) {
     header("Location: noright.php");
@@ -97,7 +97,8 @@ $clistrenderer = new DBTableList_Renderer_Sigma(
     new UserRowRenderer(& $objRightsAdminAuth)
 );
 $clist->accept($clistrenderer);
-$tpl->setVariable('add_user','<a href="user.php?groupid='.$id.'"><img src="'.IMAGES_DIR.'/new.png" alt="'._("New User").'" /><br/>'._("New User").'</a>');
+$tpl->setVariable('new_user','<a href="user.php?groupid='.$id.'"><img src="'.IMAGES_DIR.'/new.png" alt="'._("New User").'" /><br/>'._("New User").'</a>');
+$tpl->setVariable('add_user','<a href="add_user.php?groupid='.$id.'"><img src="'.IMAGES_DIR.'/new.png" alt="'._("Add User").'" /><br/>'._("Add User").'</a>');
 $tpl->show();
 
 ?>

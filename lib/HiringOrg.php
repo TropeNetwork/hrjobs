@@ -1,9 +1,9 @@
 <?php
-require_once 'class/Database.php';
+require_once 'Database.php';
 require_once 'configuration.inc';
-require_once 'class/Contact.php';
-require_once 'class/JobPosition.php';
-require_once 'class/PostalAddress.php';
+require_once 'Contact.php';
+require_once 'JobPosition.php';
+require_once 'PostalAddress.php';
 
 class HiringOrg {
 

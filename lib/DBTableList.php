@@ -115,7 +115,7 @@ class DBTableList {
     
    
     private function getDefaultRenderer() {
-        require_once 'class/DBTableList/Renderer/Default.php';
+        require_once 'DBTableList/Renderer/Default.php';
         return new DBTableList_Renderer_Default();
     }
     

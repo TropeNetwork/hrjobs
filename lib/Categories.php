@@ -6,7 +6,7 @@ class Categories {
     const TYPE_LOCATION = 'location';
     
     public static function getCategories($id = 0, $type = self::TYPE_PROFESSION) {
-        require_once 'class/Database.php';
+        require_once 'Database.php';
         $db = Database::getConnection(DSN);
         $query="SELECT name, ".$type."_id FROM ".$type." WHERE parent_".$type."_id=".$id;
         $res = $db->query($query);
@@ -43,7 +43,7 @@ class Categories {
     }
     
     public static function getParentCategory($id, $type = self::TYPE_PROFESSION) {
-        require_once 'class/Database.php';
+        require_once 'Database.php';
         $db = Database::getConnection(DSN);
         $query="SELECT parent_".$type."_id FROM ".$type." WHERE ".$type."_id=".$id;
         $res = $db->getOne($query);
@@ -59,7 +59,7 @@ class Categories {
     }
    
     private static function getValue($id, $type = self::TYPE_PROFESSION) {
-        require_once 'class/Database.php';
+        require_once 'Database.php';
         $db = Database::getConnection(DSN);
         $query="SELECT name FROM ".$type." WHERE ".$type."_id=".$id;
         $res = $db->getOne($query);

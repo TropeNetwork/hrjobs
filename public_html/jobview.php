@@ -1,7 +1,7 @@
 <?php
 
-require_once 'class/JobPosition.php';
-require_once 'class/XMLRenderer.php';
+require_once 'JobPosition.php';
+require_once 'XMLRenderer.php';
 header('Content-Type: text/html; charset=utf-8');
 $job = new JobPositionPosting($_GET['id']);
 $renderer = new XMLRenderer();

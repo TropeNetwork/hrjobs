@@ -2,10 +2,10 @@
 
 require_once 'configuration.inc';
 require_once 'HTML/Template/Sigma.php';
-require_once 'class/DBTableList.php';
-require_once 'class/DBTableList/Renderer/Sigma.php';
-require_once 'class/Database.php';
-require_once 'class/HttpParameter.php';
+require_once 'DBTableList.php';
+require_once 'DBTableList/Renderer/Sigma.php';
+require_once 'Database.php';
+require_once 'HttpParameter.php';
 
 $tpl =& new HTML_Template_Sigma(TEMPLATE_DIR);
 $tpl->loadTemplateFile('list.html');

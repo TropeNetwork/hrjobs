@@ -1,10 +1,10 @@
 <?php
 
 include_once 'skin.inc';
-require_once 'class/DBTableList.php';
-require_once 'class/DBTableList/Renderer/Sigma.php';
-require_once 'class/Database.php';
-require_once 'class/OrgUser.php';
+require_once 'DBTableList.php';
+require_once 'DBTableList/Renderer/Sigma.php';
+require_once 'Database.php';
+require_once 'OrgUser.php';
 if (!checkRights(HRADMIN_RIGHT_SYSTEM)) {
     header("Location: noright.php");
 }

@@ -7,7 +7,7 @@
 msgid	""
 msgstr	"Project-Id-Version: 0.0.1\n"
 	"Report-Msgid-Bugs-To: \n"
-	"POT-Creation-Date: 2004-11-04 12:53+0100\n"
+	"POT-Creation-Date: 2004-11-05 12:39+0100\n"
 	"PO-Revision-Date: 2004-11-04 08:00+0100\n"
 	"Last-Translator: Gerrit Goetsch <goetsch@cross-solution.de>\n"
 	"Language-Team: German <DE@li.org>\n"
@@ -19,22 +19,22 @@ msgid	"About HRJobs"
 msgstr	""
 
 msgid	"About HRjobs"
-msgstr	""
+msgstr	"Über HRjobs"
 
 msgid	"Address"
-msgstr	""
+msgstr	"Adresse"
 
 msgid	"Admin"
 msgstr	""
 
 msgid	"Administration"
-msgstr	""
+msgstr	"Administration"
 
 msgid	"Administrators"
-msgstr	""
+msgstr	"Administratoren"
 
 msgid	"Back"
-msgstr	""
+msgstr	"Zurück"
 
 msgid	"Base"
 msgstr	""
@@ -43,49 +43,49 @@ msgid	"Browser"
 msgstr	""
 
 msgid	"Building Number"
-msgstr	""
+msgstr	"Hausnummer"
 
 msgid	"Check Connection"
-msgstr	""
+msgstr	"Prüfe Verbindung"
 
 msgid	"City"
-msgstr	""
+msgstr	"Stadt"
 
 msgid	"Common"
-msgstr	""
+msgstr	"Allgemeines"
 
 msgid	"Configuration"
-msgstr	""
+msgstr	"Konfiguration"
 
 msgid	"Contact"
-msgstr	""
+msgstr	"Kontakt"
 
 msgid	"Contact your administrator!"
-msgstr	""
+msgstr	"Kontaktieren Sie Ihren Administrator"
 
 msgid	"Contacts"
-msgstr	""
+msgstr	"Kontakte"
 
 msgid	"Continue"
-msgstr	""
+msgstr	"Weiter"
 
 msgid	"Country"
-msgstr	""
+msgstr	"Land"
 
 msgid	"Create Database"
-msgstr	""
+msgstr	"Datenbank anlegen"
 
 msgid	"Create an organization first!"
-msgstr	""
+msgstr	"Bitte zuerst einen Organization anlegen!"
 
 msgid	"Delete"
-msgstr	""
+msgstr	"Löschen"
 
 msgid	"Demo Login"
 msgstr	""
 
 msgid	"Description"
-msgstr	""
+msgstr	"Beschreibung"
 
 msgid	"Design"
 msgstr	""
@@ -94,41 +94,40 @@ msgid	"Details"
 msgstr	""
 
 msgid	"Disable"
-msgstr	""
+msgstr	"Deaktivieren"
 
 msgid	"Disabled"
-msgstr	""
+msgstr	"Inaktive"
 
 msgid	"Edit Group"
-msgstr	""
+msgstr	"Gruppe bearbeiten"
 
-#, fuzzy
 msgid	"Edit User"
-msgstr	"Benutzer"
+msgstr	"Benutzer bearbeiten"
 
 msgid	"Email"
 msgstr	""
 
 msgid	"Email is required"
-msgstr	""
+msgstr	"Email fehlt"
 
 msgid	"Enable"
-msgstr	""
+msgstr	"Aktivieren"
 
 msgid	"Enabled"
-msgstr	""
+msgstr	"Aktiv"
 
 msgid	"End"
-msgstr	""
+msgstr	"Ende"
 
 msgid	"End date"
-msgstr	""
+msgstr	"Ende"
 
 msgid	"Error"
-msgstr	""
+msgstr	"Fehler"
 
 msgid	"Family Name"
-msgstr	""
+msgstr	"Name"
 
 msgid	"Family name"
 msgstr	""
@@ -137,29 +136,29 @@ msgid	"Fax"
 msgstr	""
 
 msgid	"Finish"
-msgstr	""
+msgstr	"Ferig"
 
 msgid	"First Name"
-msgstr	""
+msgstr	"Vorname"
 
 msgid	"First name"
 msgstr	""
 
 msgid	"Group Administration"
-msgstr	""
+msgstr	"Gruppenverwaltung"
 
 msgid	"Groups"
-msgstr	""
+msgstr	"Gruppen"
 
 msgid	"HRJobs is an <b>OpenSource-Entwicklung</b> development of<br>CROSS-"
 	"Solution"
 msgstr	""
 
 msgid	"Help"
-msgstr	""
+msgstr	"Hilfe"
 
 msgid	"Home"
-msgstr	""
+msgstr	"Start"
 
 msgid	"Host"
 msgstr	""
@@ -168,7 +167,7 @@ msgid	"Id"
 msgstr	""
 
 msgid	"Industry"
-msgstr	""
+msgstr	"Branche"
 
 msgid	"Info"
 msgstr	""
@@ -180,22 +179,22 @@ msgid	"Job Id."
 msgstr	""
 
 msgid	"Job Posting"
-msgstr	""
+msgstr	"Stellenanzeige"
 
 msgid	"Job Postings"
-msgstr	""
+msgstr	"Stellenanzeigen"
 
 msgid	"Job Titel"
 msgstr	""
 
 msgid	"Jobs"
-msgstr	""
+msgstr	"Stellen"
 
 msgid	"Last Login"
-msgstr	""
+msgstr	"Letzte Anmeldung"
 
 msgid	"Location"
-msgstr	""
+msgstr	"Ort"
 
 msgid	"Login"
 msgstr	"Anmeldung"
@@ -204,7 +203,7 @@ msgid	"Logo"
 msgstr	""
 
 msgid	"Logout"
-msgstr	""
+msgstr	"Abmelden"
 
 msgid	"Must be a number"
 msgstr	""
@@ -216,31 +215,31 @@ msgid	"Name is required"
 msgstr	""
 
 msgid	"New Contact"
-msgstr	""
+msgstr	"Neuer Kontakt"
 
 msgid	"New Group"
-msgstr	""
+msgstr	"Neue Gruppe"
 
 msgid	"New Job"
-msgstr	""
+msgstr	"Neue Stelle"
 
 msgid	"New Job Posting"
-msgstr	""
+msgstr	"Neue Stellenanzeige"
 
 msgid	"New Organization"
-msgstr	""
+msgstr	"Neue Organisation"
 
 msgid	"New User"
-msgstr	""
+msgstr	"Neuer Benutzer"
 
 msgid	"Oragnizations"
 msgstr	""
 
 msgid	"Organization"
-msgstr	""
+msgstr	"Organisation"
 
 msgid	"Organizations"
-msgstr	""
+msgstr	"Organisationen"
 
 msgid	"PEAR HTML_QuickForm"
 msgstr	""
@@ -267,7 +266,7 @@ msgid	"Pending"
 msgstr	""
 
 msgid	"Phone"
-msgstr	""
+msgstr	"Telefon"
 
 msgid	"Please enter a \"Building Number\" "
 msgstr	""
@@ -309,43 +308,40 @@ msgid	"Post"
 msgstr	""
 
 msgid	"Profession"
-msgstr	""
+msgstr	"Berufsfeld"
 
 msgid	"Repeat"
-msgstr	""
+msgstr	"Wiederholung"
 
 msgid	"Required"
-msgstr	""
+msgstr	"Pflichtfeld"
 
 msgid	"Requirements"
-msgstr	""
+msgstr	"Anforderungen"
 
 msgid	"Save"
-msgstr	""
+msgstr	"Speichern"
 
 msgid	"Save as Template"
-msgstr	""
+msgstr	"Speichern als Vorlage"
 
 msgid	"Settings"
-msgstr	""
+msgstr	"Einstellungen"
 
 msgid	"Skin"
 msgstr	""
 
-msgid	"Speichern"
-msgstr	""
-
 msgid	"Start"
-msgstr	""
+msgstr	"Start"
 
 msgid	"Start date"
-msgstr	""
+msgstr	"Start"
 
 msgid	"Status"
 msgstr	""
 
 msgid	"Street"
-msgstr	""
+msgstr	"Strasse"
 
 msgid	"Stylesheet"
 msgstr	""
@@ -354,23 +350,22 @@ msgid	"Support"
 msgstr	""
 
 msgid	"Template"
-msgstr	""
+msgstr	"Vorlage"
 
 msgid	"Templates"
-msgstr	""
+msgstr	"Vorlagen"
 
 msgid	"Timeout"
-msgstr	""
+msgstr	"Abgelaufen"
 
 msgid	"Titel"
-msgstr	""
+msgstr	"Überschrift"
 
 msgid	"URL:"
 msgstr	""
 
-#, fuzzy
 msgid	"Use exist User"
-msgstr	"Benutzer"
+msgstr	"Vorhandenen Benutzer verwenden"
 
 msgid	"Used OpenSource-Components"
 msgstr	""
@@ -379,16 +374,16 @@ msgid	"User"
 msgstr	"Benutzer"
 
 msgid	"User Administration"
-msgstr	""
+msgstr	"Benutzerverwaltung"
 
 msgid	"Username"
 msgstr	"Benuzername"
 
 msgid	"Username already exists"
-msgstr	""
+msgstr	"Benutzer existiert bereits"
 
 msgid	"Username is required"
-msgstr	""
+msgstr	"Benutzername fehlt"
 
 msgid	"Web"
 msgstr	""
@@ -397,7 +392,7 @@ msgid	"Website"
 msgstr	""
 
 msgid	"You have no right for this site!"
-msgstr	""
+msgstr	"Sie haben keine Berechtigung für diesen Bereich!"
 
 msgid	"Zip"
-msgstr	""
+msgstr	"PLZ"

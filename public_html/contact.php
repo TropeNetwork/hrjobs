@@ -3,11 +3,11 @@
 include_once 'skin.inc';
 require_once 'HTML/QuickForm.php';
 require_once 'HTML/QuickForm/Renderer/ITStatic.php';
-require_once 'class/JobPosition.php';
-require_once 'class/OrgUser.php';
-require_once 'class/Contact.php';
-require_once 'class/Date.php';
-require_once 'class/HttpParameter.php';
+require_once 'JobPosition.php';
+require_once 'OrgUser.php';
+require_once 'Contact.php';
+require_once 'Date.php';
+require_once 'HttpParameter.php';
 
 $id = HttpParameter::getParameter('id');
 $cid = HttpParameter::getParameter('cid');
@@ -26,12 +26,12 @@ if (isset($id)) {
 
 $form = new HTML_QuickForm('post','POST');
 $form->setRequiredNote("<font color=\"red\" size=\"1\"> *</font><font size=\"1\"> Pflichtfelder</font>");
-$form->addElement('text','given_name', _("First name"),
+$form->addElement('text','given_name', _("First Name"),
             array('maxlength'=>'100',
                   'size'=>'40',
                   'class'=>'formFieldLong'));
                   
-$form->addElement('text','family_name', _("Family name"),
+$form->addElement('text','family_name', _("Family Name"),
             array('maxlength'=>'100',
                   'size'=>'40',
                   'class'=>'formFieldLong'));

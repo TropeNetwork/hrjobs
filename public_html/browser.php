@@ -1,8 +1,8 @@
 <?php
 require_once 'configuration.inc';
 require_once 'HTML/Template/Sigma.php';
-require_once "class/Categories.php";
-require_once 'class/HttpParameter.php';
+require_once "Categories.php";
+require_once 'HttpParameter.php';
 $mode = HttpParameter::getParameter('mode');
 
 $tpl =& new HTML_Template_Sigma(TEMPLATE_DIR);

@@ -1,7 +1,7 @@
 <?php
 require_once 'configuration.inc';
-require_once 'class/JobPosition.php';
-require_once 'class/HiringOrg.php';
+require_once 'JobPosition.php';
+require_once 'HiringOrg.php';
 require_once 'XML/Tree.php';
 
 if (isset($_SERVER['PATH_INFO'])){
