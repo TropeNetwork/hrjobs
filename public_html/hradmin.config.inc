@@ -33,18 +33,13 @@ $conf =
         ),
         'login' => array(
             'method'   => 'post',
-            'username' => 'handle',
-            'password' => 'passwd',
             'force'    => false,
-            'function' => '',
-            'remember' => 'rememberMe'
         ),
         'logout' => array(
             'trigger'  => 'logout',
             'redirect' => 'index.php',
             'destroy'  => true,
             'method'   => 'get',
-            'function' => ''
         ),
         'authContainers' => array(
             array(
@@ -76,9 +71,14 @@ $conf =
             )
         ),
         'permContainer' => array(
-            'dsn'        => $dsn,
-            'type'       => 'DB_Medium',
-            'prefix'     => 'liveuser_',
+            'type'      => 'Medium',
+            'storage'   => array(
+                        'DB' => array(
+                 		'connection' => $db,
+                               'dsn'        => $dsn, 
+                               'prefix'     => 'liveuser_'
+                                      )
+                                 ),
             'groupTableCols' => array(
                      'required' => array(
                         'group_id'          => array('type' => 'integer', 'name' => 'group_id'),
@@ -95,23 +95,11 @@ $conf =
         )
     );
 
-function logOut()
-{
-}
+$usr = LiveUser::factory($conf);
 
-function logIn()
-{
-}
-
-PEAR::setErrorHandling(PEAR_ERROR_RETURN);
-$rr=error_reporting(E_ERROR);
-$usr = LiveUser::singleton($conf);
-$usr->setLoginFunction('logIn');
-$usr->setLogOutFunction('logOut');
-$e = $usr->init();
-error_reporting($rr);
-if (PEAR::isError($e)) {
-    die($e->getMessage() . ' ' . $e->getUserinfo());
-}
+$handle = isset($_REQUEST['handle']) ? $_REQUEST['handle'] : null;
+$password = isset($_REQUEST['passwd']) ? $_REQUEST['passwd'] : null;
+$logout = isset($_REQUEST['logout']) ? $_REQUEST['logout'] : null;
+$usr->init($handle, $password, $logout);
 
 ?>
