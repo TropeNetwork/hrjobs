@@ -5,7 +5,7 @@ require_once 'DBTableList.php';
 require_once 'DBTableList/Renderer/Sigma.php';
 require_once 'Database.php';
 require_once 'OrgUser.php';
-if (!checkRights(HRADMIN_RIGHT_SYSTEM)) {
+if (!checkRights(HRJOBS_RIGHT_SYSTEM)) {
     header("Location: noright.php");
 }
 class GroupColumnRenderer implements DBTableList_Renderer_Sigma_ColumnRenderer {

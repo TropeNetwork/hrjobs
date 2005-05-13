@@ -13,7 +13,7 @@ $id = HttpParameter::getParameter('id');
 
 $org_usr = new OrgUser($usr->getProperty('authUserId'));
 if (isset($id) && !$org_usr->hasRightOnJob($id) 
-  && !checkRights(HRADMIN_RIGHT_SYSTEM)) {
+  && !checkRights(HRJOBS_RIGHT_SYSTEM)) {
     header("Location: noright.php");
     exit;
 }
@@ -158,8 +158,8 @@ $form->setDefaults($defaults);
 $form->registerRule ('dates', 'callback', 'checkDates');
 $form->addRule('job_title',             "Bitte geben Sie den \"Job Titel\" ein", 'required', null,'server');
 $form->addRule('organization_org_id',   "Bitte geben Sie eine \"Organisation\" ein", 'required', null,'server');
-$form->addRule('apply_contact',         "Bitte wählen Sie einen \"Bewerberkontakt\" aus", 'required', null,'server');
-$form->addRule(array('start_date', 'end_date'), 'Das Endedatum muß größer sein als das Startdatum', 'dates', null, 'server');
+$form->addRule('apply_contact',         "Bitte wï¿½hlen Sie einen \"Bewerberkontakt\" aus", 'required', null,'server');
+$form->addRule(array('start_date', 'end_date'), 'Das Endedatum muï¿½ grï¿½ï¿½er sein als das Startdatum', 'dates', null, 'server');
 if ($form->validate()) {
     $job->setValue('job_title',             $form->exportValue('job_title'));
     $job->setValue('job_description',       $form->exportValue('job_description'));

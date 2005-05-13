@@ -67,7 +67,7 @@ $list->setColumns(array (
 ));
 
 $list->orderby('job_id');
-if (!checkRights(HRADMIN_RIGHT_SYSTEM)) {
+if (!checkRights(HRJOBS_RIGHT_SYSTEM)) {
     $where = "job_posting.organization_org_id=org.org_id AND org.organization_group_id=".$org_usr->getGroupId()." AND ";
 } else {
     $where = "job_posting.organization_org_id=org.org_id AND ";

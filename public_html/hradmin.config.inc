@@ -2,6 +2,8 @@
 
 require_once 'DB.php';
 require_once 'LiveUser.php';
+require_once 'LiveUser/Admin.php';
+require_once 'Log.php';
 
 $conf = new Config;
 $root =& $conf->parseConfig(dirname(__FILE__).'/../config/hradmin.xml', 'XML');
@@ -49,7 +51,8 @@ $conf =
                 'expireTime'    => 3600,
                 'idleTime'      => 1800,
                 'dsn'           => $dsn,
-                'allowDuplicateHandles' => 0,
+                'allowDuplicateHandles' => false,
+                //'passwordEncryptionMode' => 'MD5',
                 'authTable'     => 'liveuser_users',                
                 'authTableCols' => array(
                      'required' => array(
@@ -74,11 +77,11 @@ $conf =
             'type'      => 'Medium',
             'storage'   => array(
                         'DB' => array(
-                 		'connection' => $db,
-                               'dsn'        => $dsn, 
-                               'prefix'     => 'liveuser_'
-                                      )
-                                 ),
+                            'connection' => $db,
+                            'dsn'        => $dsn, 
+                            'prefix'     => 'liveuser_'
+                         )
+            ),
             'groupTableCols' => array(
                      'required' => array(
                         'group_id'          => array('type' => 'integer', 'name' => 'group_id'),
@@ -102,4 +105,7 @@ $password = isset($_REQUEST['passwd']) ? $_REQUEST['passwd'] : null;
 $logout = isset($_REQUEST['logout']) ? $_REQUEST['logout'] : null;
 $usr->init($handle, $password, $logout);
 
+$admin =& LiveUser_Admin::factory($conf);
+
+$admin->setAdminContainers();
 ?>

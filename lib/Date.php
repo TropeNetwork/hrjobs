@@ -15,7 +15,7 @@ class Date {
     }
     
     static function minYear() {
-        return date(Y);
+        return date('Y');
     }
     
     static function getDynDateJS($name) {

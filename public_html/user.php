@@ -13,27 +13,21 @@ require_once 'HRAdmin/Admin.php';
 $id = HttpParameter::getParameter('id');
 
 $org_usr = new OrgUser($usr->getProperty('authUserId'));
-if (!checkRights(HRADMIN_RIGHT_SYSTEM) 
+if (!checkRights(HRJOBS_RIGHT_SYSTEM) 
   && (!$org_usr->getValue('is_group_admin')
   || !$org_usr->hasRightOnUser($id))) {
     header("Location: noright.php");
 }
 $group_id = HttpParameter::getParameter('groupid');
 
-if (checkRights(HRADMIN_RIGHT_SYSTEM) && isset($group_id)) {
+if (checkRights(HRJOBS_RIGHT_SYSTEM) && isset($group_id)) {
     $org_group = new OrgGroup($group_id);
 } else {
     $org_group = new OrgGroup($org_usr->getGroupId());
 }
 if (isset($id)) {
-$user = $objRightsAdminAuth->getUsers(array(
-             'auth_user_id' => array(
-                'name'  => 'auth_user_id',
-                'op' => '=', 
-                'value' => $id, 
-                'cond' => '')
-        ));
-$user = $user[0];
+    $user = $admin->getUsers('perm',array('auth_user_id' => $id));
+    $user = $user[0];
 } else {
     $user = array();
 }
@@ -75,36 +69,43 @@ if (isset($id)) {
 if (isset($group_id)) {
     $form->addElement('hidden', 'groupid', $group_id);
 }
-$organization_user = new OrgUser($id);
-$defaults = array(
-    'name'     => $user['name'],
-    'handle'   => $user['handle'],
-    'email'    => $user['email'],
-    'active'   => $user['is_active'],
-    'admin'    => $organization_user->getValue('is_group_admin'),
-);
-$form->setDefaults($defaults);
+if (isset($id)) {
+    $organization_user = new OrgUser($id);
+    $defaults = array(
+        'name'     => $user['name'],
+        'handle'   => $user['handle'],
+        'email'    => $user['email'],
+        'active'   => $user['is_active'],
+        'admin'    => $organization_user->getValue('is_group_admin'),
+    );
+    $form->setDefaults($defaults);
+}
+
+if (!$form->exportValue('delete')) {
 $form->registerRule ('notexists', 'callback', 'notExistsUser');
 $form->addRule('handle',    _("Username is required"), 'required');
 $form->addRule('name',      _("Name is required"), 'required');
 $form->addRule('email',     _("Email is required"), 'required');
 $form->addRule('email',     _("Please enter a valid \"Email\""), 'email', null,'server');
+
 if (!isset($id)) {
     $form->addRule('handle',    _("Username already exists"), 'notexists');
     $form->addRule('password',  _("Password is required"), 'required');
     $form->addRule('password2', _("Password is required"), 'required');
 }
+}
 $form->addRule(array('password', 'password2'), _("Passwords are not equal"), 'compare', null, 'server');
 if ($form->validate()) {
-    $admin = new HRAdmin_Admin($objRightsAdminPerm); 
+     
     if ($form->exportValue('save')) {
         if (isset($id)) {
             $pass = null;
             if ($form->exportValue("password")!='') {
                 $pass = $form->exportValue("password");
             }            
-            $objRightsAdminAuth->updateUser(
-                $id,$form->exportValue('handle'), 
+            $admin->updateUser(
+                $id,
+                $form->exportValue('handle'), 
                 $pass, 
                 array(
                     'is_active'  => $form->exportValue("active"),
@@ -112,32 +113,35 @@ if ($form->validate()) {
                 array(
                     'name'  => $form->exportValue("name"),
                     'email' => $form->exportValue("email"),
-                )
+                ),
+                null,
+                null
             );
-            $admin->addUserToGroup(getPermUserId($id));
+            $admin->perm->addUserToGroup(array('perm_user_id'=>getPermUserId($id),'group_id'=>HRADMIN_GROUP_USERS));
             $organization_user->setValue('is_group_admin',$form->exportValue('admin'));
             $organization_user->save();
             header("Location: users.php");
             exit;
         } else {
-            $id = $objRightsAdminAuth->addUser(
-                    $form->exportValue('handle'),
-                    $form->exportValue("password"), 
-                    array(
-                        'is_active'  => $form->exportValue("active"),
-                    ),
-                    array(
-                        'name'  => $form->exportValue("name"),
-                        'email' => $form->exportValue("email")
-                    ) 
+            $id = $admin->addUser(
+                $form->exportValue('handle'),
+                $form->exportValue("password"), 
+                array(
+                    'is_active'  => $form->exportValue("active"),
+                ),
+                array(
+                    'name'  => $form->exportValue("name"),
+                    'email' => $form->exportValue("email")
+                ) 
             );
             if (DB::isError($id)) {
                 print_r($id);
-                unset($id);                
+                unset($id);
+                exit;                
             } else {
-                $perm_id = $objRightsAdminPerm->addUser($id,0);
+                $perm_id = getPermUserId($id,0);
                 $org_group->addUser($id);
-                $admin->addUserToGroup($perm_id);
+                $admin->perm->addUserToGroup(array('perm_user_id'=>getPermUserId($id),'group_id'=>HRADMIN_GROUP_USERS));
                 $organization_user = new OrgUser($id);
                 $organization_user->setValue('is_group_admin',$form->exportValue('admin'));
                 $organization_user->save();
@@ -146,9 +150,9 @@ if ($form->validate()) {
             }            
         }
     } elseif ($form->exportValue('delete')) {
-        $org_group->removeUser(getPermUserId($id));
-        $objRightsAdminPerm->removeUser(getPermUserId($id));
-        $objRightsAdminAuth->removeUser($id);
+        $org_group->removeUser($id);
+        $admin->perm->removeUser(getPermUserId($id));
+        $admin->auth->removeUser($id);
         header("Location: users.php");
         exit;
     }
@@ -169,27 +173,19 @@ if (isset($id)) {
 $tpl->show();
 
 function getPermUserId($user_id) {
-    global $objRightsAdminPerm;
-    $users = $objRightsAdminPerm->getUsers($filters);
-    foreach ($users as $user) {
-        if ($user['auth_user_id']==$user_id) {
-            return $user['perm_user_id'];
-        }
-    }
-    return 0;
+    global $admin;
+    $users = $admin->getUsers('perm',array('auth_user_id'=>$user_id));
+    return $users[0]['perm_user_id'];    
 }
+
 function notExistsUser($handle) {
-    global $objRightsAdminAuth;
-    $user = $objRightsAdminAuth->getUsers(array(
-            'handle' => array(
-                'name' => 'handle',
-                'op' => '=', 
-                'value' => $handle, 
-                'cond' => '')
-    ));
-    if (!empty($user) && !empty($user[0])) {
-        return false;
-    }
+    global $admin;
+    $users = $admin->getUsers('perm');
+    foreach ($users as $user) {
+        if (!empty($user) && $user['handle']===$handle) {
+            return false;
+        }    
+    }    
     return true;
 }
 ?>

@@ -13,14 +13,14 @@ require_once 'HRAdmin/Admin.php';
 $id = HttpParameter::getParameter('id');
 
 $org_usr = new OrgUser($usr->getProperty('authUserId'));
-if (!checkRights(HRADMIN_RIGHT_SYSTEM) 
+if (!checkRights(HRJOBS_RIGHT_SYSTEM) 
   && (!$org_usr->getValue('is_group_admin')
   || !$org_usr->hasRightOnUser($id))) {
     header("Location: noright.php");
 }
 $group_id = HttpParameter::getParameter('groupid');
 
-if (checkRights(HRADMIN_RIGHT_SYSTEM) && isset($group_id)) {
+if (checkRights(HRJOBS_RIGHT_SYSTEM) && isset($group_id)) {
     $org_group = new OrgGroup($group_id);
 } else {
     $org_group = new OrgGroup($org_usr->getGroupId());
@@ -28,7 +28,7 @@ if (checkRights(HRADMIN_RIGHT_SYSTEM) && isset($group_id)) {
 
         
 $form = new HTML_QuickForm('user','POST');
-$users = $objRightsAdminAuth->getUsers();
+$users = $admin->getUsers();
 $select[-1] = ""; 
 foreach ($users as $user) {
     $select[$user['auth_user_id']] = $user['handle']; 
@@ -45,12 +45,14 @@ $form->addElement('submit','save',_("Add"));
 if (isset($group_id)) {
     $form->addElement('hidden', 'groupid', $group_id);
 }
-$organization_user = new OrgUser($id);
-$defaults = array(
-    'active'   => $user['is_active'],
-    'admin'    => $organization_user->getValue('is_group_admin'),
-);
-$form->setDefaults($defaults);
+if (isset($id)) {
+    $organization_user = new OrgUser($id);
+    $defaults = array(
+        'active'   => $user['is_active'],
+        'admin'    => $organization_user->getValue('is_group_admin'),
+    );
+    $form->setDefaults($defaults);
+}
 $form->registerRule ('notexists', 'callback', 'notExistsUser');
 if ($form->validate()) {
     $admin = new HRAdmin_Admin($objRightsAdminPerm); 

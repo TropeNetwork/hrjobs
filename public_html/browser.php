@@ -27,7 +27,7 @@ $script = '
 </script>
 ';      
 include_once 'hradmin.inc';
-if (!checkRights(HRADMIN_RIGHT_LOGIN)) {
+if (!checkRights(HRJOBS_RIGHT_LOGIN)) {
     header("Location: noright.php");
 }
 $cat=Categories::getAllCategories(0,$mode);
@@ -36,7 +36,7 @@ $main = "<form name=\"formBrowser\" action=\"#\">\n<select name=\"cat\" multiple
 foreach($cat AS $key=>$val){
     $main .= "<option value=\"$key\">$val</option>\n";
 }
-$main .= "</select><br/><br/>\n<input type=\"submit\" value=\"Hinzufügen\" onclick=\"return addElement(formBrowser);\">\n</form>";
+$main .= "</select><br/><br/>\n<input type=\"submit\" value=\"Hinzufï¿½gen\" onclick=\"return addElement(formBrowser);\">\n</form>";
 
 $tpl->touchBlock('main');
 $tpl->setVariable('title', _("Browser"));

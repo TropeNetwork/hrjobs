@@ -15,7 +15,7 @@ require_once 'OrgUser.php';
 $id = HttpParameter::getParameter('id');
 $org_usr = new OrgUser($usr->getProperty('authUserId'));
 if (isset($id) && !$org_usr->hasRightOnOrganization($id) 
-  && !checkRights(HRADMIN_RIGHT_SYSTEM)) {
+  && !checkRights(HRJOBS_RIGHT_SYSTEM)) {
     header("Location: noright.php");
     exit;
 }

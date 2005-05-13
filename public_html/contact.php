@@ -14,7 +14,7 @@ $cid = HttpParameter::getParameter('cid');
 
 $org_usr = new OrgUser($usr->getProperty('authUserId'));
 if (isset($id) && !$org_usr->hasRightOnOrganization($id) 
-  && !checkRights(HRADMIN_RIGHT_SYSTEM)) {
+  && !checkRights(HRJOBS_RIGHT_SYSTEM)) {
     header("Location: noright.php");
     exit;
 }
@@ -66,26 +66,27 @@ $form->addElement('text','fax_extention', _("Fax"),
 $form->addElement('submit','save',_("Save"));
 $form->addElement('submit','delete',_("Delete"));
 
-$contact = new Contact($cid);
+
+
 if (isset($id)) {
     $form->addElement('hidden', 'id', $id);
 }
 if (isset($cid)) {
     $form->addElement('hidden', 'cid', $cid);
+    $contact = new Contact($cid);
+    $defaults = array(
+        'given_name'        => $contact->getValue('given_name'),
+        'family_name'       => $contact->getValue('family_name'),
+        'email'             => $contact->getValue('email'),
+        'phone_areacode'    => $contact->getValue('phone_areacode'),
+        'phone_number'      => $contact->getValue('phone_number'),
+        'phone_extention'   => $contact->getValue('phone_extention'),
+        'fax_areacode'      => $contact->getValue('fax_areacode'),
+        'fax_number'        => $contact->getValue('fax_number'),
+        'fax_extention'     => $contact->getValue('fax_extention'),
+    );    
+    $form->setDefaults($defaults);
 }
-$defaults = array(
-    'given_name'        => $contact->getValue('given_name'),
-    'family_name'       => $contact->getValue('family_name'),
-    'email'             => $contact->getValue('email'),
-    'phone_areacode'    => $contact->getValue('phone_areacode'),
-    'phone_number'      => $contact->getValue('phone_number'),
-    'phone_extention'   => $contact->getValue('phone_extention'),
-    'fax_areacode'      => $contact->getValue('fax_areacode'),
-    'fax_number'        => $contact->getValue('fax_number'),
-    'fax_extention'     => $contact->getValue('fax_extention'),
-);    
-$form->setDefaults($defaults);
-
 $form->addRule('family_name',       _("Please enter the \"Name\" "), 'required', null,'server');
 $form->addRule('email',             _("Please enter the \"Email\" "), 'required', null,'server');
 $form->addRule('email',             _("Please enter a valid \"Email\" "), 'email', null,'server');

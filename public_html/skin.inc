@@ -2,7 +2,6 @@
 
 require_once 'configuration.inc';
 include_once 'i18n.inc';
-require_once 'define.inc';
 
 require_once 'HTML/Template/Sigma.php';
 
@@ -34,7 +33,8 @@ $tpl->setVariable('layersmenu_footer',$mid->getFooter());
 include_once 'hradmin.inc';
 
 if (!checkRights(HRJOBS_RIGHT_LOGIN)) {
-    header("Location: noright.php");
+    header("Location: ?logout=1");
+    exit;
 }
 
 function getMenuString() {

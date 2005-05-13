@@ -203,64 +203,69 @@ $tpl->show();
 function setupHrAdmin($settings = array()) {
     global $conf;
     include_once 'hradmin.config.inc';
-    require_once 'LiveUser/Admin/Perm/Container/DB_Medium.php';
-    require_once 'LiveUser/Admin/Auth/Container/DB.php';
-    require_once 'LiveUser/Perm/Container/DB/Medium.php';
-    
-    $lu_dsn = array('dsn' => $dsn);
-    $adminAuth = new
-        LiveUser_Admin_Auth_Container_DB(
-            $lu_dsn, $conf['authContainers'][0]
-        );
-    $adminPerm = new
-        LiveUser_Admin_Perm_Container_DB_Medium($conf['permContainer']);
-    if (!$adminPerm->init_ok) {
-        if (PEAR::isError($adminPerm)) {
-            die('impossible to initialize: ' . $adminPerm->getMessage());
-        } else {
-            print_r($adminPerm);
-            die('impossible to initialize: ');
-        }
-    }
-    $adminPerm->setCurrentLanguage('DE');
-    $appid = setupApplication($adminPerm);
+    $appid = setupApplication($admin->perm);
     if (PEAR::isError($appid)) {
         die('impossible to initialize: ' . $appid->getMessage());
     }
     $settings['application'] = $appid;
-    $adminPerm->setCurrentApplication($appid);
-    $areaid = setupArea($adminPerm,$appid);
+    $admin->perm->setCurrentApplication($appid);
+    $areaid = setupArea($admin->perm,$appid);
     if (PEAR::isError($areaid)) {
         die('impossible to initialize: ' . $areaid->getMessage());
     }
     $settings['area'] = $areaid;
-    setupRights($adminPerm,$areaid);
+    setupRights($admin->perm,$areaid);
 }
 
 function setupApplication($adminPerm) {
     $apps = $adminPerm->getApplications();
     foreach($apps as $app) {
-        if ($app['define_name']=='HRJOBS') {
+        if ($app['application_define_name']=='HRJOBS') {
             return $app['application_id'];
         }
     }
-    return $adminPerm->addApplication('HRJOBS',"HRJobs","Das Jobportal");
+    $data = array(
+        'application_define_name'   => 'HRJOBS',
+    );
+    $app_id = $adminPerm->addApplication($data);
+    $data = array(
+        'name'                      => 'HRjobs',
+        'description'               => 'Jobportal',
+        'language_id'               => '0',
+        'section_id'   => $app_id,
+        'section_type' => LIVEUSER_SECTION_APPLICATION,
+    );
+    $adminPerm->addTranslation($data);
+    return $app_id;
 }
 function setupArea($adminPerm,$appid) {
-    $areas = $adminPerm->getAreas(array('where_application_id'=>$appid ));
+    $areas = $adminPerm->getAreas(array('application_id' => $appid ));
     foreach($areas as $area) {
-        if ($area['define_name']=='FRONTEND') {
+        if ($area['area_define_name']=='FRONTEND') {
             return $area['area_id'];
         }
     }
-    return $adminPerm->addArea($appid,'FRONTEND',"Frontend","Frontend für das Jobportal");
+    $data = array(
+        'application_id'    => $appid,
+        'area_define_name'  => 'FRONTEND'
+    );
+    $area_id = $adminPerm->addArea($data);
+    if (DB::isError($area_id)) {
+        var_dump($area_id);
+        exit;
+    } 
+    $data      = array(
+        'section_id'    => $area_id,
+        'section_type'  => LIVEUSER_SECTION_AREA, 
+        'language_id'   => '0',
+        'name'          => 'Frontend', 
+        'description'   => 'Frontend fÃ¼r das Jobportal'
+    );                
+    $adminPerm->addTranslation($data);
+    return $area_id;
 }
 function setupRights($adminPerm,$areaid) {
-    $rights = $adminPerm->getRights(
-        array(
-            'where_area_id'        => $areaid
-        )
-    );
+    $rights = $adminPerm->getRights(array('area_id' => $areaid));
     foreach($rights as $right) {
         if ($right['define_name']=='LOGIN') {
             $login=true;
@@ -270,18 +275,40 @@ function setupRights($adminPerm,$areaid) {
         }
     }
     if (!$login) {
-        $res = $adminPerm->addRight($areaid,'LOGIN',"Login","Login Recht");
+        $res = addRight($adminPerm,$areaid,'LOGIN',"Login","Login Recht");
         if (PEAR::isError($res)) {
             print 'impossible to initialize: ' . $res->getMessage();
         }
     }
     if (!$admin) {
-        $res = $adminPerm->addRight($areaid,'SYSTEM',"System","System Recht");
+        $res = addRight($adminPerm,$areaid,'SYSTEM',"System","System Recht");
         if (PEAR::isError($res)) {
             print 'impossible to initialize: ' . $res->getMessage();
         }        
     }
 }
+
+function addRight($adminPerm,$area_id,$right,$name,$description) {
+    $data = array(
+        'area_id'           => $area_id,
+        'right_define_name' => $right
+    );
+    $right_id = $adminPerm->addRight($data);
+    if (DB::isError($right_id)) {
+        var_dump($right_id);
+        exit;
+    } 
+    $data      = array(
+        'section_id'    => $right_id,
+        'section_type'  => LIVEUSER_SECTION_RIGHT, 
+        'language_id'   => '0',
+        'name'          => $name, 
+        'description'   => $description
+    );                
+    $adminPerm->addTranslation($data);
+    return $right_id;
+}
+
 function db_create($params) {
     $host = $params[0];
     $name = $params[1];

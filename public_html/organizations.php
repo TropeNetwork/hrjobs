@@ -14,7 +14,7 @@ $list->setColumns(array ('org_id'   => _("Id"),
                          'org_name' => _("Name"),
                          'website'  => _("Website")));
 $list->orderby('org_name');
-if (!checkRights(HRADMIN_RIGHT_SYSTEM)) {
+if (!checkRights(HRJOBS_RIGHT_SYSTEM)) {
     $list->where('organization_group_id='.$org_usr->getGroupId());
 }
 $listrenderer = new DBTableList_Renderer_Sigma(& $tpl, 'organizations.html','contentmain','org');

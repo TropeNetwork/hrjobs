@@ -12,7 +12,7 @@ require_once 'DBTableList.php';
 require_once 'DBTableList/Renderer/Sigma.php';
 require_once 'DBTableList/Renderer/User.php';
 
-if (!checkRights(HRADMIN_RIGHT_SYSTEM)) {
+if (!checkRights(HRJOBS_RIGHT_SYSTEM)) {
     header("Location: noright.php");
 }
 $id = HttpParameter::getParameter('id');
@@ -41,11 +41,12 @@ if (isset($id)) {
 }
 if (isset($id)) {
     $form->addElement('hidden', 'id', $id);
+    $defaults = array(
+        'name'     => $group->getValue('group_name'),
+    );
+    $form->setDefaults($defaults);
 }
-$defaults = array(
-    'name'     => $group->getValue('group_name'),
-);
-$form->setDefaults($defaults);
+
 $form->addRule('name', _("Please enter a name"), 'required');
 if ($form->validate()) {
     $group->setValue('group_name',$form->exportValue('name'));

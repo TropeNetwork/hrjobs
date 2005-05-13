@@ -6,33 +6,21 @@ require_once 'HTML/QuickForm.php';
 require_once 'HTML/QuickForm/Renderer/ITStatic.php';
 
 require_once 'hradmin.config.inc';
-require_once 'LiveUser/Admin/Perm/Container/DB_Medium.php';
-require_once 'LiveUser/Admin/Auth/Container/DB.php';
-require_once 'LiveUser/Perm/Container/DB/Medium.php';
-require_once 'HRAdmin/Admin.php';
 
 $lu_dsn = array('dsn' => $dsn);
-$adminAuth = new
-        LiveUser_Admin_Auth_Container_DB(
-            $lu_dsn, $conf['authContainers'][0]
-        );
-$adminPerm = new
-        LiveUser_Admin_Perm_Container_DB_Medium($conf['permContainer']);
-if (!$adminPerm->init_ok) {
-    die('impossible to initialize: ' . $adminPerm->getMessage());
-}
 define('HRADMIN_APP',$settings['application']);
 define('HRADMIN_AREA',$settings['area']);
 define('HRADMIN_GROUP_USERS',$settings['group']['users']);
 define('HRADMIN_GROUP_ADMINS',$settings['group']['admins']);
 
-$adminPerm->setCurrentLanguage('DE');
-$adminPerm->setCurrentApplication(HRADMIN_APP);
-$adminPerm->outputRightsConstants(array('prefix'       =>'HRADMIN_RIGHT',
-                                        'area'         => HRADMIN_AREA,
-                                        'application'  => HRADMIN_APP),'php');
+$admin->perm->setCurrentApplication(HRADMIN_APP);
+$admin->perm->outputRightsConstants(array(
+    'prefix'       =>'HRJOBS_RIGHT',
+    'area'         => HRADMIN_AREA,
+    'application'  => HRADMIN_APP
+),'php');
 
-$users = $adminAuth->getUsers();
+$users = $admin->getUsers();
 $select[-1] = ""; 
 foreach ($users as $user) {
     $select[$user['auth_user_id']] = $user['handle']; 
@@ -75,29 +63,31 @@ if ($form->validate()) {
     if ($form->exportValue('save')) {
         $new = $form->exportValue('new_admin');
         if ($new!=='') {
-            $id = $adminAuth->addUser(
+            $id = $admin->addUser(
                 $form->exportValue('new_admin'),
                 $form->exportValue("password"), 
-                    array(
-                        'is_active'  => $form->exportValue("active"),
-                    ),
-                    array(
-                        'name'  => "admin",
-                        'email' => ""
-                    ) 
+                array(
+                    'is_active'  => $form->exportValue("active"),
+                ),
+                array(
+                    'name'  => "admin",
+                    'email' => ""
+                ),
+                null,
+                null 
             );
             if (DB::isError($id)) {
                 print_r($id);
-                unset($id);                
+                unset($id);
+                exit;            
             } else {
-                $perm_id = $adminPerm->addUser($id,0);
+                $perm_id = getPermUserId($id);
             }   
         } else {
             $perm_id = getPermUserId($form->exportValue('admin'));
         }
-        $admin = new HRAdmin_Admin($adminPerm); 
-        $admin->addUserToGroup($perm_id);
-        $admin->addUserToAdminGroup($perm_id);
+        $admin->perm->addUserToGroup(array('perm_user_id'=>$perm_id,'group_id'=>HRADMIN_GROUP_USERS));
+        $admin->perm->addUserToGroup(array('perm_user_id'=>$perm_id,'group_id'=>HRADMIN_GROUP_ADMINS));
         header("Location: index.php");
         exit;
     }
@@ -112,27 +102,20 @@ $tpl->setVariable('title',"Setup");
 $tpl->show();
 
 function notExistsUser($handle) {
-    global $adminAuth;
-    $user = $adminAuth->getUsers(array(
-            'handle' => array(
-                'name' => 'handle',
-                'op' => '=', 
-                'value' => $handle, 
-                'cond' => '')
-    ));
-    if (!empty($user) && !empty($user[0])) {
-        return false;
-    }
+    global $admin;
+    $users = $admin->getUsers('perm');
+    foreach ($users as $user) {
+        if (!empty($user) && $user['handle']===$handle) {
+            return false;
+        }    
+    }    
     return true;
 }
+
 function getPermUserId($user_id) {
-    global $adminPerm;
-    $users = $adminPerm->getUsers($filters);
-    foreach ($users as $user) {
-        if ($user['auth_user_id']==$user_id) {
-            return $user['perm_user_id'];
-        }
-    }
-    return 0;
+    global $admin;
+    $users = $admin->getUsers('perm',array('auth_user_id'=>$user_id));
+    return $users[0]['perm_user_id'];    
 }
+
 ?>
