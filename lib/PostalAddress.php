@@ -1,6 +1,5 @@
 <?php
 require_once 'Database.php';
-require_once 'configuration.inc';
 
 class PostalAddress {
 

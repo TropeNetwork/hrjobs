@@ -1,6 +1,5 @@
 <?php
 require_once 'Database.php';
-require_once 'configuration.inc';
 require_once 'Contact.php';
 require_once 'JobPosition.php';
 require_once 'PostalAddress.php';

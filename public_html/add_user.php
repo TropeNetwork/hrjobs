@@ -8,7 +8,6 @@ require_once 'OrgUser.php';
 require_once 'OrgGroup.php';
 require_once 'Date.php';
 require_once 'HttpParameter.php';
-require_once 'HRAdmin/Admin.php';
 
 $id = HttpParameter::getParameter('id');
 
@@ -55,12 +54,11 @@ if (isset($id)) {
 }
 $form->registerRule ('notexists', 'callback', 'notExistsUser');
 if ($form->validate()) {
-    $admin = new HRAdmin_Admin($objRightsAdminPerm); 
     if ($form->exportValue('save')) {
         $userid = $form->exportValue('user');
         $perm_id = getPermUserId($userid);
         $org_group->addUser($userid);
-        $admin->addUserToGroup($perm_id);
+        $admin->perm->addUserToGroup(array('perm_user_id'=>$perm_id,'group_id'=>HRADMIN_GROUP_USERS));
         $organization_user = new OrgUser($userid);
         $organization_user->setValue('is_group_admin',$form->exportValue('admin'));
         $organization_user->save();
@@ -84,8 +82,8 @@ if (isset($id)) {
 $tpl->show();
 
 function getPermUserId($user_id) {
-    global $objRightsAdminPerm;
-    $users = $objRightsAdminPerm->getUsers($filters);
+    global $admin;
+    $users = $admin->getUsers();
     foreach ($users as $user) {
         if ($user['auth_user_id']==$user_id) {
             return $user['perm_user_id'];
@@ -94,13 +92,9 @@ function getPermUserId($user_id) {
     return 0;
 }
 function notExistsUser($handle) {
-    global $objRightsAdminAuth;
-    $user = $objRightsAdminAuth->getUsers(array(
-            'handle' => array(
-                'name' => 'handle',
-                'op' => '=', 
-                'value' => $handle, 
-                'cond' => '')
+    global $admin;
+    $user = $admin->getUsers('perm',array(
+            'handle' => $handle,
     ));
     if (!empty($user) && !empty($user[0])) {
         return false;

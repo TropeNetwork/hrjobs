@@ -7,6 +7,7 @@ class OrgUser {
     public function __construct($id) 
     {
         if (isset($id)) {
+            $this->setValue('organization_user_id',$id);
             $this->load($id);
         }
     }
@@ -67,16 +68,18 @@ class OrgUser {
     public function save() {
         $db = Database::getConnection(DSN);
         if (!isset($this->values['organization_user_id'])){
-            $return="failed";
-        }else{
+            return "failed";
+        } else {
             foreach($this->values as $key=>$val){
                 $query="UPDATE organization_user SET $key='".addslashes($val)."' 
                              WHERE organization_user_id=".$this->values['organization_user_id'];
-                $db->query($query);                
+                $res = $db->query($query);                
             }       
-            $return="updated";
+            if (DB::isError($res)) {
+                return "failed";
+            }
         }
-        return($return);
+        return "updated";
     }
     
     public function hasRightOnOrganization($id) {

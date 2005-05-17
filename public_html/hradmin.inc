@@ -9,8 +9,8 @@ $lu_dsn = array('dsn' => $dsn);
 
 define('HRADMIN_APP',$hradmin_settings['application']);
 define('HRADMIN_AREA',$hradmin_settings['area']);
-//define('HRADMIN_GROUP_USERS',$hradmin_settings['group']['users']);
-//define('HRADMIN_GROUP_ADMINS',$hradmin_settings['group']['admins']);
+define('HRADMIN_GROUP_USERS',$hradmin_settings['group']['users']);
+define('HRADMIN_GROUP_ADMINS',$hradmin_settings['group']['admins']);
 
 // define the right constants
 $admin->perm->outputRightsConstants('constant',array(

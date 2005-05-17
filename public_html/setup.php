@@ -114,11 +114,11 @@ $form->addRule('skin',          "Skin darf nicht leer sein", 'required');
 $form->addRule('db_host',       "Host darf nicht leer sein", 'required');
 $form->addRule('db_name',       "Name darf nicht leer sein", 'required');
 $form->addRule('db_user',       "User darf nicht leer sein", 'required');
-$form->addRule('db_pass',       "Passwort darf nicht leer sein", 'required');
+//$form->addRule('db_pass',       "Passwort darf nicht leer sein", 'required');
 $form->addRule('db_admin_name', "Name darf nicht leer sein", 'required');
 $form->addRule('db_admin_host', "Host darf nicht leer sein", 'required');
 $form->addRule('db_admin_user', "User darf nicht leer sein", 'required');
-$form->addRule('db_admin_pass', "Passwort darf nicht leer sein", 'required');
+//$form->addRule('db_admin_pass', "Passwort darf nicht leer sein", 'required');
 
     
 $form->addRule(array(
@@ -172,7 +172,7 @@ if ($form->validate()) {
         $hrsettings['database']['name'] = $form->exportValue('db_admin_name');
         $hrsettings['database']['user'] = $form->exportValue('db_admin_user');
         $hrsettings['database']['pass'] = $form->exportValue('db_admin_pass');
-        $settings['setup']['initialized'] = true;
+        $settings['setup']['initialized'] = false;
         $config = new Config;
         $root =& $config->parseConfig($settings, 'phparray');
         $res = $config->writeConfig(dirname(__FILE__).'/../config/config.xml', 'XML');

@@ -5,13 +5,15 @@ require_once 'HTML/Template/Sigma.php';
 require_once 'HTML/QuickForm.php';
 require_once 'HTML/QuickForm/Renderer/ITStatic.php';
 
+require_once 'OrgUser.php';
+
 require_once 'hradmin.config.inc';
 
 $lu_dsn = array('dsn' => $dsn);
-define('HRADMIN_APP',$settings['application']);
-define('HRADMIN_AREA',$settings['area']);
-define('HRADMIN_GROUP_USERS',$settings['group']['users']);
-define('HRADMIN_GROUP_ADMINS',$settings['group']['admins']);
+define('HRADMIN_APP',$hradmin_settings['application']);
+define('HRADMIN_AREA',$hradmin_settings['area']);
+define('HRADMIN_GROUP_USERS',$hradmin_settings['group']['users']);
+define('HRADMIN_GROUP_ADMINS',$hradmin_settings['group']['admins']);
 
 $admin->perm->setCurrentApplication(HRADMIN_APP);
 $admin->perm->outputRightsConstants(array(
@@ -26,6 +28,34 @@ foreach ($users as $user) {
     $select[$user['auth_user_id']] = $user['handle']; 
 }
 $tpl =& new HTML_Template_Sigma('skins/default/');
+
+$config = new Config;
+$root =& $config->parseConfig(dirname(__FILE__).'/../config/config.xml', 'XML');
+
+if (PEAR::isError($root)) {
+    die('Error while reading configuration: ' . $root->getMessage());
+}
+
+$settings = $root->toArray();
+$settings = $settings['root']['conf'];
+define('DSN','mysql://'.
+             $settings['database']['user'].':'.
+             $settings['database']['pass'].'@'.
+             $settings['database']['host'].'/'.
+             $settings['database']['name']);
+$initialized = $settings['setup']['initialized'];
+if ($initialized) {
+    include_once 'configuration.inc';
+    include_once 'hradmin.config.inc';
+    if (!$usr->isLoggedIn()) {
+        $tpl->loadTemplateFile('login.html');
+        $tpl->setVariable('base',HTML_BASE);
+        $tpl->setVariable('theme',HTML_BASE.'/'.THEME_BASE.'/'.THEME_SKIN);
+        $tpl->show();
+        exit;
+    } 
+}
+
 $tpl->loadTemplateFile('setupuser.html');
 $form = new HTML_QuickForm('setup','POST');
 
@@ -62,8 +92,9 @@ if ($form->validate()) {
     }
     if ($form->exportValue('save')) {
         $new = $form->exportValue('new_admin');
+        $auth_id = 0;
         if ($new!=='') {
-            $id = $admin->addUser(
+            $perm_id = $admin->addUser(
                 $form->exportValue('new_admin'),
                 $form->exportValue("password"), 
                 array(
@@ -76,18 +107,30 @@ if ($form->validate()) {
                 null,
                 null 
             );
-            if (DB::isError($id)) {
-                print_r($id);
-                unset($id);
+            if (DB::isError($auth_id)) {
+                print_r($auth_id);
+                unset($auth_id);
                 exit;            
-            } else {
-                $perm_id = getPermUserId($id);
-            }   
+            }  
+            $auth_user_id = getAuthUserId($perm_id); 
         } else {
-            $perm_id = getPermUserId($form->exportValue('admin'));
+            $auth_id = $form->exportValue('admin');  
+            $perm_id = getPermUserId($auth_id);          
         }
+        
         $admin->perm->addUserToGroup(array('perm_user_id'=>$perm_id,'group_id'=>HRADMIN_GROUP_USERS));
         $admin->perm->addUserToGroup(array('perm_user_id'=>$perm_id,'group_id'=>HRADMIN_GROUP_ADMINS));
+        
+        // set the configuration to initialized
+        $settings['setup']['initialized'] = true;
+        $config = new Config;
+        $root =& $config->parseConfig($settings, 'phparray');
+        $res = $config->writeConfig(dirname(__FILE__).'/../config/config.xml', 'XML');
+        if (PEAR::isError($res)) {
+            $tpl->setVariable('errors','<div class="error">'.$res->getMessage().'</div>');
+        }
+        
+        // redirect to index.php
         header("Location: index.php");
         exit;
     }
@@ -111,7 +154,11 @@ function notExistsUser($handle) {
     }    
     return true;
 }
-
+function getAuthUserId($user_id) {
+    global $admin;
+    $users = $admin->getUsers('perm',array('perm_user_id'=>$user_id));
+    return $users[0]['auth_user_id'];
+}
 function getPermUserId($user_id) {
     global $admin;
     $users = $admin->getUsers('perm',array('auth_user_id'=>$user_id));
