@@ -100,7 +100,9 @@ $form->addRule('fax_extention',     _("Must be a number"), 'numeric', null,'serv
 if ($form->validate()) {
     if (isset($cid)) {  
         $contact->setValue('contact_id',$cid);
-    }        
+    }else{
+        $contact = new Contact();
+    }
     if ($form->exportValue('save')) {
         $contact->setValue('given_name',        $form->exportValue('given_name'));
         $contact->setValue('family_name',       $form->exportValue('family_name'));

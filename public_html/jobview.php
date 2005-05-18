@@ -1,5 +1,6 @@
 <?php
 
+require_once 'configuration.inc';
 require_once 'JobPosition.php';
 require_once 'XMLRenderer.php';
 header('Content-Type: text/html; charset=utf-8');
