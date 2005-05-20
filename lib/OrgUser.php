@@ -37,7 +37,10 @@ class OrgUser {
         $this->values[$name] = $value;
     }
     public function getValue($name) {
-        return $this->values[$name];
+        if (isset($this->values[$name])) { 
+            return $this->values[$name];
+        }
+        return null;
     }
     
     public function getGroupId() {
@@ -51,7 +54,7 @@ class OrgUser {
                     "WHERE organization_user_id=".$this->getValue('organization_user_id');
             $this->group_id = $db->getOne($query);
         }
-        return $this->group_id;
+        return (int)$this->group_id;
     }
     
     public function load($id) {
@@ -84,7 +87,7 @@ class OrgUser {
     
     public function hasRightOnOrganization($id) {
         $db = Database::getConnection(DSN);
-        $query="SELECT org_id FROM organization WHERE organization_group_id=".$this->getGroupId()." AND org_id=".$id;
+        $query="SELECT org_id FROM organization WHERE organization_group_id=".(int)$this->getGroupId()." AND org_id=".(int)$id;
         $res = $db->getOne($query);
         if ($res) {
             return true;

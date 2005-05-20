@@ -15,17 +15,13 @@ $org_usr = new OrgUser($usr->getProperty('authUserId'));
 
 if (!checkRights(HRJOBS_RIGHT_SYSTEM) 
   && (!$org_usr->getValue('is_group_admin')
-  || !$org_usr->hasRightOnUser($auth_user_id))) {
+  || (isset($auth_user_id) && !$org_usr->hasRightOnUser($auth_user_id)))) {
     header("Location: noright.php");
     exit;
 }
 $group_id = HttpParameter::getParameter('groupid');
 
-if (checkRights(HRJOBS_RIGHT_SYSTEM) && isset($group_id)) {
-    $org_group = new OrgGroup($group_id);
-} else {
-    $org_group = new OrgGroup($org_usr->getGroupId());
-}
+
 if (isset($auth_user_id)) {
     $user = $admin->getUsers('perm',array('auth_user_id' => $auth_user_id));
     $user = $user[0];
@@ -35,6 +31,17 @@ if (isset($auth_user_id)) {
         
 $form = new HTML_QuickForm('user','POST');
 $form->setRequiredNote("<font color=\"red\" size=\"1\"> *</font><font size=\"1\"> Pflichtfelder</font>");
+
+if (checkRights(HRJOBS_RIGHT_SYSTEM)) {
+    $select_group = getGroups();
+    $form->addElement('select','group', _("Gruppe"),$select_group);
+    $form->addRule('group', _("Please select a \"Group\" "), 'required', null,'server');
+} else {
+    $org_group = new OrgGroup($org_usr->getGroupId());
+}
+if (isset($group_id)) {
+    $org_group = new OrgGroup($group_id);
+} 
 
 $form->addElement('text','login', _("Username"),
             array('maxlength'=>'10',
@@ -67,20 +74,23 @@ if (isset($auth_user_id)) {
 if (isset($auth_user_id)) {
     $form->addElement('hidden', 'id', $auth_user_id);
 }
+$defaults = array();
 if (isset($group_id)) {
     $form->addElement('hidden', 'groupid', $group_id);
+    $defaults['group'] =  $group_id;
 }
+
 if (isset($auth_user_id)) {
     $organization_user = new OrgUser($auth_user_id);
-    $defaults = array(
-        'name'     => $user['name'],
-        'login'   => $user['handle'],
-        'email'    => $user['email'],
-        'active'   => $user['is_active'],
-        'admin'    => $organization_user->getValue('is_group_admin'),
-    );
-    $form->setDefaults($defaults);
+    $defaults['name']   = $user['name'];
+    $defaults['login']  = $user['handle'];
+    $defaults['email']  = $user['email'];
+    $defaults['active'] = $user['is_active'];
+    $defaults['admin']  = $organization_user->getValue('is_group_admin');
+    $defaults['group'] =  $organization_user->getValue('organization_group_id');
 }
+
+$form->setDefaults($defaults);
 
 if (!isset($_POST['delete'])) {
     $form->registerRule ('notexists', 'callback', 'notExistsUser');
@@ -119,8 +129,14 @@ if ($form->validate()) {
                 null,
                 null
             );
+            
+            $group_id = $form->getSubmitValue("group");
+            if (isset($group_id)) {
+                $organization_user->setValue('organization_group_id',$group_id);
+            }
             $admin->perm->addUserToGroup(array('perm_user_id'=>getPermUserId($auth_user_id),'group_id'=>HRADMIN_GROUP_USERS));
             $organization_user->setValue('is_group_admin',$form->exportValue('admin'));
+            
             $organization_user->save();
             header("Location: users.php");
             exit;
@@ -156,8 +172,7 @@ if ($form->validate()) {
         }
     } elseif ($form->exportValue('delete')) {
         $org_group->removeUser($auth_user_id);
-        $admin->perm->removeUser(getPermUserId($auth_user_id));
-        $admin->auth->removeUser($auth_user_id);
+        $admin->removeUser(getPermUserId($auth_user_id));
         header("Location: users.php");
         exit;
     }
@@ -198,5 +213,16 @@ function notExistsUser($handle) {
         }    
     }    
     return true;
+}
+
+function getGroups() {
+    $db = Database::getConnection(DSN);
+    $query="SELECT group_id, group_name FROM organization_group ";
+    $result = $db->query($query);
+    $groups = array();
+    while ($row = $result->fetchRow()) {
+        $groups[$row['group_id']] = $row['group_name'];
+    }
+    return $groups;         
 }
 ?>

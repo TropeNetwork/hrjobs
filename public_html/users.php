@@ -31,7 +31,7 @@ $listrenderer = new DBTableList_Renderer_Sigma(
     new UserRowRenderer(& $admin)
 );
 $list->accept($listrenderer);
-$tpl->setVariable('add_user','<a href="user.php"><img src="'.IMAGES_DIR.'/new.png" alt="'._("New User").'" /><br/>'._("New User").'</a>');
+$tpl->setVariable('new_user','<a href="user.php"><img src="'.IMAGES_DIR.'/new.png" alt="'._("New User").'" /><br/>'._("New User").'</a>');
 $tpl->setVariable('title', _("User Administration"));
 $tpl->show();
 

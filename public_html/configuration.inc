@@ -9,11 +9,8 @@ if (PEAR::isError($root)) {
 $settings = $root->toArray();
 $settings = $settings['root']['conf'];
 $initialized = $settings['setup']['initialized'];
-if ($initialized!=1) {
-    header("Location: setup.php");
-    exit;
-}
-define('DSN','mysql://'.
+
+define('DSN',$settings['database']['type'].'://'.
              $settings['database']['user'].':'.
              $settings['database']['pass'].'@'.
              $settings['database']['host'].'/'.

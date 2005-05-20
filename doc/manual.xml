@@ -400,7 +400,7 @@
         </listitem>
 
         <listitem>
-          <para>DB &gt;= 1.6.8</para>
+          <para>DB &gt;= 1.7.0</para>
         </listitem>
 
         <listitem>
@@ -412,7 +412,11 @@
         </listitem>
 
         <listitem>
-          <para>LiveUser &gt;= 0.13.2</para>
+          <para>LiveUser &gt;= 0.15.1</para>
+        </listitem>
+        
+        <listitem>
+          <para>LiveUser_Admin &gt;= 0.2.1</para>
         </listitem>
       </itemizedlist>
 
@@ -421,10 +425,11 @@
 
       <programlisting># pear install &lt;package_name&gt;</programlisting>
 
-      <para>The package LiveUser is still a beta version, so the use is on
+      <para>The packages LiveUser and LiverUser_Admin are still a beta version, so the use is on
       your own risk. To install it use this command</para>
 
       <programlisting># pear install LiveUser-beta</programlisting>
+      <programlisting># pear install LiveUser_Admin-beta</programlisting>
 
       <para></para>
     </section>
@@ -467,11 +472,12 @@
       <programlisting># cp config-dist.xml config.xml</programlisting>
 
       <para>Open the config.xml in your preferred editor and edit the user,
-      password, host and database entries to your LiveUser database.</para>
+      password, host and database entries to your database.</para>
 
       <programlisting>&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
 &lt;conf&gt;
   &lt;database&gt;
+    &lt;type&gt;your_db_type&lt;/type&gt;
     &lt;user&gt;your_user&lt;/user&gt;
     &lt;pass&gt;your_password&lt;/pass&gt;
     &lt;host&gt;your_host&lt;/host&gt;
@@ -481,7 +487,14 @@
 
       <para></para>
     </section>
-
+	
+	<section>
+      <title>Configure your database</title>
+      
+      <para>To setup your database use the create_tables.sql
+      script in etc/mysql/ directory of your instaltion path.</para>
+    </section>
+      
     <section>
       <title>Configure your webserver</title>
 

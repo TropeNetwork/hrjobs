@@ -6,14 +6,14 @@ require_once 'HTML/QuickForm.php';
 require_once 'HTML/QuickForm/Renderer/ITStatic.php';
 
 require_once 'OrgUser.php';
-
+include_once 'configuration.inc';
 require_once 'hradmin.config.inc';
 
 $lu_dsn = array('dsn' => $dsn);
-define('HRADMIN_APP',$hradmin_settings['application']);
-define('HRADMIN_AREA',$hradmin_settings['area']);
-define('HRADMIN_GROUP_USERS',$hradmin_settings['group']['users']);
-define('HRADMIN_GROUP_ADMINS',$hradmin_settings['group']['admins']);
+define('HRADMIN_APP',$settings['application']);
+define('HRADMIN_AREA',$settings['area']);
+define('HRADMIN_GROUP_USERS',$settings['groups']['users']);
+define('HRADMIN_GROUP_ADMINS',$settings['groups']['admins']);
 
 $admin->perm->setCurrentApplication(HRADMIN_APP);
 $admin->perm->outputRightsConstants(array(
@@ -24,8 +24,10 @@ $admin->perm->outputRightsConstants(array(
 
 $users = $admin->getUsers();
 $select[-1] = ""; 
-foreach ($users as $user) {
-    $select[$user['auth_user_id']] = $user['handle']; 
+if (is_array($users)) {
+    foreach ($users as $user) {
+        $select[$user['auth_user_id']] = $user['handle']; 
+    }
 }
 $tpl =& new HTML_Template_Sigma('skins/default/');
 
@@ -38,29 +40,23 @@ if (PEAR::isError($root)) {
 
 $settings = $root->toArray();
 $settings = $settings['root']['conf'];
-define('DSN','mysql://'.
-             $settings['database']['user'].':'.
-             $settings['database']['pass'].'@'.
-             $settings['database']['host'].'/'.
-             $settings['database']['name']);
 $initialized = $settings['setup']['initialized'];
 if ($initialized) {
-    include_once 'configuration.inc';
-    include_once 'hradmin.config.inc';
     if (!$usr->isLoggedIn()) {
         $tpl->loadTemplateFile('login.html');
         $tpl->setVariable('base',HTML_BASE);
         $tpl->setVariable('theme',HTML_BASE.'/'.THEME_BASE.'/'.THEME_SKIN);
         $tpl->show();
         exit;
-    } 
+    } else {
+        header('Location: index.php');
+    }
 }
 
 $tpl->loadTemplateFile('setupuser.html');
 $form = new HTML_QuickForm('setup','POST');
 
-$form->addElement('select','admin', _("Use exist User"),$select);
-$form->addElement('text','new_admin', _("New User"),
+$form->addElement('text','admin', _("New User"),
             array('maxlength'=>'30',
                   'size'=>'20',
                   'class'=>'formFieldLong'));
@@ -75,14 +71,10 @@ $form->addElement('submit','back',_("Back"));
 $form->addElement('submit','save',_("Finish"));
 
 $defaults = array(
-
+    'admin' => 'admin'
 );
 $form->setDefaults($defaults);
-$form->registerRule ('notexists', 'callback', 'notExistsUser');
-$form->addRule('new_admin', _("Username already exists"), 'notexists');
-if(isset($_POST['new_admin']) && $_POST['new_admin']!=='') {
-    $form->addRule('password', _("Password is required"), 'required');
-}
+$form->addRule('password', _("Password is required"), 'required');
 $form->addRule(array('password', 'password2'), _("Passwords are not equal"), 'compare', null, 'server');
     
 if ($form->validate()) {
@@ -91,35 +83,49 @@ if ($form->validate()) {
         exit;
     }
     if ($form->exportValue('save')) {
-        $new = $form->exportValue('new_admin');
+        $new = notExistsUser($form->exportValue('admin'));
         $auth_id = 0;
-        if ($new!=='') {
+        if ($new) {
             $perm_id = $admin->addUser(
-                $form->exportValue('new_admin'),
+                $form->exportValue('admin'),
                 $form->exportValue("password"), 
                 array(
                     'is_active'  => $form->exportValue("active"),
                 ),
                 array(
                     'name'  => "admin",
-                    'email' => ""
+                    'email' => "admin@example.com"
                 ),
                 null,
                 null 
             );
-            if (DB::isError($auth_id)) {
-                print_r($auth_id);
-                unset($auth_id);
+            if (DB::isError($perm_id)) {
+                print_r($perm_id);
+                unset($perm_id);
                 exit;            
             }  
-            $auth_user_id = getAuthUserId($perm_id); 
+            $auth_id = getAuthUserId($perm_id); 
         } else {
-            $auth_id = $form->exportValue('admin');  
-            $perm_id = getPermUserId($auth_id);          
+            $user = getUser($form->exportValue('admin'));
+            $auth_id = $user['auth_user_id'];  
+            $perm_id = $user['perm_user_id'];
+            $admin->updateUser(
+                $perm_id, 
+                $form->exportValue('admin'), 
+                $form->exportValue('password'),
+                array(
+                    'is_active' => true
+                ), 
+                null);          
         }
-        
-        $admin->perm->addUserToGroup(array('perm_user_id'=>$perm_id,'group_id'=>HRADMIN_GROUP_USERS));
-        $admin->perm->addUserToGroup(array('perm_user_id'=>$perm_id,'group_id'=>HRADMIN_GROUP_ADMINS));
+        $res = $admin->perm->addUserToGroup(array('perm_user_id'=>$perm_id,'group_id'=>$settings['groups']['users']));
+        if (PEAR::isError($res)) {
+            print_r($res);
+        }
+        $res = $admin->perm->addUserToGroup(array('perm_user_id'=>$perm_id,'group_id'=>$settings['groups']['admins']));
+        if (PEAR::isError($res)) {
+            print_r($res);
+        }
         
         // set the configuration to initialized
         $settings['setup']['initialized'] = true;
@@ -147,12 +153,26 @@ $tpl->show();
 function notExistsUser($handle) {
     global $admin;
     $users = $admin->getUsers('perm');
-    foreach ($users as $user) {
-        if (!empty($user) && $user['handle']===$handle) {
-            return false;
+    if (!empty($users)) {
+        foreach ($users as $user) {
+            if (!empty($user) && $user['handle']===$handle) {
+                return false;
+            }    
         }    
-    }    
+    }
     return true;
+}
+function getUser($handle) {
+    global $admin;
+    $users = $admin->getUsers('perm');
+    if (!empty($users)) {
+        foreach ($users as $user) {
+            if (!empty($user) && $user['handle']===$handle) {
+                return $user;
+            }    
+        }    
+    }
+    return null;
 }
 function getAuthUserId($user_id) {
     global $admin;

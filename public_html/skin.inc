@@ -9,6 +9,10 @@ require_once 'layersmenu/lib/PHPLIB.php';
 require_once 'layersmenu/lib/layersmenu-common.inc.php';
 require_once 'layersmenu/lib/layersmenu.inc.php';
 
+if ($initialized!=1) {
+    header("Location: setup.php");
+    exit;
+}
 
 header('Content-Type: text/html; charset='.CHARSET);
 $tpl =& new HTML_Template_Sigma(TEMPLATE_DIR);

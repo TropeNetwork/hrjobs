@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Config.php';
+require_once 'DB.php';
 require_once 'HTML/Template/Sigma.php';
 require_once 'HTML/QuickForm.php';
 require_once 'HTML/QuickForm/Renderer/ITStatic.php';
@@ -35,8 +36,25 @@ if ($initialized) {
         $tpl->setVariable('theme',HTML_BASE.'/'.THEME_BASE.'/'.THEME_SKIN);
         $tpl->show();
         exit;
-    } 
+    }  else {
+        header('Location: index.php');
+    }
 }
+$select_db_type = array(
+    'mysql'     => 'MySQL (for MySQL <= 4.0)',
+    'mysqli'    => 'MySQL (for MySQL >= 4.1)',
+    'pgsql'     => 'PostgreSQL',
+    'dbase'     => 'dBase',
+    'fbsql'     => 'FrontBase',  
+    'ibase'     => 'InterBase',  
+    'ifx'       => 'Informix',    
+    'msql'      => 'Mini SQL',   
+    'mssql'     => 'Microsoft SQL Server',
+    'oci8'      => 'Oracle 7/8/9',   
+    'odbc'      => 'ODBC',   
+    'sqlite'    => 'SQLite', 
+    'sybase'    => 'Sybase', 
+);
 $tpl->loadTemplateFile('setup.html');
 $form = new HTML_QuickForm('setup','POST');
 
@@ -52,6 +70,7 @@ $form->addElement('text','skin', _("Skin"),
             array('maxlength'=>'60',
                   'size'=>'40',
                   'class'=>'formFieldLong'));
+$form->addElement('select','db_type', _("DB Type"),$select_db_type);
 $form->addElement('text','db_host', _("Host"),
             array('maxlength'=>'60',
                   'size'=>'20',
@@ -68,40 +87,19 @@ $form->addElement('text','db_pass', _("Password"),
             array('maxlength'=>'20',
                   'size'=>'20',
                   'class'=>'formFieldLong'));
-$form->addElement('text','db_admin_host', _("Host"),
-            array('maxlength'=>'60',
-                  'size'=>'20',
-                  'class'=>'formFieldLong'));
-$form->addElement('text','db_admin_name', _("Name"),
-            array('maxlength'=>'20',
-                  'size'=>'20',
-                  'class'=>'formFieldLong'));
-$form->addElement('text','db_admin_user', _("User"),
-            array('maxlength'=>'20',
-                  'size'=>'20',
-                  'class'=>'formFieldLong'));
-$form->addElement('text','db_admin_pass', _("Password"),
-            array('maxlength'=>'20',
-                  'size'=>'20',
-                  'class'=>'formFieldLong'));
 
 $form->addElement('submit','save',_("Continue"));
 $form->addElement('submit','db_check',_("Check Connection"));
-$form->addElement('submit','db_admin_check',_("Check Connection"));
-$form->addElement('submit','db_create',_("Create Database"));
-$form->addElement('submit','db_admin_create',_("Create Database"));
+//$form->addElement('submit','db_create',_("Create Database"));
 $defaults = array(
     'base'     => $settings['html']['base'],
     'theme'     => $settings['theme']['base'],
     'skin'     => $settings['theme']['skin'],
+    'db_type'     => $settings['database']['type'],
     'db_host'     => $settings['database']['host'],
     'db_user'     => $settings['database']['user'],
     'db_name'     => $settings['database']['name'],
     'db_pass'     => $settings['database']['pass'],
-    'db_admin_host'     => $hrsettings['database']['host'],
-    'db_admin_user'     => $hrsettings['database']['user'],
-    'db_admin_name'     => $hrsettings['database']['name'],
-    'db_admin_pass'     => $hrsettings['database']['pass'],
 );
 $form->setDefaults($defaults);
 
@@ -115,77 +113,40 @@ $form->addRule('db_host',       "Host darf nicht leer sein", 'required');
 $form->addRule('db_name',       "Name darf nicht leer sein", 'required');
 $form->addRule('db_user',       "User darf nicht leer sein", 'required');
 //$form->addRule('db_pass',       "Passwort darf nicht leer sein", 'required');
-$form->addRule('db_admin_name', "Name darf nicht leer sein", 'required');
-$form->addRule('db_admin_host', "Host darf nicht leer sein", 'required');
-$form->addRule('db_admin_user', "User darf nicht leer sein", 'required');
 //$form->addRule('db_admin_pass', "Passwort darf nicht leer sein", 'required');
 
     
 $form->addRule(array(
+    'db_type',
     'db_host', 
     'db_user',
     'db_pass'), 'Keine Verbindung zum Server!', 'db_connect');
-if ($form->exportValue('save') || $form->exportValue('db_check')) {
-    $form->addRule(array(
-        'db_host', 
-        'db_name',
-        'db_user',
-        'db_pass'), 'Datenbank nicht gefunden!', 'db_exists');
-    $form->addRule(array(
-        'db_host', 
-        'db_name',
-        'db_user',
-        'db_pass'), 'Keine Vebindung zur Datenbank!', 'db_select');        
-}
+
 $form->addRule(array(
-    'db_admin_host', 
-    'db_admin_user',
-    'db_admin_pass'), 'Keine Verbindung zum Server!', 'db_connect');
-if ($form->exportValue('save') || $form->exportValue('db_admin_check')) {        
-    $form->addRule(array(
-        'db_admin_host', 
-        'db_admin_name',
-        'db_admin_user',
-        'db_admin_pass'), 'Datenbank nicht gefunden!', 'db_exists');
-    $form->addRule(array(
-        'db_admin_host', 
-        'db_admin_name',
-        'db_admin_user',
-        'db_admin_pass'), 'Keine Vebindung zur Datenbank!', 'db_select'); 
-}
+    'db_type',
+    'db_host', 
+    'db_name',
+    'db_user',
+    'db_pass'), 'Keine Vebindung zur Datenbank!', 'db_select');        
+
 if ($form->validate()) {
-    if ($form->exportValue('db_create')) {
-        db_create(array(
-            $form->exportValue('db_host'),
-            $form->exportValue('db_name'),
-            $form->exportValue('db_user'),
-            $form->exportValue('db_pass')));
-    } elseif ($form->exportValue('save')) {
+    if ($form->exportValue('save')) {
         $settings['html']['base'] = $form->exportValue('base');
         $settings['theme']['base'] = $form->exportValue('theme');
         $settings['theme']['skin'] = $form->exportValue('skin');
+        $settings['database']['type'] = $form->exportValue('db_type');
         $settings['database']['host'] = $form->exportValue('db_host');
         $settings['database']['name'] = $form->exportValue('db_name');
         $settings['database']['user'] = $form->exportValue('db_user');
         $settings['database']['pass'] = $form->exportValue('db_pass');
-        $hrsettings['database']['host'] = $form->exportValue('db_admin_host');
-        $hrsettings['database']['name'] = $form->exportValue('db_admin_name');
-        $hrsettings['database']['user'] = $form->exportValue('db_admin_user');
-        $hrsettings['database']['pass'] = $form->exportValue('db_admin_pass');
         $settings['setup']['initialized'] = false;
+        $settings = setupHrAdmin($settings);
         $config = new Config;
         $root =& $config->parseConfig($settings, 'phparray');
         $res = $config->writeConfig(dirname(__FILE__).'/../config/config.xml', 'XML');
         if (PEAR::isError($res)) {
             $tpl->setVariable('errors','<div class="error">'.$res->getMessage().'</div>');
-        }
-        $hrconf = new Config;
-        $hrroot =& $hrconf->parseConfig($hrsettings, 'phparray');
-        $res = $hrconf->writeConfig(dirname(__FILE__).'/../config/hradmin.xml', 'XML');
-        if (PEAR::isError($res)) {
-            $tpl->setVariable('errors','<div class="error">'.$res->getMessage().'</div>');
         } else {
-            setupHrAdmin($hrsettings);
             header("Location: setupuser.php");
             exit;
         }
@@ -214,7 +175,81 @@ function setupHrAdmin($settings = array()) {
         die('impossible to initialize: ' . $areaid->getMessage());
     }
     $settings['area'] = $areaid;
-    setupRights($admin->perm,$areaid);
+    $settings = setupRights($admin->perm,$areaid,$settings);
+    $settings['groups']['users'] = setupGroup($admin->perm,'USERS');
+    $settings['groups']['admins'] = setupGroup($admin->perm,'ADMINS');
+    setGroupRights($admin,$settings['groups']['users'],array($settings['rights']['login']=>3));
+    setGroupRights($admin,$settings['groups']['admins'],array($settings['rights']['system']=>3,$settings['rights']['login']=>3));
+    return $settings;
+}
+function setupGroup($adminPerm,$group_name) {
+    $groups = $adminPerm->getGroups(array(
+        'with_rights'=>true,
+        'fields'     => array(
+            "group_define_name", 
+            "description", 
+            "name", 
+            "group_id"
+         )
+    ));
+
+    foreach($groups as $group) {
+        if ($group['group_define_name']==$group_name) {
+            return $group['group_id'];
+        }
+    }
+    
+    $data   = array(
+       'group_define_name' => $group_name,
+       'is_active'         => 'Y',
+    );  
+    $group_id = $adminPerm->addGroup($data);
+        
+    if (DB::isError($group_id)) {
+        var_dump($group_id);
+        exit;
+    }
+    $data   = array(
+        'section_id'   => $group_id,
+        'section_type' => LIVEUSER_SECTION_GROUP, 
+        'language_id'  => 0,
+        'name'         => $group_name, 
+        'description'  => $group_name);
+    $adminPerm->addTranslation($data);
+    return $group_id;
+}
+
+function setGroupRights($admin,$group_id,$newRights = array()) {
+    $params = array('fields'  => array('right_id','right_level'),
+                    'filters' => array('group_id' => $group_id));
+                            
+    $rights = $admin->perm->getRights($params);
+    
+    if (is_array($rights)) {
+        foreach ($rights as $right => $level) {
+            $filters  = array('right_id' => $right,
+                              'group_id' => $group_id);
+            $removed = $admin->perm->revokeGroupRight($filters);
+        }
+    }
+    if (!empty($newRights)) {
+        foreach ($newRights as $newRight => $level) {
+            if ((int)$level > 0) {                
+            
+                $data = array('right_level' => $level);
+                $filters = array('right_id' => $newRight,
+                                 'group_id' => $group_id);
+  
+                if (!$admin->perm->updateGroupRight($data, $filters)) {
+                    $admin->perm->grantGroupRight(array(
+                        'right_level'   => $level,
+                        'right_id'      => $newRight,
+                        'group_id'      => $group_id
+                    ));
+                }
+            }
+        }    
+    }
 }
 
 function setupApplication($adminPerm) {
@@ -264,13 +299,14 @@ function setupArea($adminPerm,$appid) {
     $adminPerm->addTranslation($data);
     return $area_id;
 }
-function setupRights($adminPerm,$areaid) {
+function setupRights($adminPerm,$areaid,$settings) {
     $rights = $adminPerm->getRights(array('area_id' => $areaid));
+    //print_r($rights);
     foreach($rights as $right) {
-        if ($right['define_name']=='LOGIN') {
+        if ($right['right_define_name']=='LOGIN') {
             $login=true;
         }
-        if ($right['define_name']=='SYSTEM') {
+        if ($right['right_define_name']=='SYSTEM') {
             $admin=true;
         }
     }
@@ -278,14 +314,19 @@ function setupRights($adminPerm,$areaid) {
         $res = addRight($adminPerm,$areaid,'LOGIN',"Login","Login Recht");
         if (PEAR::isError($res)) {
             print 'impossible to initialize: ' . $res->getMessage();
+        } else {
+            $settings['rights']['login'] = $res;
         }
     }
     if (!$admin) {
         $res = addRight($adminPerm,$areaid,'SYSTEM',"System","System Recht");
         if (PEAR::isError($res)) {
             print 'impossible to initialize: ' . $res->getMessage();
-        }        
+        } else {
+            $settings['rights']['system'] = $res;
+        }       
     }
+    return $settings;
 }
 
 function addRight($adminPerm,$area_id,$right,$name,$description) {
@@ -360,32 +401,33 @@ function db_create($params) {
     return true;
 }
 function db_connect($params) {
-    $host = $params[0];
-    $user = $params[1];
-    $pass = $params[2];
-    $link = mysql_connect($host, $user, $pass);
-    if (!$link) {
+    $type = $params[0];
+    $host = $params[1];
+    $user = $params[2];
+    $pass = $params[3];
+    $dsn = "$type://$user:$pass@$host";
+    $db =& DB::connect($dsn, $options);
+    if (PEAR::isError($db)) {
         return false;
     }
-    mysql_close($link);
+
+    $db->disconnect();
     return true;
 }
 
 function db_select($params) {
-    $host = $params[0];
-    $name = $params[1];
-    $user = $params[2];
-    $pass = $params[3];
-    $link = mysql_connect($host, $user, $pass);
-    if (!$link) {
+    $type = $params[0];
+    $host = $params[1];
+    $name = $params[2];
+    $user = $params[3];
+    $pass = $params[4];
+    $dsn = "$type://$user:$pass@$host/$name";
+    $db =& DB::connect($dsn, $options);
+    if (PEAR::isError($db)) {
         return false;
     }
-    $db_selected = mysql_select_db($name, $link);
-    if (!$db_selected) {
-        mysql_close($link);
-        return false;
-    }
-    mysql_close($link);
+
+    $db->disconnect();
     return true;
 }
 

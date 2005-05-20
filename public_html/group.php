@@ -99,7 +99,6 @@ $clistrenderer = new DBTableList_Renderer_Sigma(
 );
 $clist->accept($clistrenderer);
 $tpl->setVariable('new_user','<a href="user.php?groupid='.$id.'"><img src="'.IMAGES_DIR.'/new.png" alt="'._("New User").'" /><br/>'._("New User").'</a>');
-$tpl->setVariable('add_user','<a href="add_user.php?groupid='.$id.'"><img src="'.IMAGES_DIR.'/new.png" alt="'._("Add User").'" /><br/>'._("Add User").'</a>');
 $tpl->show();
 
 ?>

@@ -1,23 +1,19 @@
 <?php
 
+
 require_once 'DB.php';
 require_once 'LiveUser.php';
 require_once 'LiveUser/Admin.php';
 require_once 'Log.php';
 
-$conf = new Config;
-$root =& $conf->parseConfig(dirname(__FILE__).'/../config/hradmin.xml', 'XML');
-if (PEAR::isError($root)) {
-    die('Error while reading configuration: ' . $root->getMessage());
-}
-$hradmin_settings = $root->toArray();
-$hradmin_settings = $hradmin_settings['root']['conf'];
-$dsn = 'mysql://'.$hradmin_settings['database']['user'].':'.
-                  $hradmin_settings['database']['pass'].'@'.
-                  $hradmin_settings['database']['host'].'/'.
-                  $hradmin_settings['database']['name'];     
+include_once 'configuration.inc';
+//$dsn =  $settings['database']['type'].'://'.
+//        $settings['database']['user'].':'.
+//        $settings['database']['pass'].'@'.
+//        $settings['database']['host'].'/'.
+//        $settings['database']['name'];     
                   
-$db = DB::connect($dsn);
+$db = DB::connect(DSN);
 
 if (DB::isError($db)) {
     echo $db->getMessage() . ' ' . $db->getUserInfo();
@@ -50,7 +46,7 @@ $conf =
                 'loginTimeout'  => 0,
                 'expireTime'    => 3600,
                 'idleTime'      => 1800,
-                'dsn'           => $dsn,
+                'dsn'           => DSN,
                 'allowDuplicateHandles' => false,
                 //'passwordEncryptionMode' => 'MD5',
                 'authTable'     => 'liveuser_users',                
@@ -78,7 +74,7 @@ $conf =
             'storage'   => array(
                         'DB' => array(
                             'connection' => $db,
-                            'dsn'        => $dsn, 
+                            'dsn'        => DSN, 
                             'prefix'     => 'liveuser_'
                          )
             ),

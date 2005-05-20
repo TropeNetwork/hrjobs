@@ -18,7 +18,10 @@ class HiringOrg {
         $this->values[$name] = $value;
     }
     public function getValue($name) {
-        return $this->values[$name];
+        if (isset($this->values[$name])) { 
+            return $this->values[$name];
+        }
+        return null;
     }
     
     public function save() {
@@ -77,6 +80,7 @@ class HiringOrg {
         $db = Database::getConnection(DSN);
         $query="SELECT contact_id FROM contact WHERE organization_org_id=".$this->values['org_id'];
         $data = $db->getCol($query);
+        $contacts = array();
         if (isset($data)) {
             foreach($data as $id) {
                 $contacts[$id] = new Contact($id);

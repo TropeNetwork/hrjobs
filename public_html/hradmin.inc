@@ -5,12 +5,11 @@ require_once 'hradmin.config.inc';
 require_once 'Var_Dump.php';
 require_once 'HTML/Template/Sigma.php';
 
-$lu_dsn = array('dsn' => $dsn);
 
-define('HRADMIN_APP',$hradmin_settings['application']);
-define('HRADMIN_AREA',$hradmin_settings['area']);
-define('HRADMIN_GROUP_USERS',$hradmin_settings['group']['users']);
-define('HRADMIN_GROUP_ADMINS',$hradmin_settings['group']['admins']);
+define('HRADMIN_APP',$settings['application']);
+define('HRADMIN_AREA',$settings['area']);
+define('HRADMIN_GROUP_USERS',$settings['groups']['users']);
+define('HRADMIN_GROUP_ADMINS',$settings['groups']['admins']);
 
 // define the right constants
 $admin->perm->outputRightsConstants('constant',array(

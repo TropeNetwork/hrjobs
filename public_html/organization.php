@@ -12,6 +12,7 @@ require_once 'Database.php';
 require_once 'HttpParameter.php';
 require_once 'Categories.php';
 require_once 'OrgUser.php';
+
 $id = HttpParameter::getParameter('id');
 $org_usr = new OrgUser($usr->getProperty('authUserId'));
 if (isset($id) && !$org_usr->hasRightOnOrganization($id) 
@@ -29,8 +30,20 @@ if (isset($id)) {
     $address = new PostalAddress();
 }
 
+$group_id = $org_usr->getGroupId();
+
 $form = new HTML_QuickForm('edit','POST');
 $form->setRequiredNote("<font color=\"red\" size=\"1\"> *</font><font size=\"1\"> Pflichtfelder</font>");
+
+if (!isset($group_id) || $group_id===0) {
+    if (!checkRights(HRJOBS_RIGHT_SYSTEM)) {
+        header("Location: noright.php");
+    }
+    $select_group = getGroups();
+    $form->addElement('select','group', _("Gruppe"),$select_group);
+    $form->addRule('group',          _("Please select a \"Group\" "), 'required', null,'server');
+}
+
 $form->addElement('header','test',_("Contact"));
 $form->addElement('text','org_name', _("Name"),
             array('maxlength'=>'100',
@@ -84,6 +97,7 @@ if (isset($id)) {
     $form->addElement('hidden', 'id', $id);
 } 
 $defaults = array(
+    'group'             => $org->getValue('organization_group_id'),
     'org_name'          => $org->getValue('org_name'),
     'website'           => $org->getValue('website'),
     'org_description'   => $org->getValue('org_description'),
@@ -109,6 +123,10 @@ if ($form->validate()) {
     $org->setValue('website',$form->exportValue('website'));
     $org->setValue('organization_group_id',$org_usr->getGroupId());
     $org->setValue('org_description',$form->exportValue('org_description'));
+    $group_id = $form->getSubmitValue("group");
+    if (isset($group_id)) {
+        $org->setValue('organization_group_id',$group_id);
+    }
     $list = $form->exportValue('industry_list');
     $cat = split(",",$list);
     sort($cat);
@@ -178,5 +196,16 @@ $clist->accept($clistrenderer);
 $tpl->setVariable('id',$id);
 $tpl->setVariable('new_contact','<a title="'._("New Contact").'" href="contact.php?id='.$id.'"><img src="'.IMAGES_DIR.'/new.png" alt="'._("New Contact").'" /></a><br/><br/>');
 $tpl->show();
+
+function getGroups() {
+    $db = Database::getConnection(DSN);
+    $query="SELECT group_id, group_name FROM organization_group ";
+    $result = $db->query($query);
+    $groups = array();
+    while ($row = $result->fetchRow()) {
+        $groups[$row['group_id']] = $row['group_name'];
+    }
+    return $groups;         
+}
 
 ?>

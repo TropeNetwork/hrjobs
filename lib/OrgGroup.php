@@ -14,7 +14,10 @@ class OrgGroup {
         $this->values[$name] = $value;
     }
     public function getValue($name) {
-        return $this->values[$name];
+        if (isset($this->values[$name])) { 
+            return $this->values[$name];
+        }
+        return null;
     }
     
     public function getOrganizations() {
@@ -22,7 +25,7 @@ class OrgGroup {
             $db = Database::getConnection(DSN);
             $query="SELECT org_id " .
             		" FROM organization org ".
-                    "WHERE organization_group_id=".$this->values['group_id'];
+                    "WHERE organization_group_id=".(int)$this->values['group_id'];
             $data = $db->getCol($query);
             foreach($data as $id) {
                 $this->orgs[$id] = new HiringOrg($id);
@@ -33,10 +36,15 @@ class OrgGroup {
     
     public function addUser($userid) {
         $db = Database::getConnection(DSN);
-        $query="  INSERT 
+        $res = $db->getOne('SELECT organization_group_id FROM organization_user WHERE organization_user_id='.$userid);
+        if ($res!==null) {
+            $query='UPDATE organization_user SET organization_group_id='.(int)$this->getValue('group_id').' WHERE organization_user_id='.$userid;
+        } else {
+            $query="  INSERT 
                     INTO organization_user 
                          (organization_user_id, organization_group_id) 
-                  VALUES (".$userid.", ".$this->values['group_id'].")";
+                  VALUES (".$userid.", ".(int)$this->getValue('group_id').")";
+        }
         $db->query($query);
     }
     

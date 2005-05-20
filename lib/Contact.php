@@ -15,7 +15,10 @@ class Contact {
         $this->values[$name] = $value;
     }
     public function getValue($name) {
-        return $this->values[$name];
+        if (isset($this->values[$name])) { 
+            return $this->values[$name];
+        }
+        return null;
     }
     
     public function save() {

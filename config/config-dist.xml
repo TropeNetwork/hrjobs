@@ -8,6 +8,7 @@
 		<skin>default</skin>
 	</theme>
 	<database>
+		<type>mysqli</type>
 		<user>user</user>
 		<pass>password</pass>
 		<name>database</name>
