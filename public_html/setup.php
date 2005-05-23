@@ -17,14 +17,6 @@ $settings = $root->toArray();
 $settings = $settings['root']['conf'];
 $initialized = $settings['setup']['initialized'];
 
-$hrconf = new Config;
-$hrroot =& $hrconf->parseConfig(dirname(__FILE__).'/../config/hradmin.xml', 'XML');
-if (PEAR::isError($hrroot)) {
-    die('Error while reading configuration: ' . $hrroot->getMessage());
-}
-$hrsettings = $hrroot->toArray();
-$hrsettings = $hrsettings['root']['conf'];
-
 
 $tpl =& new HTML_Template_Sigma('skins/default/');
 if ($initialized) {
@@ -90,7 +82,7 @@ $form->addElement('text','db_pass', _("Password"),
 
 $form->addElement('submit','save',_("Continue"));
 $form->addElement('submit','db_check',_("Check Connection"));
-//$form->addElement('submit','db_create',_("Create Database"));
+
 $defaults = array(
     'base'     => $settings['html']['base'],
     'theme'     => $settings['theme']['base'],
@@ -112,8 +104,6 @@ $form->addRule('skin',          "Skin darf nicht leer sein", 'required');
 $form->addRule('db_host',       "Host darf nicht leer sein", 'required');
 $form->addRule('db_name',       "Name darf nicht leer sein", 'required');
 $form->addRule('db_user',       "User darf nicht leer sein", 'required');
-//$form->addRule('db_pass',       "Passwort darf nicht leer sein", 'required');
-//$form->addRule('db_admin_pass', "Passwort darf nicht leer sein", 'required');
 
     
 $form->addRule(array(

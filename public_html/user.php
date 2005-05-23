@@ -42,7 +42,6 @@ if (checkRights(HRJOBS_RIGHT_SYSTEM)) {
 if (isset($group_id)) {
     $org_group = new OrgGroup($group_id);
 } 
-
 $form->addElement('text','login', _("Username"),
             array('maxlength'=>'10',
                   'size'=>'10',
@@ -158,6 +157,10 @@ if ($form->validate()) {
                 print_r($auth_user_id);
                 unset($auth_user_id);
                 exit;                
+            }
+            $group_id = $form->getSubmitValue("group");
+            if (isset($group_id)) {
+                $org_group = new OrgGroup($group_id);
             }
             $auth_user_id = getAuthUserId($perm_id);
             $org_group->addUser($auth_user_id);

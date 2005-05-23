@@ -1,5 +1,4 @@
 <?php
-require_once 'XML/Tree.php';
 require_once 'HiringOrg.php';
 
 class XMLRenderer {
