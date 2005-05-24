@@ -172,6 +172,7 @@ function setupHrAdmin($settings = array()) {
     setGroupRights($admin,$settings['groups']['admins'],array($settings['rights']['system']=>3,$settings['rights']['login']=>3));
     return $settings;
 }
+
 function setupGroup($adminPerm,$group_name) {
     $groups = $adminPerm->getGroups(array(
         'with_rights'=>true,
@@ -183,9 +184,11 @@ function setupGroup($adminPerm,$group_name) {
          )
     ));
 
-    foreach($groups as $group) {
-        if ($group['group_define_name']==$group_name) {
-            return $group['group_id'];
+    if (is_array($groups)) {
+        foreach($groups as $group) {
+            if ($group['group_define_name']==$group_name) {
+                return $group['group_id'];
+            }
         }
     }
     
@@ -244,9 +247,11 @@ function setGroupRights($admin,$group_id,$newRights = array()) {
 
 function setupApplication($adminPerm) {
     $apps = $adminPerm->getApplications();
-    foreach($apps as $app) {
-        if ($app['application_define_name']=='HRJOBS') {
-            return $app['application_id'];
+    if (is_array($apps)) {
+        foreach($apps as $app) {
+            if ($app['application_define_name']=='HRJOBS') {
+                return $app['application_id'];
+            }
         }
     }
     $data = array(
@@ -263,11 +268,14 @@ function setupApplication($adminPerm) {
     $adminPerm->addTranslation($data);
     return $app_id;
 }
+
 function setupArea($adminPerm,$appid) {
     $areas = $adminPerm->getAreas(array('application_id' => $appid ));
-    foreach($areas as $area) {
-        if ($area['area_define_name']=='FRONTEND') {
-            return $area['area_id'];
+    if (is_array($areas)) {
+        foreach($areas as $area) {
+            if ($area['area_define_name']=='FRONTEND') {
+                return $area['area_id'];
+            }
         }
     }
     $data = array(
@@ -289,15 +297,17 @@ function setupArea($adminPerm,$appid) {
     $adminPerm->addTranslation($data);
     return $area_id;
 }
+
 function setupRights($adminPerm,$areaid,$settings) {
     $rights = $adminPerm->getRights(array('area_id' => $areaid));
-    //print_r($rights);
-    foreach($rights as $right) {
-        if ($right['right_define_name']=='LOGIN') {
-            $login=true;
-        }
-        if ($right['right_define_name']=='SYSTEM') {
-            $admin=true;
+    if (is_array($rights)) {
+        foreach($rights as $right) {
+            if ($right['right_define_name']=='LOGIN') {
+                $login=true;
+            }
+            if ($right['right_define_name']=='SYSTEM') {
+                $admin=true;
+            }
         }
     }
     if (!$login) {
@@ -340,56 +350,6 @@ function addRight($adminPerm,$area_id,$right,$name,$description) {
     return $right_id;
 }
 
-function db_create($params) {
-    $host = $params[0];
-    $name = $params[1];
-    $user = $params[2];
-    $pass = $params[3];
-    $link = mysql_connect($host, $user, $pass);
-    if (!$link) {
-        return false;
-    }  
-    $db_list = mysql_list_dbs();
-    $i = 0;
-    $cnt = mysql_num_rows($db_list);
-    $exists = false;
-    while ($i < $cnt) {
-        if (mysql_db_name($db_list, $i)===$name) {
-            $exists = true;
-            break;
-        }
-        $i++;
-    }  
-    if (!$exists) {
-        $db_selected = mysql_select_db('mysql', $link);
-        if (!$db_selected) {
-            die('Select to mysql db failed: '. mysql_error());
-        }
-        if (!mysql_query( 'CREATE DATABASE '.$name)) {
-            die('Create failed: '. mysql_error());
-        }
-    }
-    $db_selected = mysql_select_db($name, $link);
-    if (!$db_selected) {
-        mysql_close($link);
-        return false;
-    }
-    $handle = fopen ("../etc/mysql/create_tables.sql", "r");
-    while (!feof($handle)) {
-        $line = fgets($handle);   
-        $buffer .= $line;
-        if (substr($line,strlen($line)-2,2)===";\n" ) {
-            if (!mysql_query($buffer)) {
-                die('Create tables failed: '. mysql_error());
-            }
-            $buffer = '';
-        }
-        
-    }
-    fclose($handle);
-    mysql_close($link);
-    return true;
-}
 function db_connect($params) {
     $type = $params[0];
     $host = $params[1];
