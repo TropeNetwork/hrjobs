@@ -26,7 +26,7 @@ class UserRowRenderer implements DBTableList_Renderer_Sigma_RowRenderer {
         }
         $tpl->setVariable('usr_active',$active);
         $time = null;
-        if ($user[0]['lastlogin']!='') {
+        if ($user[0]['lastlogin']!==null && $user[0]['lastlogin']!='' && $user[0]['lastlogin']!=='0000-00-00 00:00:00') {
             $time = date("d.m.Y H:i:s",strtotime($user[0]['lastlogin']));
         }
         $tpl->setVariable('usr_lastlogin',$time);
