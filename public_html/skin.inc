@@ -43,7 +43,7 @@ if (!checkRights(HRJOBS_RIGHT_LOGIN)) {
 
 function getMenuString() {
     $menu = ".|"    .gettext("Home")."|index.php|".gettext("Home")."|home.png\n";
-    $menu .= ".|"   .gettext("Oragnizations")."|organizations.php|".gettext("Oragnizations")."|organization.png\n";
+    $menu .= ".|"   .gettext("Organizations")."|organizations.php|".gettext("Oragnizations")."|organization.png\n";
     $menu .= "..|"  .gettext("Organizations")."|organizations.php|".gettext("Organizations")."|preview.png\n";
     $menu .= "..|"  .gettext("New Organization")."|organization.php|".gettext("New Organization")."|add_section.png\n";
     $menu .= ".|"   .gettext("Job Postings")."|jobs.php|".gettext("Job Postings")."|document.png\n";
