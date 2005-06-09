@@ -7,7 +7,7 @@ require_once 'HTML/QuickForm.php';
 require_once 'HTML/QuickForm/Renderer/ITStatic.php';
 
 $config = new Config;
-$root =& $config->parseConfig(dirname(__FILE__).'/../config/config.xml', 'XML');
+$root =& $config->parseConfig(dirname(__FILE__).'/../../config/config.xml', 'XML');
 
 if (PEAR::isError($root)) {
     die('Error while reading configuration: ' . $root->getMessage());
@@ -18,10 +18,10 @@ $settings = $settings['root']['conf'];
 $initialized = $settings['setup']['initialized'];
 
 
-$tpl =& new HTML_Template_Sigma('skins/default/');
+$tpl =& new HTML_Template_Sigma('../skins/default/');
 if ($initialized) {
-    include_once 'configuration.inc';
-    include_once 'hradmin.config.inc';
+    include_once '../configuration.inc';
+    include_once '../hradmin.config.inc';
     if (!$usr->isLoggedIn()) {
         $tpl->loadTemplateFile('login.html');
         $tpl->setVariable('base',HTML_BASE);
@@ -29,7 +29,7 @@ if ($initialized) {
         $tpl->show();
         exit;
     }  else {
-        header('Location: index.php');
+        header('Location: ../index.php');
     }
 }
 $select_db_type = array(
@@ -133,7 +133,7 @@ if ($form->validate()) {
         $settings = setupHrAdmin($settings);
         $config = new Config;
         $root =& $config->parseConfig($settings, 'phparray');
-        $res = $config->writeConfig(dirname(__FILE__).'/../config/config.xml', 'XML');
+        $res = $config->writeConfig(dirname(__FILE__).'/../../config/config.xml', 'XML');
         if (PEAR::isError($res)) {
             $tpl->setVariable('errors','<div class="error">'.$res->getMessage().'</div>');
         } else {
@@ -153,7 +153,7 @@ $tpl->show();
 
 function setupHrAdmin($settings = array()) {
     global $conf;
-    include_once 'hradmin.config.inc';
+    include_once '../hradmin.config.inc';
     $appid = setupApplication($admin->perm);
     if (PEAR::isError($appid)) {
         die('impossible to initialize: ' . $appid->getMessage());

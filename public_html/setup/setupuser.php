@@ -6,8 +6,8 @@ require_once 'HTML/QuickForm.php';
 require_once 'HTML/QuickForm/Renderer/ITStatic.php';
 
 require_once 'OrgUser.php';
-include_once 'configuration.inc';
-require_once 'hradmin.config.inc';
+include_once '../configuration.inc';
+require_once '../hradmin.config.inc';
 
 $lu_dsn = array('dsn' => $dsn);
 define('HRADMIN_APP',$settings['application']);
@@ -29,10 +29,10 @@ if (is_array($users)) {
         $select[$user['auth_user_id']] = $user['handle']; 
     }
 }
-$tpl =& new HTML_Template_Sigma('skins/default/');
+$tpl =& new HTML_Template_Sigma('../skins/default/');
 
 $config = new Config;
-$root =& $config->parseConfig(dirname(__FILE__).'/../config/config.xml', 'XML');
+$root =& $config->parseConfig(dirname(__FILE__).'/../../config/config.xml', 'XML');
 
 if (PEAR::isError($root)) {
     die('Error while reading configuration: ' . $root->getMessage());
@@ -42,15 +42,8 @@ $settings = $root->toArray();
 $settings = $settings['root']['conf'];
 $initialized = $settings['setup']['initialized'];
 if ($initialized) {
-    if (!$usr->isLoggedIn()) {
-        $tpl->loadTemplateFile('login.html');
-        $tpl->setVariable('base',HTML_BASE);
-        $tpl->setVariable('theme',HTML_BASE.'/'.THEME_BASE.'/'.THEME_SKIN);
-        $tpl->show();
-        exit;
-    } else {
-        header('Location: index.php');
-    }
+    header('Location: ../index.php');
+    exit;
 }
 
 $tpl->loadTemplateFile('setupuser.html');
@@ -77,11 +70,12 @@ $form->setDefaults($defaults);
 $form->addRule('password', _("Password is required"), 'required');
 $form->addRule(array('password', 'password2'), _("Passwords are not equal"), 'compare', null, 'server');
     
+if ($form->exportValue('back')) {
+    header("Location: setup.php");
+    exit;
+}
 if ($form->validate()) {
-    if ($form->exportValue('back')) {
-        header("Location: setup.php");
-        exit;
-    }
+    
     if ($form->exportValue('save')) {
         $new = notExistsUser($form->exportValue('admin'));
         $auth_id = 0;
@@ -131,13 +125,13 @@ if ($form->validate()) {
         $settings['setup']['initialized'] = true;
         $config = new Config;
         $root =& $config->parseConfig($settings, 'phparray');
-        $res = $config->writeConfig(dirname(__FILE__).'/../config/config.xml', 'XML');
+        $res = $config->writeConfig(dirname(__FILE__).'/../../config/config.xml', 'XML');
         if (PEAR::isError($res)) {
             $tpl->setVariable('errors','<div class="error">'.$res->getMessage().'</div>');
         }
         
         // redirect to index.php
-        header("Location: index.php");
+        header("Location: ../index.php");
         exit;
     }
 }
