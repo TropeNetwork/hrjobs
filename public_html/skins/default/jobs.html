@@ -11,17 +11,17 @@
 </tr>
 <!-- BEGIN added_job -->
 <tr onmouseover="this.style.backgroundColor='lightyellow'" onmouseout="this.style.backgroundColor=''">   
-  <td class="list"><a title="func_gettext("Preview")" href="jobview.php?id={job_id}" target="_blank"><img src="/skins/default/images/preview.png" alt="func_gettext("Preview")" /></a></td>
+  <td class="list"><a title="func_gettext("Preview")" href="{base}/jobview.php?id={job_id}" target="_blank"><img src="/skins/default/images/preview.png" alt="func_gettext("Preview")" /></a></td>
   <td class="list">{job_id}</td>
   <td class="list">  	
-  	<a title="func_gettext("Edit Job")" href="job.php?id={job_id}">
-	  	<img src="/skins/default/images/edit.png" alt="func_gettext("Edit")" />
+  	<a title="func_gettext("Edit Job")" href="{base}/job.php?id={job_id}">
+	  	<img src="{theme}/images/edit.png" alt="func_gettext("Edit")" />
   		{job_title}
   	</a>
   </td>
   <td class="list"><center>{status}</center></td>
-  <td class="list"><a title="func_gettext("Edit Organizations")" href="organization.php?id={org_id}">
-  	<img src="/skins/default/images/edit.png" alt="func_gettext("Edit")" />
+  <td class="list"><a title="func_gettext("Edit Organizations")" href="{base}/organization.php?id={org_id}">
+  	<img src="{theme}/images/edit.png" alt="func_gettext("Edit")" />
   	{organization_org_id}
   	</a>
   </td>

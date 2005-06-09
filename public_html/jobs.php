@@ -93,7 +93,8 @@ if ($templates) {
 } else {
     $tpl->setVariable('title', _("Job Posting"));
 }
-
+$tpl->setVariable("base",HTML_BASE);
+$tpl->setVariable('theme',HTML_BASE.'/'.THEME_BASE.'/'.THEME_SKIN);
 $tpl->show();
 
 ?>

@@ -44,6 +44,8 @@ $listrenderer = new DBTableList_Renderer_Sigma(
 $list->accept($listrenderer);
 $tpl->setVariable('new_group','<a href="group.php"><img src="'.IMAGES_DIR.'/new.png" alt="'._("New Group").'" /><br/>'._("New Group").'</a>');
 $tpl->setVariable('title', _("Group Administration"));
+$tpl->setVariable("base",HTML_BASE);
+$tpl->setVariable('theme',HTML_BASE.'/'.THEME_BASE.'/'.THEME_SKIN);
 $tpl->show();
 
 ?>

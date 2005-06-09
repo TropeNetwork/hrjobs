@@ -7,11 +7,7 @@ require_once 'LiveUser/Admin.php';
 require_once 'Log.php';
 
 include_once 'configuration.inc';
-//$dsn =  $settings['database']['type'].'://'.
-//        $settings['database']['user'].':'.
-//        $settings['database']['pass'].'@'.
-//        $settings['database']['host'].'/'.
-//        $settings['database']['name'];     
+
                   
 $db = DB::connect(DSN);
 
