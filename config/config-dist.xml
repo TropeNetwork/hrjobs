@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <conf>
 	<html>
-		<base>http://hrjobs.openhr.org</base>
+		<base>http://hrjobs.open-hr.org</base>
 	</html>
 	<theme>
 		<base>skins</base>

@@ -302,6 +302,9 @@ function setupArea($adminPerm,$appid) {
 
 function setupRights($adminPerm,$areaid,$settings) {
     $rights = $adminPerm->getRights(array('area_id' => $areaid));
+    $login  = false;
+    $admin  = false;
+    
     if (is_array($rights)) {
         foreach($rights as $right) {
             if ($right['right_define_name']=='LOGIN') {
