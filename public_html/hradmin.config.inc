@@ -1,24 +1,35 @@
 <?php
 
-
 require_once 'DB.php';
 require_once 'LiveUser.php';
 require_once 'LiveUser/Admin.php';
 require_once 'Log.php';
-
 include_once 'configuration.inc';
 
-                  
-$db = DB::connect(DSN);
-
-if (DB::isError($db)) {
-    echo $db->getMessage() . ' ' . $db->getUserInfo();
+function getLiveUserUser( $settings ) {
+   $usr="";
+   getLiveuserAdmin( $settings , $usr );
+   return($usr);
 }
 
-$db->setFetchMode(DB_FETCHMODE_ASSOC);
+function getLiveuserAdmin( $settings , &$usr=null ) {
+
+    $dsn=    $settings['database']['type'].'://'.
+             $settings['database']['user'].':'.
+             $settings['database']['pass'].'@'.
+             $settings['database']['host'].'/'.
+             $settings['database']['name'];
+
+    $db = DB::connect($dsn);
+
+    if (DB::isError($db)) {
+        echo $db->getMessage() . ' ' . $db->getUserInfo();
+    }
+
+    $db->setFetchMode(DB_FETCHMODE_ASSOC);
 
 
-$conf =
+    $conf =
     array(
         'autoInit' => true,
         'session'  => array(
@@ -42,7 +53,7 @@ $conf =
                 'loginTimeout'  => 0,
                 'expireTime'    => 3600,
                 'idleTime'      => 1800,
-                'dsn'           => DSN,
+                'dsn'           => $dsn,
                 'allowDuplicateHandles' => false,
                 //'passwordEncryptionMode' => 'MD5',
                 'authTable'     => 'liveuser_users',                
@@ -90,14 +101,17 @@ $conf =
         )
     );
 
-$usr = LiveUser::factory($conf);
+    $usr = LiveUser::factory($conf);
 
-$handle = isset($_REQUEST['handle']) ? $_REQUEST['handle'] : null;
-$password = isset($_REQUEST['passwd']) ? $_REQUEST['passwd'] : null;
-$logout = isset($_REQUEST['logout']) ? $_REQUEST['logout'] : null;
-$usr->init($handle, $password, $logout);
+    $handle = isset($_REQUEST['handle']) ? $_REQUEST['handle'] : null;
+    $password = isset($_REQUEST['passwd']) ? $_REQUEST['passwd'] : null;
+    $logout = isset($_REQUEST['logout']) ? $_REQUEST['logout'] : null;
+    $usr->init($handle, $password, $logout);
 
-$admin =& LiveUser_Admin::factory($conf);
+    $admin =& LiveUser_Admin::factory($conf);
 
-$admin->setAdminContainers();
+    $admin->setAdminContainers();
+    return $admin;
+}
+
 ?>

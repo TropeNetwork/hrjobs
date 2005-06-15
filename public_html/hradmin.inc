@@ -11,6 +11,9 @@ define('HRADMIN_AREA',$settings['area']);
 define('HRADMIN_GROUP_USERS',$settings['groups']['users']);
 define('HRADMIN_GROUP_ADMINS',$settings['groups']['admins']);
 
+$admin = getLiveUserAdmin($settings);
+$usr  = getLiveUserUser($settings);
+
 // define the right constants
 $admin->perm->outputRightsConstants('constant',array(
     'prefix'       =>'HRJOBS_RIGHT',

@@ -1,19 +1,20 @@
 <?php
 
+include_once '../configuration.inc';
 require_once 'Config.php';
 require_once 'HTML/Template/Sigma.php';
 require_once 'HTML/QuickForm.php';
 require_once 'HTML/QuickForm/Renderer/ITStatic.php';
 
 require_once 'OrgUser.php';
-include_once '../configuration.inc';
 require_once '../hradmin.config.inc';
+$admin = getLiveUserAdmin($settings);
 
-$lu_dsn = array('dsn' => $dsn);
-define('HRADMIN_APP',$settings['application']);
-define('HRADMIN_AREA',$settings['area']);
-define('HRADMIN_GROUP_USERS',$settings['groups']['users']);
-define('HRADMIN_GROUP_ADMINS',$settings['groups']['admins']);
+$lu_dsn = array('dsn' => DSN );
+define('HRADMIN_APP',@$settings['application']);
+define('HRADMIN_AREA',@$settings['area']);
+define('HRADMIN_GROUP_USERS',@$settings['groups']['users']);
+define('HRADMIN_GROUP_ADMINS',@$settings['groups']['admins']);
 
 $admin->perm->setCurrentApplication(HRADMIN_APP);
 $admin->perm->outputRightsConstants(array(
@@ -112,11 +113,11 @@ if ($form->validate()) {
                 ), 
                 null);          
         }
-        $res = $admin->perm->addUserToGroup(array('perm_user_id'=>$perm_id,'group_id'=>$settings['groups']['users']));
+        $res = $admin->perm->addUserToGroup(array('perm_user_id'=>$perm_id,'group_id'=>@$settings['groups']['users']));
         if (PEAR::isError($res)) {
             print_r($res);
         }
-        $res = $admin->perm->addUserToGroup(array('perm_user_id'=>$perm_id,'group_id'=>$settings['groups']['admins']));
+        $res = $admin->perm->addUserToGroup(array('perm_user_id'=>$perm_id,'group_id'=>@$settings['groups']['admins']));
         if (PEAR::isError($res)) {
             print_r($res);
         }
@@ -125,7 +126,7 @@ if ($form->validate()) {
         $settings['setup']['initialized'] = true;
         $config = new Config;
         $root =& $config->parseConfig($settings, 'phparray');
-        $res = $config->writeConfig(dirname(__FILE__).'/../../config/config.xml', 'XML');
+        $res = $config->writeConfig(_HRJOBS_CONFIG_FILE, 'XML');
         if (PEAR::isError($res)) {
             $tpl->setVariable('errors','<div class="error">'.$res->getMessage().'</div>');
         }

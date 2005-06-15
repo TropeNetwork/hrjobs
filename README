@@ -1,2 +1,41 @@
+"Detailed" informations on how to setup HRJobs you'll find in:
 
-see ./public_html/doc/index.html
+./public_html/doc/index.html
+
+check the documentation with a text browser e.g. 
+
+> lynx ./public_html/doc/index.html
+
+or 
+
+> w3m ./public_html/doc/index.html
+
+Quick Installation.
+
+1. create a database including the db structure located in ./etc/mysql
+   we assume, the database will be named "hrjobs". 
+
+pkg_hrjobs # mysqladmin -uroot create hrjobs
+pkg_hrjobs # cat etc/mysql/create_tables.sql | mysql -u root hrjobs
+
+
+2. add a user to your hrjobs DB, eg. on the mysql console
+
+mysql> grant all on hrjobs.* to hrjobsUser@localhost identified by "secret";
+Query OK, 0 rows affected (0.01 sec)
+
+3. access the hrjobs package via a webbrowser
+
+copy the ./config-dist.xml to ./config/config.xml and make sure that it is
+writable by the webserver.
+
+eg: http://localhost/hrjobs/public_html
+
+The first time you should be redirected to some setup forms which will check 
+varios system settings an will give you the possibility to enter
+configuration options.
+
+
+
+send questions to bleek@cross-solution.de
+

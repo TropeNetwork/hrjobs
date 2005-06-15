@@ -1,5 +1,6 @@
 <?php
 
+include_once '../configuration.inc';
 require_once 'Config.php';
 require_once 'DB.php';
 require_once 'HTML/Template/Sigma.php';
@@ -7,20 +8,18 @@ require_once 'HTML/QuickForm.php';
 require_once 'HTML/QuickForm/Renderer/ITStatic.php';
 
 $config = new Config;
-$root =& $config->parseConfig(dirname(__FILE__).'/../../config/config.xml', 'XML');
+$root =& $config->parseConfig(_HRJOBS_CONFIG_FILE, 'XML');
 
 if (PEAR::isError($root)) {
-    die('Error while reading configuration: ' . $root->getMessage());
+    die('Error while reading configuration: '. _HRJOBS_CONFIG_FILE.': ' . $root->getMessage());
 }
 
 $settings = $root->toArray();
 $settings = $settings['root']['conf'];
 $initialized = $settings['setup']['initialized'];
 
-
 $tpl =& new HTML_Template_Sigma('../skins/default/');
 if ($initialized) {
-    include_once '../configuration.inc';
     include_once '../hradmin.config.inc';
     if (!$usr->isLoggedIn()) {
         $tpl->loadTemplateFile('login.html');
@@ -133,7 +132,7 @@ if ($form->validate()) {
         $settings = setupHrAdmin($settings);
         $config = new Config;
         $root =& $config->parseConfig($settings, 'phparray');
-        $res = $config->writeConfig(dirname(__FILE__).'/../../config/config.xml', 'XML');
+        $res = $config->writeConfig( _HRJOBS_CONFIG_FILE, 'XML');
         if (PEAR::isError($res)) {
             $tpl->setVariable('errors','<div class="error">'.$res->getMessage().'</div>');
         } else {
@@ -152,8 +151,11 @@ $tpl->setVariable('title',"Setup");
 $tpl->show();
 
 function setupHrAdmin($settings = array()) {
-    global $conf;
+#    global $conf;
+
     include_once '../hradmin.config.inc';
+    $admin = getLiveUserAdmin($settings);
+    
     $appid = setupApplication($admin->perm);
     if (PEAR::isError($appid)) {
         die('impossible to initialize: ' . $appid->getMessage());
@@ -168,8 +170,8 @@ function setupHrAdmin($settings = array()) {
     $settings = setupRights($admin->perm,$areaid,$settings);
     $settings['groups']['users'] = setupGroup($admin->perm,'USERS');
     $settings['groups']['admins'] = setupGroup($admin->perm,'ADMINS');
-    setGroupRights($admin,$settings['groups']['users'],array($settings['rights']['login']=>3));
-    setGroupRights($admin,$settings['groups']['admins'],array($settings['rights']['system']=>3,$settings['rights']['login']=>3));
+    setGroupRights($admin,$settings['groups']['users'],array(@$settings['rights']['login']=>3));
+    setGroupRights($admin,$settings['groups']['admins'],array(@$settings['rights']['system']=>3,@$settings['rights']['login']=>3));
     return $settings;
 }
 
@@ -350,7 +352,7 @@ function addRight($adminPerm,$area_id,$right,$name,$description) {
     return $right_id;
 }
 
-function db_connect($params) {
+function db_connect($params, $options=null) {
     $type = $params[0];
     $host = $params[1];
     $user = $params[2];
@@ -365,7 +367,7 @@ function db_connect($params) {
     return true;
 }
 
-function db_select($params) {
+function db_select($params, $options=null) {
     $type = $params[0];
     $host = $params[1];
     $name = $params[2];

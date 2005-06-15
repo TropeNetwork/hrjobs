@@ -1,10 +1,18 @@
-<VirtualHost 10.10.2.2:80>
-    ServerName hrjobs.ranger.cross.intern
-    ServerAlias hrjobs.ranger
-    SetEnv CONFIG_FILE /services/pkg_hrjobs/config/main.conf
-    DocumentRoot /services/pkg_hrjobs/public_html
-    php_admin_value include_path .:/services/pkg_hrjobs/public_html:/usr/local/lib/php
-    ErrorLog /services/pkg_hrjobs/log/error.log
-    CustomLog /services/pkg_hrjobs/log/access.log common
+# you might setup a virtual host section to be able to access the hrjobs
+# application via a URL like http://hrjobs.yourhost, which looks like this
+
+<VirtualHost *:80>
+    ServerName hrjobs.yourhost
+    ServerAlias hrjobs.yourhost
+    AddDefaultCharset utf-8
+
+    DocumentRoot /path_to/pkg_hrjobs/public_html
+
+    # you'll need to add the include PATH of your PEAR installation
+
+    php_admin_value include_path .:/path_to/pear
+
+    ErrorLog /path_to/pkg_hrjobs/log/error.log
+    CustomLog /path_to/pkg_hrjobs/log/access.log common
 </VirtualHost>
 
