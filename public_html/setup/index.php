@@ -25,11 +25,13 @@ $required_packages = array(
     'Config'                => '1.10.3',
     'HTML_QuickForm'        => '3.2.4',
     'HTML_Template_Sigma'   => '1.1.2',
+    'Pager'                 => '2.2.7',
     'LiveUser'              => '0.15.1',
     'LiveUser_Admin'        => '0.2.1',
     'Var_Dump'              => '1.0.2',
     'Log'                   => '1.8.7',
     'XML_Tree'              => '2.0.0',  
+    'XML_Util'              => '1.1.1',
 );
 $required_extentions = array(
     'dom'       => '',
