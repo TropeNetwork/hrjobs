@@ -1,6 +1,8 @@
 
 body {
   font-family: Arial, Helvetica;
+  margin:0px;
+  padding:0px;
 }
 h1{
   margin-top: 4px;
@@ -61,8 +63,10 @@ th {
 table.panel {
   border: 1px solid #cccccc;
   margin-left: 5px; 
+  margin-right: 5px; 
   padding-bottom:5px;
   background-color: #F1F3F5;  
+  width:100%;
 }
 
 p{
@@ -73,8 +77,18 @@ img{
   border: none;
 }
 .error {
-  color: red;
-  font-weight: bold;
+  color: black;
+  font-weight: normal;
+  background-color: #FFD0AF;
+  border: 1px dashed red;
+  padding: 2px;
+}
+.ok {
+  color: black;
+  font-weight: normal;
+  background-color: #CCF099;
+  border: 1px dashed green;
+  padding: 2px;
 }
 form select,
 form input[type="text"],

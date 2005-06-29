@@ -1,7 +1,7 @@
 <?php
 
 error_reporting(E_ALL);
-require_once 'hradmin.config.inc';
+require_once 'Auth.php';
 require_once 'Var_Dump.php';
 require_once 'HTML/Template/Sigma.php';
 
@@ -11,21 +11,22 @@ define('HRADMIN_AREA',$settings['area']);
 define('HRADMIN_GROUP_USERS',$settings['groups']['users']);
 define('HRADMIN_GROUP_ADMINS',$settings['groups']['admins']);
 
-$admin = getLiveUserAdmin($settings);
-$usr  = getLiveUserUser($settings);
+$auth = new Auth($settings);
+
+$usr  = $auth->getLiveUser();
 
 // define the right constants
-$admin->perm->outputRightsConstants('constant',array(
+$auth->getPermAdmin()->outputRightsConstants('constant',array(
     'prefix'       =>'HRJOBS_RIGHT',
     'area'         => HRADMIN_AREA,
     'application'  => HRADMIN_APP
 ),'php');
-//print_r($usr);
+
 if (!$usr->isLoggedIn()) {
-    
     $tpl->loadTemplateFile('login.html');
-    if ($usr->getStatus()==-9) {
+    if (isset($_REQUEST['handle'])) {
         $tpl->setVariable('error_message',_('Login failed'));
+        $tpl->setVariable('error_message','<div class="error">'.$usr->statusMessage($usr->getStatus()).'<div>');
     }
     $tpl->setVariable('base',HTML_BASE);
     $tpl->setVariable('theme',HTML_BASE.'/'.THEME_BASE.'/'.THEME_SKIN);

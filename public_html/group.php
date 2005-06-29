@@ -95,10 +95,12 @@ $clistrenderer = new DBTableList_Renderer_Sigma(
     'users', 
     'user',
     new UserColumnRenderer(),
-    new UserRowRenderer(& $admin)
+    new UserRowRenderer($auth->getAdmin())
 );
 $clist->accept($clistrenderer);
 $tpl->setVariable('new_user','<a href="user.php?groupid='.$id.'"><img src="'.IMAGES_DIR.'/new.png" alt="'._("New User").'" /><br/>'._("New User").'</a>');
+$tpl->setVariable("base",HTML_BASE);
+$tpl->setVariable('theme',HTML_BASE.'/'.THEME_BASE.'/'.THEME_SKIN);
 $tpl->show();
 
 ?>

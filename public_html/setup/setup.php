@@ -153,23 +153,24 @@ $tpl->show();
 function setupHrAdmin($settings = array()) {
 #    global $conf;
 
-    include_once '../hradmin.config.inc';
-    $admin = getLiveUserAdmin($settings);
+    include_once 'Auth.php';
+    $auth = new Auth($settings);
+    $admin = $auth->getAdmin();
     
-    $appid = setupApplication($admin->perm);
+    $appid = setupApplication($auth->getPermAdmin());
     if (PEAR::isError($appid)) {
         die('impossible to initialize: ' . $appid->getMessage());
     }
     $settings['application'] = $appid;
-    $admin->perm->setCurrentApplication($appid);
-    $areaid = setupArea($admin->perm,$appid);
+    $auth->getPermAdmin()->setCurrentApplication($appid);
+    $areaid = setupArea($auth->getPermAdmin(),$appid);
     if (PEAR::isError($areaid)) {
         die('impossible to initialize: ' . $areaid->getMessage());
     }
     $settings['area'] = $areaid;
-    $settings = setupRights($admin->perm,$areaid,$settings);
-    $settings['groups']['users'] = setupGroup($admin->perm,'USERS');
-    $settings['groups']['admins'] = setupGroup($admin->perm,'ADMINS');
+    $settings = setupRights($auth->getPermAdmin(),$areaid,$settings);
+    $settings['groups']['users'] = setupGroup($auth->getPermAdmin(),'USERS');
+    $settings['groups']['admins'] = setupGroup($auth->getPermAdmin(),'ADMINS');
     setGroupRights($admin,$settings['groups']['users'],array(@$settings['rights']['login']=>3));
     setGroupRights($admin,$settings['groups']['admins'],array(@$settings['rights']['system']=>3,@$settings['rights']['login']=>3));
     return $settings;

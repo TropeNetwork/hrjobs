@@ -23,7 +23,7 @@ $group_id = HttpParameter::getParameter('groupid');
 
 
 if (isset($auth_user_id)) {
-    $user = $admin->getUsers('perm',array('auth_user_id' => $auth_user_id));
+    $user = $auth->getAdmin()->getUsers('perm',array('auth_user_id' => $auth_user_id));
     $user = $user[0];
 } else {
     $user = array();
@@ -110,61 +110,51 @@ if ($form->validate()) {
      
     if ($form->exportValue('save')) {
         if (isset($auth_user_id)) {
-            $pass = null;
-            if ($form->exportValue("password")!='') {
-                $pass = $form->exportValue("password");
-            }            
-            $admin->updateUser(
-                $auth_user_id,
-                $form->exportValue('login'), 
-                $pass, 
-                array(
-                    'is_active'  => $form->exportValue("active"),
-                ),
-                array(
-                    'name'  => $form->exportValue("name"),
-                    'email' => $form->exportValue("email"),
-                ),
-                null,
-                null
+            $data = array(
+                'handle'        => $form->exportValue('login'),
+                'is_active'     => $form->exportValue("active"),
+                'name'          => $form->exportValue("name"),
+                'email'         => $form->exportValue("email"),
             );
+            if ($form->exportValue("password")!='') {
+                $data = array_merge($data, array(
+                    'passwd' => $form->exportValue("password")
+                ));
+            }
+            $perm_user_id = getPermUserId($auth_user_id);
+            $auth->getAdmin()->updateUser($perm_user_id,$data);
             
             $group_id = $form->getSubmitValue("group");
             if (isset($group_id)) {
                 $organization_user->setValue('organization_group_id',$group_id);
             }
-            $admin->perm->addUserToGroup(array('perm_user_id'=>getPermUserId($auth_user_id),'group_id'=>HRADMIN_GROUP_USERS));
+            $auth->getPermAdmin()->addUserToGroup(array('perm_user_id'=>$perm_user_id,'group_id'=>HRADMIN_GROUP_USERS));
             $organization_user->setValue('is_group_admin',$form->exportValue('admin'));
             
             $organization_user->save();
             header("Location: users.php");
             exit;
         } else {
-            $perm_id = $admin->addUser(
-                $form->exportValue('login'),
-                $form->exportValue("password"), 
-                array(
-                    'is_active'  => $form->exportValue("active"),
-                ),
-                array(
-                    'name'  => $form->exportValue("name"),
-                    'email' => $form->exportValue("email")
-                ),
-                null,
-                null
+            $data = array(
+                'handle'        => $form->exportValue('login'),
+                'is_active'     => $form->exportValue("active"),
+                'name'          => $form->exportValue("name"),
+                'email'         => $form->exportValue("email"),
+                'passwd'        => $form->exportValue("password")
             );
-            if (DB::isError($auth_user_id)) {
-                print_r($auth_user_id);
-                unset($auth_user_id);
+            $perm_user_id = $auth->getAdmin()->addUser($data);
+            if (DB::isError($perm_user_id)) {
+                print_r($perm_user_id);
+                unset($perm_user_id);
                 exit;                
             }
             $group_id = $form->getSubmitValue("group");
             if (isset($group_id)) {
                 $org_group = new OrgGroup($group_id);
             }
-            $auth_user_id = getAuthUserId($perm_id);
+            $auth_user_id = getAuthUserId($perm_user_id);
             $org_group->addUser($auth_user_id);
-            $admin->perm->addUserToGroup(array('perm_user_id'=>$perm_id,'group_id'=>HRADMIN_GROUP_USERS));
+            $auth->getPermAdmin()->addUserToGroup(array('perm_user_id'=>$perm_user_id,'group_id'=>HRADMIN_GROUP_USERS));
             $organization_user = new OrgUser($auth_user_id);
             $organization_user->setValue('is_group_admin',$form->exportValue('admin'));
             $organization_user->save();
@@ -175,7 +165,7 @@ if ($form->validate()) {
         }
     } elseif ($form->exportValue('delete')) {
         $org_group->removeUser($auth_user_id);
-        $admin->removeUser(getPermUserId($auth_user_id));
+        $auth->getAdmin()->removeUser(getPermUserId($auth_user_id));
         header("Location: users.php");
         exit;
     }
@@ -196,20 +186,20 @@ if (isset($auth_user_id)) {
 $tpl->show();
 
 function getPermUserId($user_id) {
-    global $admin;
-    $users = $admin->getUsers('perm',array('auth_user_id'=>$user_id));
+    global $auth;
+    $users = $auth->getAdmin()->getUsers('perm',array('auth_user_id'=>$user_id));
     return $users[0]['perm_user_id'];
 }
 
 function getAuthUserId($user_id) {
-    global $admin;
-    $users = $admin->getUsers('perm',array('perm_user_id'=>$user_id));
+    global $auth;
+    $users = $auth->getAdmin()->getUsers('perm',array('perm_user_id'=>$user_id));
     return $users[0]['auth_user_id'];
 }
 
 function notExistsUser($handle) {
-    global $admin;
-    $users = $admin->getUsers('perm');
+    global $auth;
+    $users = $auth->getAdmin()->getUsers('perm');
     foreach ($users as $user) {
         if (!empty($user) && $user['handle']===$handle) {
             return false;

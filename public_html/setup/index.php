@@ -20,18 +20,18 @@ require_once 'PEAR/Registry.php';
 $reg = new PEAR_Registry($pear_path);
 
 $required_packages = array(
-    'PEAR'                  => '1.3.5',
-    'DB'                    => '1.7.6',
-    'Config'                => '1.10.3',
-    'HTML_QuickForm'        => '3.2.4',
-    'HTML_Template_Sigma'   => '1.1.2',
-    'Pager'                 => '2.2.7',
-    'LiveUser'              => '0.15.1',
-    'LiveUser_Admin'        => '0.2.1',
-    'Var_Dump'              => '1.0.2',
-    'Log'                   => '1.8.7',
-    'XML_Tree'              => '2.0.0',  
-    'XML_Util'              => '1.1.1',
+    'PEAR'                  => array('>=', '1.3.5'),
+    'DB'                    => array('>=', '1.7.6'),
+    'Config'                => array('>=', '1.10.3'),
+    'HTML_QuickForm'        => array('>=', '3.2.4'),
+    'HTML_Template_Sigma'   => array('>=', '1.1.2'),
+    'Pager'                 => array('>=', '2.2.7'),
+    'LiveUser'              => array('=', '0.16.0'),
+    'LiveUser_Admin'        => array('=', '0.3.0'),
+    'Var_Dump'              => array('>=', '1.0.2'),
+    'Log'                   => array('>=', '1.8.7'),
+    'XML_Tree'              => array('>=', '2.0.0'),  
+    'XML_Util'              => array('>=', '1.1.1'),
 );
 $required_extentions = array(
     'dom'       => '',
@@ -40,45 +40,68 @@ $required_extentions = array(
 );
 
 echo '<html><head><title>Requirements</title><link rel="stylesheet" href="../skins/default/style.css" /></head><body>';
+echo '<table><tr><td><br>';
 echo '<table class="panel"><tr><td>';
 
 echo '<h1>PHP Requirements</h1>';
 $version_ok = phpversion()>= '5.0.0';
 $ok = $version_ok;
-echo '<h2>PHP version is <font color="'.($version_ok?'green':'red').'">'.phpversion().($version_ok?' OK':' Failed').'</font> (required is 5.0.0)</h2>';
+echo '<h2>PHP version is '.phpversion().' (required is 5.0.0)</h2>';
+echo '<table><tr><td><div class="'.($version_ok?'ok':'error').'">'.($version_ok?' OK':' Failed').'</div></td></tr></table>';
 echo '<table><tr><th>Extention</th><th>Result</th></tr>';
 foreach ($required_extentions as $extention => $version) {
     echo '<tr><td>'.$extention.'</td>';
     if (!extension_loaded($extention)) {
-        echo '<td><font color="red">Failed</font></td>';
+        echo '<td><div class="error">Failed</div></td>';
         $ok = false;
         continue;        
     }
-    echo '<td><font color="green">OK</font></td>';
+    echo '<td><div class="ok">OK</div></td>';
 }
 echo '</table><br>';
 
 echo '<h1>PEAR Requirements</h1>';
+echo '<p>PEAR_INSTALL_DIR='.$pear_path.'</p>';
 echo '<table><tr><th>Package</th><th>Required version</th><th>Installed version</th><th>Result</th></tr>';
-foreach ($required_packages as $package => $version) {
-    echo '<tr><td>'.$package.'</td><td>'.$version.'</td><td>';
+foreach ($required_packages as $package => $requirement) {
+    $op = $requirement[0];
+    $version = $requirement[1];
+    echo '<tr><td>'.$package.'</td><td>'.$op.$version.'</td><td>';
     if (!$reg->packageExists($package)) {
-        echo 'Not installed!</td><td><font color="red">Failed</font></td>';
+        echo 'Not installed!</td><td><div class="error">Failed</div></td>';
         $ok = false;
         continue;
     }
     $info = $reg->packageInfo($package);
-    if ($info['version']<$version) {
-        echo $info['version'].'</td><td><font color="red">Failed</font></td>';
-        $ok = false;
-        continue;
-    }
-    echo $info['version'].'</td><td><font color="green">OK</font></td>';
+    
+    switch ($op) {
+		case '=':
+			if ($info['version']!=$version) {
+                echo $info['version'].'</td><td><div class="error">Failed</div></td>';
+                $ok = false;
+                continue;
+            } else {
+                echo $info['version'].'</td><td><div class="ok">OK</div></td>';
+            }
+            break;
+    	case '>=':
+            if ($info['version']<$version) {
+                echo $info['version'].'</td><td><div class="error">Failed</div></td>';
+                $ok = false;
+            } else {
+                echo $info['version'].'</td><td><div class="ok">OK</div></td>';
+            }
+            break;
+		default:
+			break;
+	}
+        
 }
 echo '</table><br>';
 echo '<form action="setup.php" method="get">';
 echo '<input type="submit" value="Continue" '.($ok?'':'disabled="1" ').'/>';
 echo '</form>';
+echo '</td></tr></table>';
 echo '</td></tr></table>';
 echo '</body>';
 ?>

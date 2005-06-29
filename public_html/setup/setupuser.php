@@ -7,8 +7,9 @@ require_once 'HTML/QuickForm.php';
 require_once 'HTML/QuickForm/Renderer/ITStatic.php';
 
 require_once 'OrgUser.php';
-require_once '../hradmin.config.inc';
-$admin = getLiveUserAdmin($settings);
+require_once 'Auth.php';
+$auth = new Auth($settings);
+$admin = $auth->getAdmin();
 
 $lu_dsn = array('dsn' => DSN );
 define('HRADMIN_APP',@$settings['application']);
@@ -53,16 +54,20 @@ $form = new HTML_QuickForm('setup','POST');
 $form->addElement('text','admin', _("New User"),
             array('maxlength'=>'30',
                   'size'=>'20',
-                  'class'=>'formFieldLong'));
+                  'class'=>'formFieldLong',
+                  'tabindex'=>0 ));
 $form->addElement('password', 'password', _("Password"),
             array('maxlength'=>'10',
-                  'class'=>'formFieldLong'));
+                  'class'=>'formFieldLong',
+                  'tabindex'=>1 ));
                   
 $form->addElement('password', 'password2', _("Repeat"),
             array('maxlength'=>'10',
-                  'class'=>'formFieldLong'));
-$form->addElement('submit','back',_("Back"));
-$form->addElement('submit','save',_("Finish"));
+                  'class'=>'formFieldLong',
+                  'tabindex'=>2 ));
+$form->addElement('submit','save',_("Finish"),array('tabindex'=>3));
+$form->addElement('submit','back',_("Back"),array('tabindex'=>4));
+
 
 $defaults = array(
     'admin' => 'admin'
@@ -81,19 +86,14 @@ if ($form->validate()) {
         $new = notExistsUser($form->exportValue('admin'));
         $auth_id = 0;
         if ($new) {
-            $perm_id = $admin->addUser(
-                $form->exportValue('admin'),
-                $form->exportValue("password"), 
-                array(
-                    'is_active'  => $form->exportValue("active"),
-                ),
-                array(
-                    'name'  => "admin",
-                    'email' => "admin@example.com"
-                ),
-                null,
-                null 
+            $data = array(
+                'handle'        => $form->exportValue('admin'),
+                'is_active'     => true,
+                'name'          => "admin",
+                'email'         => "admin@example.com",
+                'passwd'        => $form->exportValue("password")
             );
+            $perm_id = $admin->addUser($data);
             if (DB::isError($perm_id)) {
                 print_r($perm_id);
                 unset($perm_id);
@@ -104,14 +104,14 @@ if ($form->validate()) {
             $user = getUser($form->exportValue('admin'));
             $auth_id = $user['auth_user_id'];  
             $perm_id = $user['perm_user_id'];
+            $data = array(
+                'handle'        => $form->exportValue('admin'),
+                'is_active'     => true,
+                'passwd'        => $form->exportValue("password")
+            );
             $admin->updateUser(
                 $perm_id, 
-                $form->exportValue('admin'), 
-                $form->exportValue('password'),
-                array(
-                    'is_active' => true
-                ), 
-                null);          
+                $data);          
         }
         $res = $admin->perm->addUserToGroup(array('perm_user_id'=>$perm_id,'group_id'=>@$settings['groups']['users']));
         if (PEAR::isError($res)) {
