@@ -18,7 +18,7 @@
  *
  *   Author: Gerrit Goetsch <goetsch@cross-solution.de>
  *   
- *   $Id: Auth.php,v 1.1 2005/06/29 11:22:29 goetsch Exp $
+ *   $Id: LiveUserConfiguration.php,v 1.1 2005/07/01 08:32:46 goetsch Exp $
  */
 
 require_once 'DB.php';

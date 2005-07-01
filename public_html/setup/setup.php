@@ -153,7 +153,7 @@ $tpl->show();
 function setupHrAdmin($settings = array()) {
 #    global $conf;
 
-    include_once 'Auth.php';
+    include_once 'LiveUserConfiguration.php';
     $auth = new Auth($settings);
     $admin = $auth->getAdmin();
     
@@ -180,16 +180,24 @@ function setupGroup($adminPerm,$group_name) {
     $groups = $adminPerm->getGroups(array(
         'with_rights'=>true,
         'fields'     => array(
-            "group_define_name", 
-            "description", 
-            "name", 
-            "group_id"
+            'group_define_name', 
+            'description', 
+            'name', 
+            'group_id',
+            'is_active'
          )
     ));
 
     if (is_array($groups)) {
         foreach($groups as $group) {
-            if ($group['group_define_name']==$group_name) {
+            if ($group['group_define_name']===$group_name) {
+                if ($group['is_active']!=='1') {
+                    $data   = array(                        
+                        'is_active'         => true,
+                    ); 
+                    $filter = array('group_define_name'=>$group_name);
+                    $adminPerm->updateGroup($data,$filter);                    
+                }
                 return $group['group_id'];
             }
         }
@@ -197,7 +205,7 @@ function setupGroup($adminPerm,$group_name) {
     
     $data   = array(
        'group_define_name' => $group_name,
-       'is_active'         => 'Y',
+       'is_active'         => true,
     );  
     $group_id = $adminPerm->addGroup($data);
         

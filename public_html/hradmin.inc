@@ -1,7 +1,7 @@
 <?php
 
 error_reporting(E_ALL);
-require_once 'Auth.php';
+require_once 'LiveUserConfiguration.php';
 require_once 'Var_Dump.php';
 require_once 'HTML/Template/Sigma.php';
 

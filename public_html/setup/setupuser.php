@@ -7,7 +7,7 @@ require_once 'HTML/QuickForm.php';
 require_once 'HTML/QuickForm/Renderer/ITStatic.php';
 
 require_once 'OrgUser.php';
-require_once 'Auth.php';
+require_once 'LiveUserConfiguration.php';
 $auth = new Auth($settings);
 $admin = $auth->getAdmin();
 
