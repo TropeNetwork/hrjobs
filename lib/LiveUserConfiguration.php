@@ -18,14 +18,14 @@
  *
  *   Author: Gerrit Goetsch <goetsch@cross-solution.de>
  *   
- *   $Id: LiveUserConfiguration.php,v 1.1 2005/07/01 08:32:46 goetsch Exp $
+ *   $Id: LiveUserConfiguration.php,v 1.2 2005/07/01 08:42:27 goetsch Exp $
  */
 
 require_once 'DB.php';
 require_once 'LiveUser.php';
 require_once 'LiveUser/Admin.php';
 
-class Auth {
+class LiveUserConfiguration {
     
     private $admin = null;
     private $permAdmin = null;

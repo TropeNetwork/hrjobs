@@ -8,8 +8,8 @@ require_once 'HTML/QuickForm/Renderer/ITStatic.php';
 
 require_once 'OrgUser.php';
 require_once 'LiveUserConfiguration.php';
-$auth = new Auth($settings);
-$admin = $auth->getAdmin();
+$luConfig = new LiveUserConfiguration($settings);
+$admin = $luConfig->getAdmin();
 
 $lu_dsn = array('dsn' => DSN );
 define('HRADMIN_APP',@$settings['application']);

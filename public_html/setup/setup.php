@@ -154,23 +154,23 @@ function setupHrAdmin($settings = array()) {
 #    global $conf;
 
     include_once 'LiveUserConfiguration.php';
-    $auth = new Auth($settings);
-    $admin = $auth->getAdmin();
+    $luConfig = new LiveUserConfiguration($settings);
+    $admin = $luConfig->getAdmin();
     
-    $appid = setupApplication($auth->getPermAdmin());
+    $appid = setupApplication($luConfig->getPermAdmin());
     if (PEAR::isError($appid)) {
         die('impossible to initialize: ' . $appid->getMessage());
     }
     $settings['application'] = $appid;
-    $auth->getPermAdmin()->setCurrentApplication($appid);
-    $areaid = setupArea($auth->getPermAdmin(),$appid);
+    $luConfig->getPermAdmin()->setCurrentApplication($appid);
+    $areaid = setupArea($luConfig->getPermAdmin(),$appid);
     if (PEAR::isError($areaid)) {
         die('impossible to initialize: ' . $areaid->getMessage());
     }
     $settings['area'] = $areaid;
-    $settings = setupRights($auth->getPermAdmin(),$areaid,$settings);
-    $settings['groups']['users'] = setupGroup($auth->getPermAdmin(),'USERS');
-    $settings['groups']['admins'] = setupGroup($auth->getPermAdmin(),'ADMINS');
+    $settings = setupRights($luConfig->getPermAdmin(),$areaid,$settings);
+    $settings['groups']['users'] = setupGroup($luConfig->getPermAdmin(),'USERS');
+    $settings['groups']['admins'] = setupGroup($luConfig->getPermAdmin(),'ADMINS');
     setGroupRights($admin,$settings['groups']['users'],array(@$settings['rights']['login']=>3));
     setGroupRights($admin,$settings['groups']['admins'],array(@$settings['rights']['system']=>3,@$settings['rights']['login']=>3));
     return $settings;

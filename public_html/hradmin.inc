@@ -11,12 +11,12 @@ define('HRADMIN_AREA',$settings['area']);
 define('HRADMIN_GROUP_USERS',$settings['groups']['users']);
 define('HRADMIN_GROUP_ADMINS',$settings['groups']['admins']);
 
-$auth = new Auth($settings);
+$luConfig = new LiveUserConfiguration($settings);
 
-$usr  = $auth->getLiveUser();
+$usr  = $luConfig->getLiveUser();
 
 // define the right constants
-$auth->getPermAdmin()->outputRightsConstants('constant',array(
+$luConfig->getPermAdmin()->outputRightsConstants('constant',array(
     'prefix'       =>'HRJOBS_RIGHT',
     'area'         => HRADMIN_AREA,
     'application'  => HRADMIN_APP

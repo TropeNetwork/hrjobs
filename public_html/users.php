@@ -28,7 +28,7 @@ $listrenderer = new DBTableList_Renderer_Sigma(
     'contentmain', 
     'user',
     new UserColumnRenderer(),
-    new UserRowRenderer($auth->getAdmin())
+    new UserRowRenderer($luConfig->getAdmin())
 );
 $list->accept($listrenderer);
 $tpl->setVariable('new_user','<a href="user.php"><img src="'.IMAGES_DIR.'/new.png" alt="'._("New User").'" /><br/>'._("New User").'</a>');

@@ -95,7 +95,7 @@ $clistrenderer = new DBTableList_Renderer_Sigma(
     'users', 
     'user',
     new UserColumnRenderer(),
-    new UserRowRenderer($auth->getAdmin())
+    new UserRowRenderer($luConfig->getAdmin())
 );
 $clist->accept($clistrenderer);
 $tpl->setVariable('new_user','<a href="user.php?groupid='.$id.'"><img src="'.IMAGES_DIR.'/new.png" alt="'._("New User").'" /><br/>'._("New User").'</a>');
