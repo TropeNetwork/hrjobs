@@ -17,17 +17,15 @@
 <h1>{title}</h1>
 {errors}
 <form {setup_attributes}>
+    <h2>Html</h2>
 	<table>
-	<tr>
-		<th colspan="2">Html</th>
-	</tr>	
 	<tr>
 		<th>{setup_base_label}</th>
 		<td>{setup_base_html}</td>
 	</tr>
-	<tr>
-		<th colspan="2">Theme</th>
-	</tr>
+    </table>
+    <h2>Theme</h2>
+    <table>
 	<tr>
 		<th>{setup_theme_label}</th>
 		<td>{setup_theme_html}</td>
@@ -36,9 +34,9 @@
 		<th>{setup_skin_label}</th>
 		<td>{setup_skin_html}</td>
 	</tr>
-	<tr>
-		<th colspan="2">Database</th>
-	</tr>
+    </table>
+    <h2>Database</h2>
+    <table>
     <tr>
         <th>{setup_db_type_label}</th>
         <td>{setup_db_type_html}</td>
@@ -65,10 +63,10 @@
 	  		{setup_db_check_html}&nbsp;{setup_db_create_html}
 	  	</td>
 	</tr>
-	<tr>
-		<td colspan="2">{setup_save_html}</td>
-	</tr>
-	</table>
+    </table>
+    <br>
+	{setup_save_html}
+	
 </form>
 
 </td>

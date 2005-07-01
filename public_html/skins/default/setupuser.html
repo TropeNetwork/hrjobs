@@ -17,10 +17,9 @@
 <h1>{title}</h1>
 {errors}
 <form {setup_attributes}>
-	<table>
-	<tr>
-		<th colspan="2">Systemadministrator</th>
-	</tr>	
+
+    <h2>Systemadministrator</h2>
+    <table>
 	<tr>
 		<th>{setup_admin_label}</th>
 		<td>{setup_admin_html}</td>
@@ -33,10 +32,9 @@
 		<th>{setup_password2_label}</th>
 		<td>{setup_password2_html}</td>
 	</tr>
-	<tr>
-		<td colspan="2">{setup_back_html}&nbsp;{setup_save_html}</td>
-	</tr>
-	</table>
+    </table>
+    <br>
+	{setup_back_html}&nbsp;{setup_save_html}
 </form>
 
 </td>

@@ -147,7 +147,7 @@ $renderer->setRequiredTemplate('{label}<font color="red" size="1"> *</font>');
 $renderer->setErrorTemplate('<font color="orange" size="1">{error}</font><br/>{html}');
 $form->accept($renderer);
 
-$tpl->setVariable('title',"Setup");
+$tpl->setVariable('title',"Setup Step 2 of 3");
 $tpl->show();
 
 function setupHrAdmin($settings = array()) {

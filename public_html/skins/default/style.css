@@ -17,11 +17,17 @@ h1{
 h2{
   font: bold 14px arial;
   color: black;
-  border: solid 1px rgb(124,192,255);
-  padding: 4px;
-  background-color: #D8E7F5;
-  
+  border-bottom: solid 2px rgb(124,192,255);
+  padding: 2px;
 }
+
+h3{
+  font: bold 12px Arial;
+  color: black;
+  padding: 1px;
+  margin:0px;
+}
+
 table {
   font: 13px arial;
 }
