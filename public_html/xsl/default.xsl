@@ -10,6 +10,7 @@
 		<xsl:variable name="job_title" select="JobPositionPosting/JobPositionInformation/JobPositionTitle"/>
 		<xsl:variable name="job_description" select="JobPositionPosting/JobPositionInformation/JobPositionDescription/SummaryText"/>
 		<xsl:variable name="job_requirements" select="JobPositionPosting/JobPositionInformation/JobPositionRequirements/SummaryText"/>
+		<xsl:variable name="job_date" select="JobPositionPosting/PostDetail/StartDate"/>
 		
 		<xsl:variable name="address" select="JobPositionPosting/HiringOrg/Contact/PostalAddress/DeliveryAddress/AddressLine"/>
 		<xsl:variable name="street" select="JobPositionPosting/HiringOrg/Contact/PostalAddress/DeliveryAddress/StreetName"/>
@@ -100,6 +101,14 @@
 												<xsl:value-of select="$postal_code"/><xsl:text> </xsl:text>
 												<xsl:value-of select="$region"/><br/>
 												<xsl:value-of select="$country_code"/><br/>												
+											</td>
+										</tr>
+										<tr>
+											<th>Datum</th>
+											<td>
+												<xsl:if test="$job_date">
+													<xsl:value-of select="$job_date"/><br/>
+												</xsl:if>
 											</td>
 										</tr>
 									</tbody>
