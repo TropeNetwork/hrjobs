@@ -42,25 +42,47 @@ $required_extentions = array(
 echo '<html><head><title>Requirements</title><link rel="stylesheet" href="../skins/default/style.css" /></head><body>';
 echo '<table><tr><td><br>';
 echo '<table class="panel"><tr><td>';
+echo '<h1>Setup Step 1 of 3</h1>';
+// checking file permissions
+echo '<h2>File Permistions</h2>';
+$writeablefiles = array(
+    '../../config/config.xml',
+    '../logos',
+);
+echo '<table><tr><th>File/Directory</th><th>Result</th></tr>';
+foreach ($writeablefiles as $file) {
+    $file = realpath($file);
+    echo '<tr><td>'.$file.'</td>';
+    if (!is_writeable($file)) {
+        echo '<td><div class="error">Failed</div></td></tr>';
+        $ok = false;
+    } else {
+        echo '<td><div class="ok">OK</div></td><tr>';
+    }
+}
+echo '</table><br>';
 
-echo '<h1>PHP Requirements</h1>';
+echo '<h2>PHP Requirements</h2>';
 $version_ok = phpversion()>= '5.0.0';
-$ok = $version_ok;
-echo '<h2>PHP version is '.phpversion().' (required is 5.0.0)</h2>';
+if (!$version_ok) {
+    $ok = false;
+}
+echo '<h3>PHP version is '.phpversion().' (required is 5.0.0)</h3>';
 echo '<table><tr><td><div class="'.($version_ok?'ok':'error').'">'.($version_ok?' OK':' Failed').'</div></td></tr></table>';
+echo '<h3>PHP Extentions</h3>';
 echo '<table><tr><th>Extention</th><th>Result</th></tr>';
 foreach ($required_extentions as $extention => $version) {
     echo '<tr><td>'.$extention.'</td>';
     if (!extension_loaded($extention)) {
-        echo '<td><div class="error">Failed</div></td>';
+        echo '<td><div class="error">Failed</div></td></tr>';
         $ok = false;
         continue;        
     }
-    echo '<td><div class="ok">OK</div></td>';
+    echo '<td><div class="ok">OK</div></td></tr>';
 }
 echo '</table><br>';
 
-echo '<h1>PEAR Requirements</h1>';
+echo '<h2>PEAR Requirements</h2>';
 echo '<p>PEAR_INSTALL_DIR='.$pear_path.'</p>';
 echo '<table><tr><th>Package</th><th>Required version</th><th>Installed version</th><th>Result</th></tr>';
 foreach ($required_packages as $package => $requirement) {
