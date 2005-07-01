@@ -134,7 +134,8 @@ if ($form->validate()) {
     
     $org->save();
     if ($file->isUploadedFile()) {
-        $path = $_SERVER['DOCUMENT_ROOT'].'/logos/'.$org->getValue('org_id');
+        
+        $path = realpath('logos').'/'.$org->getValue('org_id');
         if (!file_exists($path)) {
             mkdir($path,0777);
         }
