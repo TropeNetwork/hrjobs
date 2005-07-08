@@ -20,7 +20,7 @@ $initialized = $settings['setup']['initialized'];
 
 $tpl =& new HTML_Template_Sigma('../skins/default/');
 if ($initialized) {
-    include_once '../hradmin.config.inc';
+    include_once '../hradmin.inc';
     if (!$usr->isLoggedIn()) {
         $tpl->loadTemplateFile('login.html');
         $tpl->setVariable('base',HTML_BASE);
