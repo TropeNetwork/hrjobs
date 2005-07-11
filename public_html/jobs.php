@@ -3,6 +3,8 @@
 include_once 'skin.inc';
 require_once 'DBTableList.php';
 require_once 'DBTableList/Renderer/Sigma.php';
+require_once 'HTML/QuickForm.php';
+require_once 'HTML/QuickForm/Renderer/ITStatic.php';
 require_once 'Database.php';
 require_once 'HiringOrg.php';
 require_once 'JobPosition.php';
@@ -54,6 +56,15 @@ class JobRowRenderer implements DBTableList_Renderer_Sigma_RowRenderer {
 $templates = HttpParameter::getParameter('templates');
 $org_usr = new OrgUser($usr->getProperty('authUserId'));
 
+$form = new HTML_QuickForm('search','POST');
+$form->setRequiredNote("<font color=\"red\" size=\"1\"> *</font><font size=\"1\"> "._("Required")."</font>");
+$form->addElement('text','search', _("Search"),
+            array('maxlength'=>'100',
+                              'size'=>'40',
+                              'class'=>'formFieldLong'));
+$form->addElement('submit','submit',_("Search"));
+                              
+
 $list = new DBTableList(DSN, 10,'job');
 $list->setTable('job_posting, organization org');
 $list->setColumns(array (
@@ -72,11 +83,23 @@ if (!checkRights(HRJOBS_RIGHT_SYSTEM)) {
 } else {
     $where = "job_posting.organization_org_id=org.org_id AND ";
 }
+
+if ($form->validate()) {
+    $where .= " (job_title like '%".addslashes($form->exportValue('search'))."%' or job_id='".addslashes($form->exportValue('search'))."') AND ";
+}
+
 if ($templates) {
     $list->where($where."job_status!='".JobPositionPosting::STATUS_DELETED."' and is_template=1");
 } else {
     $list->where($where."job_status!='".JobPositionPosting::STATUS_DELETED."' and is_template=0");
 }
+
+$renderer =& new HTML_QuickForm_Renderer_ITStatic($tpl);
+$renderer->setRequiredTemplate('{label}<font color="red" size="1"> *</font>');
+$renderer->setErrorTemplate('');
+$tpl->addBlockfile('contentmain','form', 'jobs.html');
+$form->accept($renderer);
+
 
 $listrenderer = new DBTableList_Renderer_Sigma(
     & $tpl, 

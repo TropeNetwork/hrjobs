@@ -41,6 +41,10 @@ $form->addElement('text','job_title', _("Job Titel"),
             array('maxlength'=>'100',
                   'size'=>'40',
                   'class'=>'formFieldLong'));
+$form->addElement('text','job_reference', _("Job Reference"),
+            array('maxlength'=>'30',
+                  'size'=>'40',
+                  'class'=>'formFieldLong'));
 $form->addElement('textarea','job_description', _("Description"),
             array('rows'=>'10',
                   'cols'=>'70',
@@ -140,6 +144,7 @@ $professions = $job->getProfessions();
 $locations = $job->getLocations();
 $defaults = array(
     'job_title'             => $job->getValue('job_title'),
+    'job_reference'         => $job->getValue('job_reference'),
     'organization_org_id'   => $job->getValue('organization_org_id'),
     'start_date'            => $start,
     'end_date'              => $end,
@@ -165,6 +170,7 @@ if ($form->validate()) {
     $job->setValue('job_title',             $form->exportValue('job_title'));
     $job->setValue('job_description',       $form->exportValue('job_description'));
     $job->setValue('job_requirements',      $form->exportValue('job_requirements'));
+    $job->setValue('job_reference',         $form->exportValue('job_reference'));
     $job->setValue('start_date',            Date::sqlDate($form->exportValue('start_date')));
     $job->setValue('end_date',              Date::sqlDate($form->exportValue('end_date')));
     $job->setValue('organization_org_id',   $form->exportValue('organization_org_id'));
