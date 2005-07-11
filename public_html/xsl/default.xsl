@@ -8,6 +8,7 @@
 		<xsl:variable name="org_id" select="JobPositionPosting/HiringOrg/HiringOrgId"/>
 		<xsl:variable name="org_unit_desc" select="JobPositionPosting/HiringOrg/OrganizationalUnit/Description"/>
 		<xsl:variable name="job_title" select="JobPositionPosting/JobPositionInformation/JobPositionTitle"/>
+		<xsl:variable name="job_id" select="JobPositionPosting/JobPositionPostingId"/>
 		<xsl:variable name="job_description" select="JobPositionPosting/JobPositionInformation/JobPositionDescription/SummaryText"/>
 		<xsl:variable name="job_requirements" select="JobPositionPosting/JobPositionInformation/JobPositionRequirements/SummaryText"/>
 		<xsl:variable name="job_date" select="JobPositionPosting/PostDetail/StartDate"/>
@@ -61,6 +62,7 @@
 											<th>Wir suchen:</th>
 											<td>
 												<xsl:value-of select="$job_title"/>
+												(<xsl:value-of select="$job_id"/>)
 											</td>
 										</tr>
 										<tr>
