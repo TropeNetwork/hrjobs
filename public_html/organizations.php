@@ -9,10 +9,11 @@ require_once 'OrgUser.php';
 $org_usr = new OrgUser($usr->getProperty('authUserId'));
 
 $list = new DBTableList(DSN, 10,'org');
-$list->setTable('organization');
-$list->setColumns(array ('org_id'   => _("Id"),
-                         'org_name' => _("Name"),
-                         'website'  => _("Website")));
+$list->setTable('organization left join organization_group on organization.organization_group_id=organization_group.group_id');
+$list->setColumns(array ('organization.org_id AS org_id' => _("Id"),
+                         'group_name'                    => _("Group"),
+                         'org_name'                      => _("Name"),
+                         'website'                       => _("Website")));
 $list->orderby('org_name');
 if (!checkRights(HRJOBS_RIGHT_SYSTEM)) {
     $list->where('organization_group_id='.$org_usr->getGroupId());

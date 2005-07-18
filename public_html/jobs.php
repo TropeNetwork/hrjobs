@@ -68,7 +68,8 @@ $form->addElement('submit','submit',_("Search"));
 $list = new DBTableList(DSN, 10,'job');
 $list->setTable('job_posting, organization org');
 $list->setColumns(array (
-    'job_id'                => _("Job Id."),
+    'job_id'                => _("JobID"),
+    'job_reference'         => _("Reference"),
     'organization_org_id'   => _("Organization"),
     'job_title'             => _("Titel"),
     'start_date'            => _("Start"),
@@ -85,7 +86,10 @@ if (!checkRights(HRJOBS_RIGHT_SYSTEM)) {
 }
 
 if ($form->validate()) {
-    $where .= " (job_title like '%".addslashes($form->exportValue('search'))."%' or job_id='".addslashes($form->exportValue('search'))."') AND ";
+    $where .= " (job_title like '%".addslashes($form->exportValue('search'))."%' 
+                OR job_id='".addslashes($form->exportValue('search'))."'
+                OR job_reference LIKE '%".addslashes($form->exportValue('search'))."%') 
+                AND ";
 }
 
 if ($templates) {

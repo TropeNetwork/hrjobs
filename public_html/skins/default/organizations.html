@@ -1,6 +1,6 @@
 <table class="list">
 <tr>
-  <th>{th_org_name}</th><th>{th_website}</th>
+  <th>{th_org_name}</th><th>{th_website}</th><th>{th_group_name}</td>
 </tr>
 <!-- BEGIN added_org -->
 <tr onmouseover="this.style.backgroundColor='lightyellow'" onmouseout="this.style.backgroundColor=''">
@@ -8,13 +8,15 @@
   	<img src="{theme}/images/edit.png" alt="func_gettext("Edit")" />
   	{org_name}
   </a></td>
+
   <td class="list"><a title="func_gettext("Website")" href="{website}" target="_blank">
     <img src="{theme}/images/globe1.png" alt="func_gettext("Website")" />
   	{website}
   </a></td>
+  <td class="list">{group_name}</td>
 </tr>
 <!-- END added_org -->
 <tr>
-  <th colspan="2"><center>{org_pages}</center></th>
+  <th colspan="3"><center>{org_pages}</center></th>
 </tr>
 </table>

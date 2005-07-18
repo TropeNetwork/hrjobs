@@ -36,6 +36,7 @@ table.list {
   font: 13px arial;
   border-spacing: 0px;
   border-collapse: collapse;
+  width: 100%;
 }
 td {
   vertical-align:top;

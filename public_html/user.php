@@ -30,7 +30,7 @@ if (isset($auth_user_id)) {
 }
         
 $form = new HTML_QuickForm('user','POST');
-$form->setRequiredNote("<font color=\"red\" size=\"1\"> *</font><font size=\"1\"> Pflichtfelder</font>");
+$form->setRequiredNote("<font color=\"red\" size=\"1\"> *</font><font size=\"1\"> "._("required fields")."</font>");
 
 if (checkRights(HRJOBS_RIGHT_SYSTEM)) {
     $select_group = getGroups();

@@ -13,8 +13,7 @@ $id = HttpParameter::getParameter('id');
 $cid = HttpParameter::getParameter('cid');
 
 $org_usr = new OrgUser($usr->getProperty('authUserId'));
-if (isset($id) && !$org_usr->hasRightOnOrganization($id) 
-  && !checkRights(HRJOBS_RIGHT_SYSTEM)) {
+if (isset($id) && !$org_usr->hasRightOnOrganization($id)  && !$org_usr->getValue('is_group_admin')) {
     header("Location: noright.php");
     exit;
 }
