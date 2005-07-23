@@ -46,10 +46,14 @@ class JobPositionPosting
             $this->values['job_id'] = $id;
             $fields = '';
             $values = '';
+            if (!isset($this->values['job_reference']) or empty($this->values['job_reference'])){
+              $this->values['job_reference']=$this->values['job_id'];
+            }
             foreach($this->values as $field=>$value){
                 $fields .= $field.', ';
                 $values .= "'".addslashes($value)."', ";
             }
+
             $fields = substr($fields,0,strlen($fields)-2);
             $values = substr($values,0,strlen($values)-2);
             $query="INSERT INTO job_posting 
@@ -58,6 +62,9 @@ class JobPositionPosting
             $db->query($query);            
             $return="added";
         }else{
+            if (!isset($this->values['job_reference']) or empty($this->values['job_reference'])){
+              $this->values['job_reference']=$this->values['job_id'];
+            }
             foreach($this->values as $key=>$val){
                 $query="UPDATE job_posting SET $key='".addslashes($val)."' 
                              WHERE job_id=".$this->values['job_id'];

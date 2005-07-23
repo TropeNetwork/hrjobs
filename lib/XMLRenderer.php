@@ -17,7 +17,7 @@ class XMLRenderer {
                 
         $dom_postid = $dom_tree->createElement('JobPositionPostingId');
         $dom_root->appendChild($dom_postid);
-        $dom_postid->appendChild($dom_tree->createTextNode($job->getValue('job_id')));
+        $dom_postid->appendChild($dom_tree->createTextNode($job->getValue('job_reference')));
         $dom_postid->appendChild($dom_tree->createAttribute('idOwner'))->appendChild($dom_tree->createTextNode($horg->getValue('org_id')));
         
         $dom_org = $dom_tree->createElement('HiringOrg');
