@@ -1,9 +1,13 @@
+div.layermenu table{
+        width: 100%;
+}
 .horbar	{
 	margin-left: 0px; 
 	color: black;
 	background-color: #F1F3F5;
 	border: 1px solid #cccccc;
 	padding: 2px;
+	width: 100%;
 }
 
 .horbaritem	{

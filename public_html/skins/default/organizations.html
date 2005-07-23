@@ -1,6 +1,6 @@
 <table class="list">
 <tr>
-  <th>{th_org_name}</th><th>{th_website}</th><th>{th_group_name}</td>
+ <th>{th_org_name}</th><th>{th_website}</th><th>{th_group_name}</th><th>Export</th>
 </tr>
 <!-- BEGIN added_org -->
 <tr onmouseover="this.style.backgroundColor='lightyellow'" onmouseout="this.style.backgroundColor=''">
@@ -14,9 +14,10 @@
   	{website}
   </a></td>
   <td class="list">{group_name}</td>
+  <td class="list"><a href="export.php?org_id={org_id}"><img src="{theme}/images/multisynk_16x16.png" alt="func_gettext("Export")"/></a></td>
 </tr>
 <!-- END added_org -->
 <tr>
-  <th colspan="3"><center>{org_pages}</center></th>
+  <th colspan="4"><center>{org_pages}</center></th>
 </tr>
 </table>

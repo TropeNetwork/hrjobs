@@ -1,16 +1,11 @@
-<script type="text/javascript" language="javascript" src="javascript/calendar/browserSniffer.js"></script>
-<ul id="tablist">
-<li><a title="func_gettext("Common")"href="#" class="current" onClick="return expandcontent('sc1', this)">func_gettext("OHRwurm")</a></li>
-<li><a title="func_gettext("Common")"href="#" class="current" onClick="return expandcontent('sc2', this)">func_gettext("OHRwurm")</a></li>
-</ul>
 <form {export_attributes}>
-<div id="tabcontentcontainer">
 <!-- BEGIN edit_error_loop -->
 <font color="orange">{edit_error}</font><br />
 <!-- END edit_error_loop -->
 <font color="orange">{error}</font><br />
-<div id="sc1" class="tabcontent">
 
+
+<h1>{org_name}</h1>
 Here you can connect the HRjobs tool to the OHRwurm. All you have to do is
 to request a key at <a
 href="http://ohrwurm.net/soap/index/register.php">http://ohrwurm.net/soap/index/register.php</a>.
@@ -29,12 +24,11 @@ OHRwurm. (look for details in job.php).
   </tr>
   <tr>
     <th>
+      {export_org_id_html}
       {export_request_html}
     </th>
     <td>
     </td>
   </tr>
 </table>
-</div>
-</div>
 </form>
