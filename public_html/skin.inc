@@ -52,6 +52,7 @@ function getMenuString() {
     $menu .= "..|---\n";
     $menu .= "..|"  .gettext("Templates")."|jobs.php?templates=1|".gettext("Templates")."|template.png\n";
     $menu .= ".|"   .gettext("Settings")."|configuration.php|".gettext("Settings")."|configs.png\n";
+    $menu .= "..|"  .gettext("Professions")."|professions.php|".gettext("Professions")."|configs.png\n";
     $menu .= "..|"  .gettext("User Administration")."|users.php|".gettext("User Administration")."|users.png\n";
     $menu .= "..|"  .gettext("Groups")."|groups.php|".gettext("Groups")."|groups.png\n";
     $menu .= "..|---\n";
