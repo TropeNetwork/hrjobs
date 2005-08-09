@@ -1,8 +1,13 @@
 -- MySQL dump 10.9
 --
--- Host: localhost    Database: hrjobs_test
+-- Host: localhost    Database: hrjobs
 -- ------------------------------------------------------
 -- Server version	4.1.9-Debian_2.cross-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE="NO_AUTO_VALUE_ON_ZERO" */;
@@ -28,12 +33,7 @@ CREATE TABLE `contact` (
   `fax_extention` varchar(10) default NULL,
   PRIMARY KEY  (`contact_id`),
   KEY `contact_FKIndex1` (`organization_org_id`)
-);
-
---
--- Dumping data for table `contact`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `industry`
@@ -46,12 +46,7 @@ CREATE TABLE `industry` (
   `name` varchar(80) default NULL,
   PRIMARY KEY  (`industry_id`),
   KEY `industry_FKIndex1` (`parent_industry_id`)
-);
-
---
--- Dumping data for table `industry`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `job_locations`
@@ -64,12 +59,7 @@ CREATE TABLE `job_locations` (
   PRIMARY KEY  (`location_id`,`job_id`),
   KEY `job_posting_has_location_FKIndex1` (`job_id`),
   KEY `job_posting_has_location_FKIndex2` (`location_id`)
-);
-
---
--- Dumping data for table `job_locations`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `job_posting`
@@ -94,12 +84,7 @@ CREATE TABLE `job_posting` (
   PRIMARY KEY  (`job_id`),
   KEY `job_posting_FKIndex1` (`organization_org_id`),
   KEY `job_posting_FKIndex2` (`apply_contact_id`)
-);
-
---
--- Dumping data for table `job_posting`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `job_professions`
@@ -112,12 +97,7 @@ CREATE TABLE `job_professions` (
   PRIMARY KEY  (`profession_id`,`job_id`),
   KEY `job_posting_has_profession_FKIndex1` (`job_id`),
   KEY `job_posting_has_profession_FKIndex2` (`profession_id`)
-);
-
---
--- Dumping data for table `job_professions`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `liveuser_applications`
@@ -129,12 +109,7 @@ CREATE TABLE `liveuser_applications` (
   `application_define_name` char(32) NOT NULL default '',
   KEY `application_id` (`application_id`),
   KEY `application_define_name` (`application_define_name`)
-);
-
---
--- Dumping data for table `liveuser_applications`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `liveuser_area_admin_areas`
@@ -145,12 +120,7 @@ CREATE TABLE `liveuser_area_admin_areas` (
   `area_id` int(11) NOT NULL default '0',
   `perm_user_id` int(11) NOT NULL default '0',
   KEY `area_admin_area_rel` (`area_id`,`perm_user_id`)
-);
-
---
--- Dumping data for table `liveuser_area_admin_areas`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `liveuser_areas`
@@ -163,12 +133,7 @@ CREATE TABLE `liveuser_areas` (
   `area_define_name` char(32) NOT NULL default '',
   KEY `area_id` (`area_id`),
   KEY `area_define_name` (`application_id`,`area_define_name`)
-);
-
---
--- Dumping data for table `liveuser_areas`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `liveuser_group_subgroups`
@@ -179,12 +144,7 @@ CREATE TABLE `liveuser_group_subgroups` (
   `group_id` int(11) NOT NULL default '0',
   `subgroup_id` int(11) NOT NULL default '0',
   KEY `group_subgroup_rel` (`group_id`,`subgroup_id`)
-);
-
---
--- Dumping data for table `liveuser_group_subgroups`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `liveuser_grouprights`
@@ -196,22 +156,7 @@ CREATE TABLE `liveuser_grouprights` (
   `right_id` int(11) NOT NULL default '0',
   `right_level` int(11) NOT NULL default '3',
   KEY `group_right_rel` (`group_id`,`right_id`)
-);
-
---
--- Dumping data for table `liveuser_grouprights`
---
-
-
---
--- Table structure for table `liveuser_grouprights_seq`
---
-
-
---
--- Dumping data for table `liveuser_grouprights_seq`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `liveuser_groups`
@@ -227,11 +172,7 @@ CREATE TABLE `liveuser_groups` (
   `is_active` char(1) NOT NULL default 'Y',
   KEY `group_id` (`group_id`),
   KEY `group_define_name` (`group_define_name`)
-);
-
---
--- Dumping data for table `liveuser_groups`
---
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `liveuser_groupusers`
@@ -242,11 +183,7 @@ CREATE TABLE `liveuser_groupusers` (
   `perm_user_id` int(11) NOT NULL default '0',
   `group_id` int(11) NOT NULL default '0',
   KEY `perm_user_group_rel` (`perm_user_id`,`group_id`)
-);
-
---
--- Dumping data for table `liveuser_groupusers`
---
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `liveuser_perm_users`
@@ -260,11 +197,8 @@ CREATE TABLE `liveuser_perm_users` (
   `auth_container_name` char(32) NOT NULL default '',
   KEY `perm_user_id` (`perm_user_id`),
   KEY `auth_user_container_rel` (`auth_user_id`,`auth_container_name`)
-);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `liveuser_perm_users`
---
 --
 -- Table structure for table `liveuser_right_implied`
 --
@@ -274,12 +208,7 @@ CREATE TABLE `liveuser_right_implied` (
   `right_id` int(11) NOT NULL default '0',
   `implied_right_id` int(11) NOT NULL default '0',
   KEY `right_implied_right_rel` (`right_id`,`implied_right_id`)
-);
-
---
--- Dumping data for table `liveuser_right_implied`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `liveuser_rights`
@@ -293,12 +222,7 @@ CREATE TABLE `liveuser_rights` (
   `has_implied` char(1) NOT NULL default 'Y',
   KEY `right_id` (`right_id`),
   KEY `right_define_name` (`area_id`,`right_define_name`)
-);
-
---
--- Dumping data for table `liveuser_rights`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `liveuser_translations`
@@ -314,12 +238,7 @@ CREATE TABLE `liveuser_translations` (
   `description` char(255) NOT NULL default '',
   KEY `translation_id` (`translation_id`),
   KEY `section_item` (`section_id`,`section_type`,`language_id`)
-);
-
---
--- Dumping data for table `liveuser_translations`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `liveuser_userrights`
@@ -331,12 +250,7 @@ CREATE TABLE `liveuser_userrights` (
   `right_id` int(11) NOT NULL default '0',
   `right_level` int(11) NOT NULL default '3',
   KEY `perm_user_right_rel` (`perm_user_id`,`right_id`)
-);
-
---
--- Dumping data for table `liveuser_userrights`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `liveuser_users`
@@ -355,12 +269,7 @@ CREATE TABLE `liveuser_users` (
   `email` char(100) NOT NULL default '',
   KEY `auth_user_id` (`auth_user_id`),
   KEY `handle` (`handle`)
-);
-
---
--- Dumping data for table `liveuser_users`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `location`
@@ -374,12 +283,7 @@ CREATE TABLE `location` (
   `location_type` enum('region','country','state','city','zip') default NULL,
   PRIMARY KEY  (`location_id`),
   KEY `location_FKIndex1` (`parent_location_id`)
-);
-
---
--- Dumping data for table `location`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `organization`
@@ -395,12 +299,7 @@ CREATE TABLE `organization` (
   `logo_file_name` varchar(45) default NULL,
   PRIMARY KEY  (`org_id`),
   KEY `organization_FKIndex1` (`organization_group_id`)
-);
-
---
--- Dumping data for table `organization`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `organization_group`
@@ -412,11 +311,7 @@ CREATE TABLE `organization_group` (
   `group_name` varchar(45) default NULL,
   `disabled` tinyint(1) default '0',
   PRIMARY KEY  (`group_id`)
-);
-
---
--- Dumping data for table `organization_group`
---
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `organization_industries`
@@ -429,12 +324,7 @@ CREATE TABLE `organization_industries` (
   PRIMARY KEY  (`industry_id`,`org_id`),
   KEY `organization_has_industry_FKIndex1` (`org_id`),
   KEY `organization_has_industry_FKIndex2` (`industry_id`)
-);
-
---
--- Dumping data for table `organization_industries`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `organization_user`
@@ -447,12 +337,7 @@ CREATE TABLE `organization_user` (
   `is_group_admin` tinyint(1) default NULL,
   PRIMARY KEY  (`organization_user_id`),
   KEY `organization_user_FKIndex1` (`organization_group_id`)
-);
-
---
--- Dumping data for table `organization_user`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `postal_address`
@@ -470,12 +355,7 @@ CREATE TABLE `postal_address` (
   `region` varchar(45) default NULL,
   PRIMARY KEY  (`address_id`),
   KEY `postal_address_FKIndex1` (`organization_org_id`)
-);
-
---
--- Dumping data for table `postal_address`
---
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `profession`
@@ -488,14 +368,5 @@ CREATE TABLE `profession` (
   `name` varchar(80) default NULL,
   PRIMARY KEY  (`profession_id`),
   KEY `profession_FKIndex1` (`parent_profession_id`)
-);
-
---
--- Dumping data for table `profession`
---
-
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 

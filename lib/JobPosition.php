@@ -90,6 +90,18 @@ class JobPositionPosting
         return($return);
     }    
     
+    public function activate() {
+        $db = Database::getConnection(DSN);
+        if (isset($this->values['job_id'])){
+            $query="UPDATE job_posting SET job_status='".
+                self::STATUS_ACTIVE.
+                "' WHERE job_id=".$this->values['job_id'];
+            $db->query($query);
+            $return="activated";
+        }
+        return($return);
+    }    
+
     public function disable() {
         $db = Database::getConnection(DSN);
         if (isset($this->values['job_id'])){
@@ -101,6 +113,7 @@ class JobPositionPosting
         }
         return($return);
     }    
+
     
     public function load($id) {
         $db = Database::getConnection(DSN);

@@ -121,6 +121,7 @@ if ($templates) {
     $tpl->setVariable('title', _("Job Posting"));
 }
 $tpl->setVariable("base",HTML_BASE);
+$tpl->setVariable("link_new_job","job.php");
 $tpl->setVariable('theme',HTML_BASE.'/'.THEME_BASE.'/'.THEME_SKIN);
 $tpl->show();
 

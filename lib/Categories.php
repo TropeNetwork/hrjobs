@@ -1,69 +1,54 @@
 <?php
 
+require_once 'Database.php';
+
 class Categories {
-    const TYPE_PROFESSION = 'profession';
-    const TYPE_INDUSTRY = 'industry';
-    const TYPE_LOCATION = 'location';
+
+    const SECTION_PROFESSION = 2;
+    const SECTION_INDUSTRY   = 1;
+    const SECTION_LOCATION   = 3;
     
-    public static function getCategories($id = 0, $type = self::TYPE_PROFESSION) {
-        require_once 'Database.php';
+    const LANG_DE        = 'de_DE'; 
+    const LANG_US        = 'en_US'; 
+    
+    const LANG_FALLBACK  = LANG_US;
+    
+    private $language;
+    
+    function __construct($language="en_US"){
+        $this->language=$language;
+    }
+
+    public function getCategories($id = 0, $type = self::SECTION_PROFESSION) {
+
         $db = Database::getConnection(DSN);
-        $query="SELECT name, ".$type."_id FROM ".$type." WHERE parent_".$type."_id=".$id;
+        $query="SELECT cat.cat_id
+                  FROM cat
+                 WHERE cat.section='$type'";
+                   
         $res = $db->query($query);
         $cat = array();
         while($row = $res->fetchRow()) {
-            $cat[$row[$type.'_id']] = $row['name'];
+            $cat[$row['cat_id']] = $this->loadText($row['cat_id']);
         }
         return $cat;    
     }
     
-    public static function getAllSubCategories($id = 0, $type = self::TYPE_PROFESSION) {
-        $category = self::getCategories($id,$type);
-        $subCategories = array();
-        foreach ($category as $k => $v) {
-            $cat = self::getCategories($k,$type);
-            foreach($cat as $ck => $cv) {
-                $subCategories[$k][$ck] = $cv;    
-            }
-        }
-        return $subCategories;
-    }
-    
-    public static function getAllCategories($id = 0, $type = self::TYPE_PROFESSION) {
-        $category = self::getCategories($id,$type);
-        $subCategories = array();
-        foreach ($category as $k => $v) {
-            $subCategories[$k] = $v;
-            $cat = self::getAllCategories($k,$type);
-            foreach($cat as $ck => $cv) {
-                $subCategories[$ck] = $cv;    
-            }            
-        }
-        return $subCategories;
-    }
-    
-    public static function getParentCategory($id, $type = self::TYPE_PROFESSION) {
-        require_once 'Database.php';
+    private function loadText($cat_id){
         $db = Database::getConnection(DSN);
-        $query="SELECT parent_".$type."_id FROM ".$type." WHERE ".$type."_id=".$id;
-        $res = $db->getOne($query);
-        return $res===null?0:$res;    
-    }
-    
-    public static function getCategoryValues($ids = array(),$type = self::TYPE_PROFESSION) {
-        $res = array();
-        foreach ($ids as $id) {
-            $res[$id] = self::getValue($id, $type);
+        $query="SELECT text 
+                  FROM cat_translation 
+                 WHERE cat_id=$cat_id
+                   AND language='$this->language'";
+        $text=$db->getOne($query);
+        if (empty($text)){
+            $query="SELECT text 
+                      FROM cat_translation 
+                     WHERE cat_id=$cat_id
+                       AND language='".LANG_FALLBACK."'";
         }
-        return $res;
-    }
-   
-    private static function getValue($id, $type = self::TYPE_PROFESSION) {
-        require_once 'Database.php';
-        $db = Database::getConnection(DSN);
-        $query="SELECT name FROM ".$type." WHERE ".$type."_id=".$id;
-        $res = $db->getOne($query);
-        return $res===null?"":$res;
+        $text=$db->getOne($query);
+        return $text;
     }
 }
 

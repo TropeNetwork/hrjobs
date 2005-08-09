@@ -2,13 +2,14 @@
 require_once 'HiringOrg.php';
 require_once 'Key.php';
 
-class OrgKeys {
+class GroupKeys {
 
     private $orgs = null;
     private $values = array();
     private $group_id = -1;
     private $keys = array();
     /**
+    * @param group_id
     **/
     public function __construct($id) 
     {
@@ -17,17 +18,19 @@ class OrgKeys {
         }
     }
 
-#    public function getKeys() {
-#        return $this->load();
-#    }
+    function getKey($name){
+        if (isset($this->keys[$name])){
+            return $this->keys[$name];
+        }
+    }
     
     private function load($id) {
         $db = Database::getConnection(DSN);
-        $query="SELECT name FROM organization_keys WHERE org_id=".$id;
+        $query="SELECT name FROM organization_group_keys WHERE group_id=".$id;
         $data=array();
         $result = $db->query($query);
         while($row=$result->fetchRow()){
-            array_push($this->keys,new Key($id,$row['name']));
+            $this->keys[$row['name']]=new Key($id,$row['name']);
         }
         return $this->keys;
     }

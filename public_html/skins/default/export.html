@@ -5,26 +5,54 @@
 <font color="orange">{error}</font><br />
 
 
-<h1>{org_name}</h1>
-Here you can connect the HRjobs tool to the OHRwurm. All you have to do is
-to request a key at <a
+<h1>{export_title}</h1>
+<!-- BEGIN groupname_block -->
+Enter a valid key to enable the export feature for all organizations of the 
+group <b>{groupname}</b>. You can get a valid key at <a
 href="http://ohrwurm.net/soap/index/register.php">http://ohrwurm.net/soap/index/register.php</a>.
 The reqistration form will ask for an email which is needed to have a
 contact person in case of any difficulties. Confirm the key and enter it
 into the form below.<br>
-Once a valid key is stored in HRjobs joboffers (url, title, categories) will be published to the
-OHRwurm. (look for details in job.php).
+<!-- END groupname_block -->
 <br>
 <table>
+  <!-- BEGIN admin_block -->
+  <tr>
+     <th>
+       {export_wsdl_label}
+     </th>
+     <td>{export_wsdl_html}</td>
+   </tr>
+   <tr>
+     <th>
+       {export_active_label}
+     </th>
+     <td>{export_active_html}</td> 
+   </tr>
+  <!-- END admin_block -->
+
+  <!-- BEGIN organization_block -->
+   <tr>
+     <th>
+       {export_activate_org_label}{export_org_id_html}
+     </th>
+     <td>{export_activate_org_html}</td> 
+   </tr>  
+  <!-- END organization_block -->
+
+  <!-- BEGIN key_block -->
   <tr>
      <th>
        {export_key_label}
      </th>
      <td>{export_key_html}</td>
   </tr>
+  <!-- END key_block -->
+
+
   <tr>
     <th>
-      {export_org_id_html}
+      {export_group_id_html}
       {export_request_html}
     </th>
     <td>

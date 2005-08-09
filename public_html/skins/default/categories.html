@@ -8,7 +8,7 @@
 <li><a title="func_gettext("Design")" href="#" onClick="return expandcontent('sc4', this)" >func_gettext("Design")</a></li>
 <li><a title="func_gettext("Location")" href="#" onClick="return expandcontent('sc5', this)" >func_gettext("Location")</a></li>
 </ul>
-<form {edit_attributes}>
+<form {category_attributes}>
 <div id="tabcontentcontainer">
 <!-- BEGIN edit_error_loop -->
 <font color="orange">{edit_error}</font><br />
@@ -17,48 +17,14 @@
 <div id="sc1" class="tabcontent">
 
 <table>
+  <!-- BEDIN category_loop -->
   <tr>
     <th>
-      {edit_organization_org_id_label}
+      {category_category_label}
     </th>
-    <td>{edit_organization_org_id_html}</td>
+    <td>{category_category_html}</td>
   </tr>
-  <tr>
-    <th>
-      {edit_job_title_label}{edit_id_html}
-    </th>
-    <td>
-      {edit_job_title_html}
-    </td>
-  </tr>
-  <tr>
-    <th>
-      {edit_job_reference_label}
-    </th>
-    <td>
-      {edit_job_reference_html}
-    </td>
-  </tr>
-
-  <tr>
-    <th>{edit_start_date_label}</th>
-    <td>{edit_start_date_html}</td>
-  </tr>
-  <tr>
-    <th>{edit_end_date_label}</th>
-    <td>{edit_end_date_html}</td>
-  </tr> 
-  <tr>
-    <th>{edit_profession_label}</th>
-    <td>{edit_profession_html}
-        {edit_profession_list_html}
-     <a href="#" onClick="setFormValueOpenBrowser('profession'); return false;">
-     	<img title="func_gettext("Add")" src="/skins/default/images/new.png" alt="func_gettext("Add")" /></a>
-     <a href="#" onClick="setFormValueManipulate('profession','Remove'); return false;">
-     	<img title="func_gettext("Remove")" src="/skins/default/images/delete.png" alt="func_gettext("Remove")" /></a>
-		{profession_script}
-    </td>
-  </tr> 
+  <!-- END category_loop -->
 </table>
 </div>
 <div id="sc2" class="tabcontent">

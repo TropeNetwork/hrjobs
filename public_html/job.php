@@ -32,9 +32,9 @@ $orgs = array();
 if (empty($org)) {
     $tpl->setVariable('error',_("Create an organization first!"));
 } else {
-foreach ($org as $orgid => $obj) {
-    $orgs[$orgid] = $obj->getValue('org_name');
-}
+    foreach ($org as $orgid => $obj) {
+        $orgs[$orgid] = $obj->getValue('org_name');
+    }
 }
 $form->addElement('select','organization_org_id', _("Organization"),$orgs);
 $form->addElement('text','job_title', _("Job Titel"),
@@ -95,6 +95,7 @@ if (!$disabled) {
     }
 } else {
     $form->addElement('submit','save',_("Save as Template"));
+    $form->addElement('submit','activate_job',_("Activate Job"));
     $form->freeze();
 }
 if (isset($id)) {
@@ -213,6 +214,10 @@ if ($form->validate()) {
         exit;
     } elseif ($form->exportValue('disable_job') && !HTML_QuickForm::isError($form->exportValue('disable_job'))) {
         $job->disable();
+        header("Location: jobs.php");
+        exit;
+    } elseif ($form->exportValue('activate_job') && !HTML_QuickForm::isError($form->exportValue('activate_job'))) {
+        $job->activate();
         header("Location: jobs.php");
         exit;
     } elseif ($form->exportValue('post_job') && !HTML_QuickForm::isError($form->exportValue('post_job'))) {

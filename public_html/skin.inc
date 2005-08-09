@@ -35,6 +35,7 @@ $tpl->setVariable('layersmenu_footer',$mid->getFooter());
 include_once 'hradmin.inc';
 $tpl->setVariable("base",HTML_BASE);
 $tpl->setVariable('theme',HTML_BASE.'/'.THEME_BASE.'/'.THEME_SKIN);
+$tpl->setVariable('loginName',$usr->getProperty('handle'));
 
 if (!checkRights(HRJOBS_RIGHT_LOGIN)) {
     header("Location: ?logout=1");
@@ -58,6 +59,7 @@ function getMenuString() {
     $menu .= "..|---\n";
     $menu .= "..|"  .gettext("Administration")."|admin.php|".gettext("Administration")."|configs.png\n";
     $menu .= "...|"  .gettext("Jobs Export")."|export.php|".gettext("Jobs Export")."|multisynk_16x16.png\n";
+    $menu .= "...|"  .gettext("Categories")."|categories.php|".gettext("Categories")."|kcmdf_16x16.png\n";
     $menu .= ".|"   .gettext("Logout")."|?logout=1|".gettext("Logout")."|\n";
     $menu .= ".|"   .gettext("Help")."|about.php|".gettext("Help")."|help.png\n";
     $menu .= "..|"  .gettext("Support")."|about.php|".gettext("Support")."|help.png\n";

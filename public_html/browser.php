@@ -30,7 +30,7 @@ include_once 'hradmin.inc';
 if (!checkRights(HRJOBS_RIGHT_LOGIN)) {
     header("Location: noright.php");
 }
-$cat=Categories::getAllCategories(0,$mode);
+$cat=Categories::getCategories(0,$mode);
 
 $main = "<form name=\"formBrowser\" action=\"#\">\n<select name=\"cat\" multiple=\"multiple\" ondblclick=\"return addElement(formBrowser);\">\n";
 foreach($cat AS $key=>$val){
