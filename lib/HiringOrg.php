@@ -78,7 +78,7 @@ class HiringOrg {
     
     public function getContacts() {
         $db = Database::getConnection(DSN);
-        $query="SELECT contact_id FROM contact WHERE organization_org_id=".$this->values['org_id'];
+        $query="SELECT contact_id FROM contact WHERE org_id=".$this->values['org_id'];
         $data = $db->getCol($query);
         $contacts = array();
         if (isset($data)) {
@@ -91,13 +91,13 @@ class HiringOrg {
     
     public function getAddress() {
         $db = Database::getConnection(DSN);
-        $query="SELECT address_id FROM postal_address WHERE organization_org_id=".$this->values['org_id'];
+        $query="SELECT address_id FROM postal_address WHERE org_id=".$this->values['org_id'];
         $data = $db->getCol($query);
         if (isset($data) && !empty($data)) {
             $address = new PostalAddress($data[0]);            
         } else {
             $address = new PostalAddress();
-            $address->setValue('organization_org_id',$this->getValue('org_id'));
+            $address->setValue('org_id',$this->getValue('org_id'));
             $address->save();    
              
         }   
@@ -108,7 +108,7 @@ class HiringOrg {
         $db = Database::getConnection(DSN);
         $query="SELECT job_id " .
                 " FROM job_posting " .
-                "WHERE organization_org_id=".$this->values['org_id'].
+                "WHERE org_id=".$this->values['org_id'].
                 "  AND start_date<='".date('Y-m-d',time())."'".
                 "  AND job_status='active'" .
                 "  AND is_template=0" .

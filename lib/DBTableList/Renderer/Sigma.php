@@ -5,6 +5,7 @@ require_once 'Pager/Pager.php';
 class DBTableList_Renderer_Sigma implements DBTableList_Renderer {
     private $tpl = null;
     private $block ;
+    private $entry_block ;
     private $columnRenderer = null;
     private $rowRenderer = null;
     private $pager_params = array( 'prevImg'               => '<',
@@ -23,9 +24,10 @@ class DBTableList_Renderer_Sigma implements DBTableList_Renderer {
                                    'clearIfVoid'           => "",
                                    'mode'                  => 'Sliding',
                                    'delta'                 => 2);
-    function __construct(& $tpl, $listtpl, $place='contentmain', $block = 'liste', & $columnRenderer = null, & $rowRenderer = null) {
+    function __construct(& $tpl, $listtpl, $place='contentmain', $block = 'liste', $entry_block = 'entry', & $columnRenderer = null, & $rowRenderer = null) {
         $this->tpl = $tpl;
         $this->block = $block;
+        $this->entry_block = $entry_block;
         $this->tpl->addBlockfile($place, $block, $listtpl);
         if (isset($columnRenderer)) {
             $this->columnRenderer = $columnRenderer;
@@ -57,11 +59,12 @@ class DBTableList_Renderer_Sigma implements DBTableList_Renderer {
                 $this->tpl->setVariable($name, $col);
             }
         }
-        $this->tpl->parse('added_'.$this->block);
+        $this->tpl->parse($this->entry_block);
     }
     
     private function renderPager(& $tpl, $totalItems, $perPage) 
     {
+    	$this->tpl->setCurrentBlock($this->block);
         $this->pager_params['totalItems'] = $totalItems;
         $this->pager_params['perPage']    = $perPage;
         $this->pager_params['urlVar']     = $this->block.DBTableList::$parameter_page;
@@ -76,6 +79,7 @@ class DBTableList_Renderer_Sigma implements DBTableList_Renderer {
         $tpl->setVariable($this->block.'_pages', $array['links']['all']);
         $tpl->setVariable($this->block.'_to', $array['to']);
         $tpl->setVariable($this->block.'_totalItems', $array['totalItems']);
+        //$this->tpl->parse($this->block);
     }
     
     private function getOrderByLinks($col,$name) {

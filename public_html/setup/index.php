@@ -28,7 +28,7 @@ $required_packages = array(
     'Pager'                 => array('>=', '2.2.7'),
     'LiveUser'              => array('>=', '0.16.0'),
     'LiveUser_Admin'        => array('>=', '0.3.0'),
-    'Validate'              => array('>=', '0.5');
+    'Validate'              => array('>=', '0.5'),
     'Var_Dump'              => array('>=', '1.0.2'),
     'Log'                   => array('>=', '1.8.7'),
     'XML_Tree'              => array('>=', '2.0.0'),  

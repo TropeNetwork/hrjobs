@@ -112,7 +112,7 @@ if ($form->validate()) {
         $contact->setValue('fax_areacode',      $form->exportValue('fax_areacode'));
         $contact->setValue('fax_number',        $form->exportValue('fax_number'));
         $contact->setValue('fax_extention',     $form->exportValue('fax_extention'));
-        $contact->setValue('organization_org_id',$id);
+        $contact->setValue('org_id',$id);
         $contact->save();
     } elseif ($form->exportValue('delete')) {
         $contact->delete();

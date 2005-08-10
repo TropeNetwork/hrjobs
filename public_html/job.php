@@ -36,7 +36,7 @@ if (empty($org)) {
         $orgs[$orgid] = $obj->getValue('org_name');
     }
 }
-$form->addElement('select','organization_org_id', _("Organization"),$orgs);
+$form->addElement('select','org_id', _("Organization"),$orgs);
 $form->addElement('text','job_title', _("Job Titel"),
             array('maxlength'=>'100',
                   'size'=>'40',
@@ -104,8 +104,8 @@ if (isset($id)) {
 
 
 $contact_options = array('-1'=>'keine');
-if ($job->getValue('organization_org_id')) {
-    $organization = new HiringOrg($job->getValue('organization_org_id'));
+if ($job->getValue('org_id')) {
+    $organization = new HiringOrg($job->getValue('org_id'));
     $contacts = $organization->getContacts();
     if (!empty($contacts)) {
     foreach ($contacts as $contact) {
@@ -146,7 +146,7 @@ $locations = $job->getLocations();
 $defaults = array(
     'job_title'             => $job->getValue('job_title'),
     'job_reference'         => $job->getValue('job_reference'),
-    'organization_org_id'   => $job->getValue('organization_org_id'),
+    'org_id'   				=> $job->getValue('org_id'),
     'start_date'            => $start,
     'end_date'              => $end,
     'job_description'       => $job->getValue('job_description'),    
@@ -164,7 +164,7 @@ $form->setDefaults($defaults);
 
 $form->registerRule ('dates', 'callback', 'checkDates');
 $form->addRule('job_title',             "Bitte geben Sie den \"Job Titel\" ein", 'required', null,'server');
-$form->addRule('organization_org_id',   "Bitte geben Sie eine \"Organisation\" ein", 'required', null,'server');
+$form->addRule('org_id',   "Bitte geben Sie eine \"Organisation\" ein", 'required', null,'server');
 $form->addRule('apply_contact',         "Bitte wählen Sie einen \"Bewerberkontakt\" aus", 'required', null,'server');
 $form->addRule(array('start_date', 'end_date'), 'Das Endedatum muß größer sein als das Startdatum', 'dates', null, 'server');
 if ($form->validate()) {
@@ -174,12 +174,15 @@ if ($form->validate()) {
     $job->setValue('job_reference',         $form->exportValue('job_reference'));
     $job->setValue('start_date',            Date::sqlDate($form->exportValue('start_date')));
     $job->setValue('end_date',              Date::sqlDate($form->exportValue('end_date')));
-    $job->setValue('organization_org_id',   $form->exportValue('organization_org_id'));
+    $job->setValue('org_id',   				$form->exportValue('org_id'));
     $job->setValue('apply_contact_id',      $form->exportValue('apply_contact'));
     $job->setValue('apply_by_email',        $form->exportValue('apply_by_email'));
     $job->setValue('apply_by_web',          $form->exportValue('apply_by_web'));
     $job->setValue('apply_by_web_url',      $form->exportValue('apply_by_web_url'));
     $job->setValue('stylesheet',            $form->exportValue('stylesheet'));
+    if ($job->getValue('apply_contact_id')==='-1') {
+    	$job->setValue('apply_contact_id',null);
+    }
     $list = $form->exportValue('profession_list');
     $prof = split(",",$list);
     sort($prof);
@@ -227,8 +230,8 @@ if ($form->validate()) {
     }
     
     $contact_options = array('-1'=>'keine');
-    if ($job->getValue('organization_org_id')) {
-        $organization = new HiringOrg($job->getValue('organization_org_id'));
+    if ($job->getValue('org_id')) {
+        $organization = new HiringOrg($job->getValue('org_id'));
         $contacts = $organization->getContacts();
         if (!empty($contacts)) {
         foreach ($contacts as $contact) {
@@ -240,6 +243,7 @@ if ($form->validate()) {
     
     
 } 
+/*
 $professions = Categories::getCategoryValues($job->getProfessions());
 $script = '
        <script type="text/javascript">
@@ -264,6 +268,7 @@ $script .= '
         -->
      </script>'; 
 $tpl->setVariable('location_script',$script);
+*/
 $contact_select->loadArray($contact_options);
 $renderer =& new HTML_QuickForm_Renderer_ITStatic($tpl);
 $renderer->setRequiredTemplate('{label}<font color="red" size="1"> *</font>');

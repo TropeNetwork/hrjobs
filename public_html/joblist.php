@@ -17,13 +17,13 @@ $list = new DBTableList(DSN, 10);
 $list->setTable('job_posting');
 $list->setColumns(array (
     'job_id'                => 'Job Id.',
-    'organization_org_id'   => 'Organisation',
+    'org_id'   => 'Organisation',
     'job_title'             => 'Titel',
     'start_date'            => 'Start',
     'end_date'              => 'Ende'));
 
 $list->orderby('job_id');
-$list->where('organization_org_id='.HttpParameter::getParameter('org_id').
+$list->where('org_id='.HttpParameter::getParameter('org_id').
         " AND start_date<='".date('Y-m-d',time())."'".
         " AND job_status='active'" .
         " AND is_template=0" .

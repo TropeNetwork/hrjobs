@@ -20,13 +20,14 @@ $list->setColumns(array (
     'organization_user_id' => 'Id.'));
 $list->orderby('organization_user_id');
 if (!checkRights(HRJOBS_RIGHT_SYSTEM)) {
-    $list->where('organization_group_id='.$org_usr->getGroupId());
+    $list->where('group_id='.$org_usr->getGroupId());
 }
 $listrenderer = new DBTableList_Renderer_Sigma(
     & $tpl, 
     'users.html', 
     'contentmain', 
     'user',
+    'user_entry',
     new UserColumnRenderer(),
     new UserRowRenderer($luConfig->getAdmin())
 );

@@ -2,11 +2,9 @@
 <script type="text/javascript" language="javascript" src="javascript/calendar/dynCalendar.js"></script>
 <script type="text/javascript" language="javascript" src="javascript/categoryBrowser.js"></script>
 <ul id="tablist">
-<li><a title="func_gettext("Common")"href="#" class="current" onClick="return expandcontent('sc1', this)">func_gettext("Common")</a></li>
-<li><a title="func_gettext("Details")" href="#" onClick="return expandcontent('sc2', this)" >func_gettext("Details")</a></li>
-<li><a title="func_gettext("Contacts")" href="#" onClick="return expandcontent('sc3', this)" >func_gettext("Contacts")</a></li>
-<li><a title="func_gettext("Design")" href="#" onClick="return expandcontent('sc4', this)" >func_gettext("Design")</a></li>
-<li><a title="func_gettext("Location")" href="#" onClick="return expandcontent('sc5', this)" >func_gettext("Location")</a></li>
+<li><a title="func_gettext("Professions")"href="#" class="current" onClick="return expandcontent('sc1', this)">func_gettext("Professions")</a></li>
+<li><a title="func_gettext("Industries")" href="#" onClick="return expandcontent('sc2', this)" >func_gettext("Industries")</a></li>
+<li><a title="func_gettext("Locations")" href="#" onClick="return expandcontent('sc3', this)" >func_gettext("Locations")</a></li>
 </ul>
 <form {category_attributes}>
 <div id="tabcontentcontainer">
@@ -50,30 +48,6 @@
       {edit_apply_by_web_url_html}<br>
     </td>
   </tr>
-</table>
-</div>
-<div id="sc4" class="tabcontent">
-<table> 
-  <tr>
-    <th>{edit_stylesheet_label}</th>
-    <td>{edit_stylesheet_html}</td>
-  </tr>
-
-</table>
-</div>
-<div id="sc5" class="tabcontent">
-<table>
-  <tr>
-    <th>{edit_location_label}</th>
-    <td>{edit_location_html}
-        {edit_location_list_html}
-     <a href="#" onClick="setFormValueOpenBrowser('location'); return false;">
-     	<img title="func_gettext("Add")" src="/skins/default/images/new.png" alt="func_gettext("Add")" /></a>
-     <a href="#" onClick="setFormValueManipulate('location','Remove'); return false;">
-     	<img title="func_gettext("Remove")" src="/skins/default/images/delete.png" alt="func_gettext("Remove")" /></a>
-		{location_script}
-    </td>
-  </tr> 
 </table>
 </div>
 <br/>

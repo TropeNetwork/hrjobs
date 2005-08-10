@@ -81,14 +81,14 @@ $clist = new DBTableList(DSN, 10);
 $clist->setTable('organization_user');
 $clist->setColumns(array (
     'organization_user_id'    => '',
-    'organization_group_id'   => '',
+    'group_id'   => '',
     'is_group_admin'          => ''
 ));
 $clist->orderby('organization_user_id');
 if (!isset($id)) {
     $id=0;
 }
-$clist->where('organization_group_id='.$id.' and is_group_admin=1');
+$clist->where('group_id='.$id.' and is_group_admin=1');
 $clistrenderer = new DBTableList_Renderer_Sigma(
     & $tpl, 
     'users.html', 

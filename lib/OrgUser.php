@@ -22,8 +22,8 @@ class OrgUser {
             		" FROM organization org, " .
                     "      organization_group og, " .
                     "      organization_user ou " .
-                    "WHERE ou.organization_group_id=og.group_id " .
-                    "  AND og.group_id=org.organization_group_id " .
+                    "WHERE ou.group_id=og.group_id " .
+                    "  AND og.group_id=org.group_id " .
                     "  AND ou.organization_user_id=".$this->getValue('organization_user_id');
             $data = $db->getCol($query);
             foreach($data as $id) {
@@ -49,7 +49,7 @@ class OrgUser {
             if (!$this->getValue('organization_user_id')) {
                 $this->setValue('organization_user_id',0);
             }
-            $query="SELECT organization_group_id " .
+            $query="SELECT group_id " .
                     " FROM organization_user " .
                     "WHERE organization_user_id=".$this->getValue('organization_user_id');
             $this->group_id = $db->getOne($query);
@@ -87,7 +87,7 @@ class OrgUser {
     
     public function hasRightOnOrganization($id) {
         $db = Database::getConnection(DSN);
-        $query="SELECT org_id FROM organization WHERE organization_group_id=".(int)$this->getGroupId()." AND org_id=".(int)$id;
+        $query="SELECT org_id FROM organization WHERE group_id=".(int)$this->getGroupId()." AND org_id=".(int)$id;
         $res = $db->getOne($query);
         if ($res) {
             return true;
@@ -97,7 +97,7 @@ class OrgUser {
     
     public function hasRightOnJob($id) {
         $db = Database::getConnection(DSN);
-        $query="SELECT org.org_id FROM organization org, job_posting job WHERE job.organization_org_id=org.org_id AND org.organization_group_id=".$this->getGroupId()." AND job.job_id=".$id;
+        $query="SELECT org.org_id FROM organization org, job_posting job WHERE job.org_id=org.org_id AND org.group_id=".$this->getGroupId()." AND job.job_id=".$id;
         $res = $db->getOne($query);
         if ($res) {
             return true;
@@ -107,7 +107,7 @@ class OrgUser {
     
     public function hasRightOnContact($id) {
         $db = Database::getConnection(DSN);
-        $query="SELECT org.org_id FROM organization org, contact con WHERE con.organization_org_id=org.org_id AND org.organization_group_id=".$this->getGroupId()." AND con.contact_id=".$id;
+        $query="SELECT org.org_id FROM organization org, contact con WHERE con.org_id=org.org_id AND org.group_id=".$this->getGroupId()." AND con.contact_id=".$id;
         $res = $db->getOne($query);
         if ($res) {
             return true;
@@ -117,7 +117,7 @@ class OrgUser {
     
     public function hasRightOnUser($id) {
         $db = Database::getConnection(DSN);
-        $query="SELECT organization_user_id FROM organization_user WHERE organization_group_id=".$this->getGroupId()." AND organization_user_id=".$id;
+        $query="SELECT organization_user_id FROM organization_user WHERE group_id=".$this->getGroupId()." AND organization_user_id=".$id;
         $res = $db->getOne($query);
         if ($res) {
             return true;

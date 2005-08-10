@@ -51,14 +51,15 @@ class JobPositionPosting
             }
             foreach($this->values as $field=>$value){
                 $fields .= $field.', ';
-                $values .= "'".addslashes($value)."', ";
+                $values .= $value==null?'null, ':"'".addslashes($value)."', ";
             }
-
+			
             $fields = substr($fields,0,strlen($fields)-2);
             $values = substr($values,0,strlen($values)-2);
             $query="INSERT INTO job_posting 
                            ($fields) 
-                    VALUES ($values)";  
+                    VALUES ($values)";
+                      
             $db->query($query);            
             $return="added";
         }else{

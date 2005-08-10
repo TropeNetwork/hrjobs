@@ -1,175 +1,139 @@
 
---
--- Table structure for table `liveuser_applications`
---
+DROP TABLE IF EXISTS liveuser_users;
+DROP TABLE IF EXISTS liveuser_userrights;
+DROP TABLE IF EXISTS liveuser_translations;
+DROP TABLE IF EXISTS liveuser_right_implied;
+DROP TABLE IF EXISTS liveuser_rights;
+DROP TABLE IF EXISTS liveuser_perm_users;
+DROP TABLE IF EXISTS liveuser_group_subgroups;
+DROP TABLE IF EXISTS liveuser_groupusers;
+DROP TABLE IF EXISTS liveuser_groups;
+DROP TABLE IF EXISTS liveuser_grouprights;
+DROP TABLE IF EXISTS liveuser_area_admin_areas;
+DROP TABLE IF EXISTS liveuser_areas;
+DROP TABLE IF EXISTS liveuser_applications;
 
-DROP TABLE IF EXISTS `liveuser_applications`;
-CREATE TABLE `liveuser_applications` (
-  `application_id` int(11) NOT NULL default '0',
-  `application_define_name` char(32) NOT NULL default '',
-  KEY `application_id` (`application_id`),
-  KEY `application_define_name` (`application_define_name`)
-) TYPE=INNODB;
 
---
--- Table structure for table `liveuser_area_admin_areas`
---
+CREATE TABLE liveuser_applications (
+  application_id INTEGER(11) NOT NULL,
+  application_define_name CHAR(32) NOT NULL,
+  INDEX application_id(application_id),
+  INDEX application_define_name(application_define_name)
+)
+TYPE=InnoDB;
 
-DROP TABLE IF EXISTS `liveuser_area_admin_areas`;
-CREATE TABLE `liveuser_area_admin_areas` (
-  `area_id` int(11) NOT NULL default '0',
-  `perm_user_id` int(11) NOT NULL default '0',
-  KEY `area_admin_area_rel` (`area_id`,`perm_user_id`)
-) TYPE=INNODB;
+CREATE TABLE liveuser_areas (
+  area_id INTEGER(11) NOT NULL,
+  application_id INTEGER(11) NOT NULL,
+  area_define_name CHAR(32) NOT NULL,
+  INDEX area_id(area_id),
+  INDEX area_define_name(application_id, area_define_name)
+)
+TYPE=InnoDB;
 
---
--- Table structure for table `liveuser_areas`
---
+CREATE TABLE liveuser_area_admin_areas (
+  area_id INTEGER(11) NOT NULL,
+  perm_user_id INTEGER(11) NOT NULL,
+  INDEX area_admin_area_rel(area_id, perm_user_id)
+)
+TYPE=InnoDB;
 
-DROP TABLE IF EXISTS `liveuser_areas`;
-CREATE TABLE `liveuser_areas` (
-  `area_id` int(11) NOT NULL default '0',
-  `application_id` int(11) NOT NULL default '0',
-  `area_define_name` char(32) NOT NULL default '',
-  KEY `area_id` (`area_id`),
-  KEY `area_define_name` (`application_id`,`area_define_name`)
-) TYPE=INNODB;
+CREATE TABLE liveuser_grouprights (
+  group_id INTEGER(11) NOT NULL,
+  right_id INTEGER(11) NOT NULL,
+  right_level INTEGER(11) NOT NULL DEFAULT '3',
+  INDEX group_right_rel(group_id, right_id)
+)
+TYPE=InnoDB;
 
---
--- Table structure for table `liveuser_group_subgroups`
---
+CREATE TABLE liveuser_groups (
+  group_id INTEGER(11) NOT NULL,
+  group_type INTEGER(11) NOT NULL DEFAULT '1',
+  group_define_name CHAR(32) NOT NULL,
+  owner_user_id INTEGER(11) NOT NULL,
+  owner_group_id INTEGER(11) NOT NULL,
+  is_active CHAR(1) NOT NULL DEFAULT 'Y',
+  INDEX group_id(group_id),
+  INDEX group_define_name(group_define_name)
+)
+TYPE=InnoDB;
 
-DROP TABLE IF EXISTS `liveuser_group_subgroups`;
-CREATE TABLE `liveuser_group_subgroups` (
-  `group_id` int(11) NOT NULL default '0',
-  `subgroup_id` int(11) NOT NULL default '0',
-  KEY `group_subgroup_rel` (`group_id`,`subgroup_id`)
-) TYPE=INNODB;
+CREATE TABLE liveuser_groupusers (
+  perm_user_id INTEGER(11) NOT NULL,
+  group_id INTEGER(11) NOT NULL,
+  INDEX perm_user_group_rel(perm_user_id, group_id)
+)
+TYPE=InnoDB;
 
---
--- Table structure for table `liveuser_grouprights`
---
+CREATE TABLE liveuser_group_subgroups (
+  group_id INTEGER(11) NOT NULL,
+  subgroup_id INTEGER(11) NOT NULL,
+  INDEX group_subgroup_rel(group_id, subgroup_id)
+)
+TYPE=InnoDB;
 
-DROP TABLE IF EXISTS `liveuser_grouprights`;
-CREATE TABLE `liveuser_grouprights` (
-  `group_id` int(11) NOT NULL default '0',
-  `right_id` int(11) NOT NULL default '0',
-  `right_level` int(11) NOT NULL default '3',
-  KEY `group_right_rel` (`group_id`,`right_id`)
-) TYPE=INNODB;
+CREATE TABLE liveuser_perm_users (
+  perm_user_id INTEGER(11) NOT NULL,
+  auth_user_id CHAR(32) NOT NULL,
+  perm_type INTEGER(11) NOT NULL,
+  auth_container_name CHAR(32) NOT NULL,
+  INDEX perm_user_id(perm_user_id),
+  INDEX auth_user_container_rel(auth_user_id, auth_container_name)
+)
+TYPE=InnoDB;
 
---
--- Table structure for table `liveuser_groups`
---
+CREATE TABLE liveuser_rights (
+  right_id INTEGER(11) NOT NULL,
+  area_id INTEGER(11) NOT NULL,
+  right_define_name CHAR(32) NOT NULL,
+  has_implied CHAR(1) NOT NULL DEFAULT 'Y',
+  INDEX right_id(right_id),
+  INDEX right_define_name(area_id, right_define_name)
+)
+TYPE=InnoDB;
 
-DROP TABLE IF EXISTS `liveuser_groups`;
-CREATE TABLE `liveuser_groups` (
-  `group_id` int(11) NOT NULL default '0',
-  `group_type` int(11) NOT NULL default '1',
-  `group_define_name` char(32) NOT NULL default '',
-  `owner_user_id` int(11) NOT NULL default '0',
-  `owner_group_id` int(11) NOT NULL default '0',
-  `is_active` char(1) NOT NULL default 'Y',
-  KEY `group_id` (`group_id`),
-  KEY `group_define_name` (`group_define_name`)
-) TYPE=INNODB;
+CREATE TABLE liveuser_right_implied (
+  right_id INTEGER(11) NOT NULL,
+  implied_right_id INTEGER(11) NOT NULL,
+  INDEX right_implied_right_rel(right_id, implied_right_id)
+)
+TYPE=InnoDB;
 
---
--- Table structure for table `liveuser_groupusers`
---
+CREATE TABLE liveuser_translations (
+  translation_id INTEGER(11) NOT NULL,
+  section_id INTEGER(11) NOT NULL,
+  section_type INTEGER(11) NOT NULL,
+  language_id CHAR(2) NOT NULL,
+  name CHAR(50) NOT NULL,
+  description CHAR(255) NOT NULL,
+  INDEX translation_id(translation_id),
+  INDEX section_item(section_id, section_type, language_id)
+)
+TYPE=InnoDB;
 
-DROP TABLE IF EXISTS `liveuser_groupusers`;
-CREATE TABLE `liveuser_groupusers` (
-  `perm_user_id` int(11) NOT NULL default '0',
-  `group_id` int(11) NOT NULL default '0',
-  KEY `perm_user_group_rel` (`perm_user_id`,`group_id`)
-) TYPE=INNODB;
+CREATE TABLE liveuser_userrights (
+  perm_user_id INTEGER(11) NOT NULL,
+  right_id INTEGER(11) NOT NULL,
+  right_level INTEGER(11) NOT NULL DEFAULT '3',
+  INDEX perm_user_right_rel(perm_user_id, right_id)
+)
+TYPE=InnoDB;
 
---
--- Table structure for table `liveuser_perm_users`
---
+CREATE TABLE liveuser_users (
+  auth_user_id CHAR(32) NOT NULL,
+  handle CHAR(32) NOT NULL,
+  passwd CHAR(32) NOT NULL,
+  lastlogin DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  owner_user_id INTEGER(11) NOT NULL,
+  owner_group_id INTEGER(11) NOT NULL,
+  is_active CHAR(1) NOT NULL DEFAULT 'Y',
+  name CHAR(100) NOT NULL,
+  email CHAR(100) NOT NULL,
+  INDEX auth_user_id(auth_user_id),
+  INDEX handle(handle)
+)
+TYPE=InnoDB;
 
-DROP TABLE IF EXISTS `liveuser_perm_users`;
-CREATE TABLE `liveuser_perm_users` (
-  `perm_user_id` int(11) NOT NULL default '0',
-  `auth_user_id` char(32) NOT NULL default '',
-  `perm_type` int(11) NOT NULL default '0',
-  `auth_container_name` char(32) NOT NULL default '',
-  KEY `perm_user_id` (`perm_user_id`),
-  KEY `auth_user_container_rel` (`auth_user_id`,`auth_container_name`)
-) TYPE=INNODB;
-
---
--- Table structure for table `liveuser_right_implied`
---
-
-DROP TABLE IF EXISTS `liveuser_right_implied`;
-CREATE TABLE `liveuser_right_implied` (
-  `right_id` int(11) NOT NULL default '0',
-  `implied_right_id` int(11) NOT NULL default '0',
-  KEY `right_implied_right_rel` (`right_id`,`implied_right_id`)
-) TYPE=INNODB;
-
---
--- Table structure for table `liveuser_rights`
---
-
-DROP TABLE IF EXISTS `liveuser_rights`;
-CREATE TABLE `liveuser_rights` (
-  `right_id` int(11) NOT NULL default '0',
-  `area_id` int(11) NOT NULL default '0',
-  `right_define_name` char(32) NOT NULL default '',
-  `has_implied` char(1) NOT NULL default 'Y',
-  KEY `right_id` (`right_id`),
-  KEY `right_define_name` (`area_id`,`right_define_name`)
-) TYPE=INNODB;
-
---
--- Table structure for table `liveuser_translations`
---
-
-DROP TABLE IF EXISTS `liveuser_translations`;
-CREATE TABLE `liveuser_translations` (
-  `translation_id` int(11) NOT NULL default '0',
-  `section_id` int(11) NOT NULL default '0',
-  `section_type` int(11) NOT NULL default '0',
-  `language_id` char(2) NOT NULL default '',
-  `name` char(50) NOT NULL default '',
-  `description` char(255) NOT NULL default '',
-  KEY `translation_id` (`translation_id`),
-  KEY `section_item` (`section_id`,`section_type`,`language_id`)
-) TYPE=INNODB;
-
---
--- Table structure for table `liveuser_userrights`
---
-
-DROP TABLE IF EXISTS `liveuser_userrights`;
-CREATE TABLE `liveuser_userrights` (
-  `perm_user_id` int(11) NOT NULL default '0',
-  `right_id` int(11) NOT NULL default '0',
-  `right_level` int(11) NOT NULL default '3',
-  KEY `perm_user_right_rel` (`perm_user_id`,`right_id`)
-) TYPE=INNODB;
-
---
--- Table structure for table `liveuser_users`
---
-
-DROP TABLE IF EXISTS `liveuser_users`;
-CREATE TABLE `liveuser_users` (
-  `auth_user_id` char(32) NOT NULL default '',
-  `handle` char(32) NOT NULL default '',
-  `passwd` char(32) NOT NULL default '',
-  `lastlogin` datetime NOT NULL default '0000-00-00 00:00:00',
-  `owner_user_id` int(11) NOT NULL default '0',
-  `owner_group_id` int(11) NOT NULL default '0',
-  `is_active` char(1) NOT NULL default 'Y',
-  `name` char(100) NOT NULL default '',
-  `email` char(100) NOT NULL default '',
-  KEY `auth_user_id` (`auth_user_id`),
-  KEY `handle` (`handle`)
-) TYPE=INNODB;
 
 -----------------------
 -- HRJOBS TABLES ------
@@ -261,6 +225,7 @@ CREATE TABLE `contact` (
 
 CREATE TABLE `job_posting` (
   `job_id` int(10) unsigned NOT NULL default '0',
+  `job_reference` varchar(30) NOT NULL default '',
   `org_id` int(10) unsigned NOT NULL default '0',
   `job_title` varchar(255) default NULL,
   `job_description` blob,

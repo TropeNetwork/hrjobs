@@ -97,7 +97,7 @@ if (isset($id)) {
     $form->addElement('hidden', 'id', $id);
 } 
 $defaults = array(
-    'group'             => $org->getValue('organization_group_id'),
+    'group'             => $org->getValue('group_id'),
     'org_name'          => $org->getValue('org_name'),
     'website'           => $org->getValue('website'),
     'org_description'   => $org->getValue('org_description'),
@@ -121,11 +121,11 @@ $form->addRule('website',           _("Please enter a \"Website\" "), 'required'
 if ($form->validate()) {    
     $org->setValue('org_name',$form->exportValue('org_name'));
     $org->setValue('website',$form->exportValue('website'));
-    $org->setValue('organization_group_id',$org_usr->getGroupId());
+    $org->setValue('group_id',$org_usr->getGroupId());
     $org->setValue('org_description',$form->exportValue('org_description'));
     $group_id = $form->getSubmitValue("group");
     if (isset($group_id)) {
-        $org->setValue('organization_group_id',$group_id);
+        $org->setValue('group_id',$group_id);
     }
     $list = $form->exportValue('industry_list');
     $cat = split(",",$list);
@@ -145,7 +145,7 @@ if ($form->validate()) {
         $org->setValue('logo_file_name',$filename);
         $org->save();
     }
-    $address->setValue('organization_org_id',$org->getValue('org_id'));
+    $address->setValue('org_id',$org->getValue('org_id'));
     $address->setValue('address',$form->exportValue('address'));
     $address->setValue('street',$form->exportValue('street'));
     $address->setValue('building_number',$form->exportValue('building_number'));
@@ -159,6 +159,7 @@ if ($form->validate()) {
 if ($org->getValue('logo_file_name')) {
     $tpl->setVariable('logo','<img title="'.$org->getValue('org_name').'" src="/logos/'.$org->getValue('org_id').'/'.$org->getValue('logo_file_name').'" alt="logo">');
 }
+/*
 $category = Categories::getCategoryValues($org->getIndustries(),Categories::TYPE_INDUSTRY);
 $script = '
        <script type="text/javascript">
@@ -171,6 +172,7 @@ $script .= '
         -->
      </script>'; 
 $tpl->setVariable('industry_script',$script);
+*/
 $renderer =& new HTML_QuickForm_Renderer_ITStatic($tpl);
 $renderer->setRequiredTemplate('{label}<font color="red" size="1"> *</font>');
 $renderer->setErrorTemplate('');
@@ -190,8 +192,8 @@ $clist->orderby('family_name');
 if (!isset($id)) {
     $id=0;
 }
-$clist->where('organization_org_id='.$id);
-$clistrenderer = new DBTableList_Renderer_Sigma(& $tpl, 'contacts.html', 'contacts', 'contact');
+$clist->where('org_id='.$id);
+$clistrenderer = new DBTableList_Renderer_Sigma(& $tpl, 'contacts.html', 'contacts', 'contact','contact_entry');
 $clist->accept($clistrenderer);
 
 $tpl->setVariable('id',$id);

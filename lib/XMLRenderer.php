@@ -8,7 +8,7 @@ class XMLRenderer {
     }
     
     public function render($job) {
-        $horg = new HiringOrg($job->getValue('organization_org_id'));
+        $horg = new HiringOrg($job->getValue('org_id'));
         $address = $horg->getAddress();
         
         $dom_tree = new DomDocument('1.0', 'UTF-8');
