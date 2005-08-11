@@ -79,7 +79,7 @@ class DBTableList_Renderer_Sigma implements DBTableList_Renderer {
         $tpl->setVariable($this->block.'_pages', $array['links']['all']);
         $tpl->setVariable($this->block.'_to', $array['to']);
         $tpl->setVariable($this->block.'_totalItems', $array['totalItems']);
-        //$this->tpl->parse($this->block);
+        //$this->tpl->touchBlock($this->block);
     }
     
     private function getOrderByLinks($col,$name) {

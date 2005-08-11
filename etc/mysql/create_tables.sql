@@ -1,17 +1,5 @@
 
-DROP TABLE IF EXISTS liveuser_users;
-DROP TABLE IF EXISTS liveuser_userrights;
-DROP TABLE IF EXISTS liveuser_translations;
-DROP TABLE IF EXISTS liveuser_right_implied;
-DROP TABLE IF EXISTS liveuser_rights;
-DROP TABLE IF EXISTS liveuser_perm_users;
-DROP TABLE IF EXISTS liveuser_group_subgroups;
-DROP TABLE IF EXISTS liveuser_groupusers;
-DROP TABLE IF EXISTS liveuser_groups;
-DROP TABLE IF EXISTS liveuser_grouprights;
-DROP TABLE IF EXISTS liveuser_area_admin_areas;
-DROP TABLE IF EXISTS liveuser_areas;
-DROP TABLE IF EXISTS liveuser_applications;
+
 
 
 CREATE TABLE liveuser_applications (
@@ -139,177 +127,204 @@ TYPE=InnoDB;
 -- HRJOBS TABLES ------
 -----------------------
 
-DROP TABLE IF EXISTS `address_seq`;
-DROP TABLE IF EXISTS `contact_seq`;
-DROP TABLE IF EXISTS `group_seq`;
-DROP TABLE IF EXISTS `job_seq`;
-DROP TABLE IF EXISTS `organization_seq`;
 
 
-DROP TABLE IF EXISTS `organization_industries`;
-DROP TABLE IF EXISTS `job_professions`;
-DROP TABLE IF EXISTS `job_locations`;
-DROP TABLE IF EXISTS `location`;
-DROP TABLE IF EXISTS `industry`;
-DROP TABLE IF EXISTS `profession`;
-DROP TABLE IF EXISTS `job_posting`;
-DROP TABLE IF EXISTS `contact`;
-DROP TABLE IF EXISTS `organization_user`;
-DROP TABLE IF EXISTS `postal_address`;
-DROP TABLE IF EXISTS `organization`;
-DROP TABLE IF EXISTS `organization_group`;
-
-CREATE TABLE `organization_group` (
-  `group_id` int(10) unsigned NOT NULL default '0',
-  `group_name` varchar(45) default NULL,
-  `disabled` tinyint(1) default '0',
-  PRIMARY KEY  (`group_id`)
-) TYPE=INNODB;
 
 
-CREATE TABLE `organization` (
-  `org_id` int(10) unsigned NOT NULL auto_increment,
-  `group_id` int(10) unsigned NOT NULL default '0',
-  `org_name` varchar(255) default NULL,
-  `website` varchar(255) default NULL,
-  `org_description` blob,
-  `logo_file_name` varchar(45) default NULL,
-  PRIMARY KEY  (`org_id`),
-  INDEX `group_id` (`group_id`),
-  FOREIGN KEY (`group_id`) REFERENCES `organization_group`(`group_id`)
-) TYPE=INNODB;
+CREATE TABLE organization_group (
+  group_id INTEGER(10) UNSIGNED NOT NULL,
+  group_name VARCHAR(45) NOT NULL,
+  disabled TINYINT(1) NOT NULL,
+  PRIMARY KEY(group_id)
+)
+TYPE=InnoDB;
 
+CREATE TABLE organization (
+  org_id INTEGER(10) UNSIGNED NOT NULL,
+  group_id INTEGER(10) UNSIGNED NOT NULL,
+  org_name VARCHAR(255) NOT NULL,
+  website VARCHAR(255) NOT NULL,
+  org_description BLOB NOT NULL,
+  logo_file_name VARCHAR(45) NOT NULL,
+  PRIMARY KEY(org_id),
+  INDEX group_id(group_id),
+  FOREIGN KEY(group_id)
+    REFERENCES organization_group(group_id)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+)
+TYPE=InnoDB;
 
-CREATE TABLE `postal_address` (
-  `address_id` int(10) unsigned NOT NULL default '0',
-  `org_id` int(10) unsigned NOT NULL default '0',
-  `street` varchar(45) default NULL,
-  `building_number` varchar(20) default NULL,
-  `postal_code` varchar(20) default NULL,
-  `country_code` varchar(20) default NULL,
-  `address` varchar(45) default NULL,
-  `region` varchar(45) default NULL,
-  PRIMARY KEY  (`address_id`),
-  INDEX `postal_address_org_id` (`org_id`),
-  FOREIGN KEY (`org_id`) REFERENCES `organization`(`org_id`)
-) TYPE=INNODB;
+CREATE TABLE organization_user (
+  organization_user_id INTEGER(10) UNSIGNED NOT NULL,
+  group_id INTEGER(10) UNSIGNED NOT NULL,
+  is_group_admin TINYINT(1) NOT NULL,
+  PRIMARY KEY(organization_user_id),
+  INDEX org_user_group_id(group_id),
+  FOREIGN KEY(group_id)
+    REFERENCES organization_group(group_id)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+)
+TYPE=InnoDB;
 
-CREATE TABLE `organization_user` (
-  `organization_user_id` int(10) unsigned NOT NULL default '0',
-  `group_id` int(10) unsigned NOT NULL default '0',
-  `is_group_admin` tinyint(1) default NULL,
-  PRIMARY KEY  (`organization_user_id`),
-  INDEX `org_user_group_id` (`group_id`),
-  FOREIGN KEY (`group_id`) REFERENCES `organization_group`(`group_id`)
-) TYPE=INNODB;
+CREATE TABLE profession (
+  profession_id INTEGER(10) UNSIGNED NOT NULL,
+  group_id INTEGER(10) UNSIGNED NOT NULL,
+  name VARCHAR(80) NOT NULL,
+  PRIMARY KEY(profession_id),
+  INDEX profession_group_id(group_id),
+  FOREIGN KEY(group_id)
+    REFERENCES organization_group(group_id)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+)
+TYPE=InnoDB;
 
-CREATE TABLE `contact` (
-  `contact_id` int(10) unsigned NOT NULL default '0',
-  `org_id` int(10) unsigned NOT NULL default '0',
-  `given_name` varchar(45) default NULL,
-  `family_name` varchar(45) default NULL,
-  `email` varchar(255) default NULL,
-  `phone_intlcode` varchar(10) default NULL,
-  `phone_areacode` varchar(10) default NULL,
-  `phone_number` varchar(20) default NULL,
-  `phone_extention` varchar(10) default NULL,
-  `fax_intlcode` varchar(10) default NULL,
-  `fax_areacode` varchar(10) default NULL,
-  `fax_number` varchar(20) default NULL,
-  `fax_extention` varchar(10) default NULL,
-  PRIMARY KEY  (`contact_id`),
-  INDEX `contact_org_id` (`org_id`),
-  FOREIGN KEY (`org_id`) REFERENCES `organization`(`org_id`)
-) TYPE=INNODB;
+CREATE TABLE postal_address (
+  address_id INTEGER(10) UNSIGNED NOT NULL,
+  org_id INTEGER(10) UNSIGNED NOT NULL,
+  street VARCHAR(45) NOT NULL,
+  building_number VARCHAR(20) NOT NULL,
+  postal_code VARCHAR(20) NOT NULL,
+  country_code VARCHAR(20) NOT NULL,
+  address VARCHAR(45) NOT NULL,
+  region VARCHAR(45) NOT NULL,
+  PRIMARY KEY(address_id),
+  INDEX postal_address_org_id(org_id),
+  FOREIGN KEY(org_id)
+    REFERENCES organization(org_id)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+)
+TYPE=InnoDB;
 
+CREATE TABLE location (
+  location_id INTEGER(10) UNSIGNED NOT NULL,
+  group_id INTEGER(10) UNSIGNED NOT NULL,
+  name VARCHAR(80) NOT NULL,
+  location_type ENUM('region','country','state','city','zip') NOT NULL,
+  PRIMARY KEY(location_id),
+  INDEX location_group_id(group_id),
+  FOREIGN KEY(group_id)
+    REFERENCES organization_group(group_id)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+)
+TYPE=InnoDB;
 
-CREATE TABLE `job_posting` (
-  `job_id` int(10) unsigned NOT NULL default '0',
-  `job_reference` varchar(30) NOT NULL default '',
-  `org_id` int(10) unsigned NOT NULL default '0',
-  `job_title` varchar(255) default NULL,
-  `job_description` blob,
-  `job_requirements` blob,
-  `start_date` date default NULL,
-  `end_date` date default NULL,
-  `apply_contact_id` int(10) unsigned default NULL,
-  `apply_by_email` tinyint(1) default NULL,
-  `apply_by_web` tinyint(1) default NULL,
-  `apply_by_web_url` varchar(255) default NULL,
-  `job_status` enum('active','inactive','deleted') default NULL,
-  `is_template` tinyint(1) default NULL,
-  `stylesheet` varchar(45) default NULL,
-  PRIMARY KEY  (`job_id`),
-  INDEX `job_org_id` (`org_id`),
-  INDEX `job_contact_id` (`apply_contact_id`),
-  FOREIGN KEY (`org_id`) REFERENCES `organization`(`org_id`),
-  FOREIGN KEY (`apply_contact_id`) REFERENCES `contact`(`contact_id`)
-) TYPE=INNODB;
+CREATE TABLE industry (
+  industry_id INTEGER(10) UNSIGNED NOT NULL,
+  group_id INTEGER(10) UNSIGNED NOT NULL,
+  name VARCHAR(80) NOT NULL,
+  PRIMARY KEY(industry_id),
+  INDEX industry_group_id(group_id),
+  FOREIGN KEY(group_id)
+    REFERENCES organization_group(group_id)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+)
+TYPE=InnoDB;
 
+CREATE TABLE contact (
+  contact_id INTEGER(10) UNSIGNED NOT NULL,
+  org_id INTEGER(10) UNSIGNED NOT NULL,
+  given_name VARCHAR(45) NOT NULL,
+  family_name VARCHAR(45) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  phone_intlcode VARCHAR(10) NOT NULL,
+  phone_areacode VARCHAR(10) NOT NULL,
+  phone_number VARCHAR(20) NOT NULL,
+  phone_extention VARCHAR(10) NOT NULL,
+  fax_intlcode VARCHAR(10) NOT NULL,
+  fax_areacode VARCHAR(10) NOT NULL,
+  fax_number VARCHAR(20) NOT NULL,
+  fax_extention VARCHAR(10) NOT NULL,
+  PRIMARY KEY(contact_id),
+  INDEX contact_org_id(org_id),
+  FOREIGN KEY(org_id)
+    REFERENCES organization(org_id)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+)
+TYPE=InnoDB;
 
-CREATE TABLE `profession` (
-  `group_id` int(10) unsigned NOT NULL default '0',
-  `profession_id` int(10) unsigned NOT NULL default '0',
-  `name` varchar(80) default NULL,
-  PRIMARY KEY  (`group_id`, `profession_id`),
-  INDEX `profession_group_id` (`group_id`),
-  FOREIGN KEY (`group_id`) REFERENCES `organization_group`(`group_id`)
-) TYPE=INNODB;
+CREATE TABLE job_posting (
+  job_id INTEGER(10) UNSIGNED NOT NULL,
+  org_id INTEGER(10) UNSIGNED NOT NULL,
+  job_title VARCHAR(255) NOT NULL,
+  job_description BLOB NOT NULL,
+  job_requirements BLOB NOT NULL,
+  start_date DATE NOT NULL,
+  end_date DATE NOT NULL,
+  apply_contact_id INTEGER(10) UNSIGNED NOT NULL,
+  apply_by_email TINYINT(1) NOT NULL,
+  apply_by_web TINYINT(1) NOT NULL,
+  apply_by_web_url VARCHAR(255) NOT NULL,
+  job_status ENUM('active','inactive','deleted') NOT NULL,
+  is_template TINYINT(1) NOT NULL,
+  stylesheet VARCHAR(45) NOT NULL,
+  PRIMARY KEY(job_id),
+  INDEX job_org_id(org_id),
+  INDEX job_contact_id(apply_contact_id),
+  FOREIGN KEY(org_id)
+    REFERENCES organization(org_id)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(apply_contact_id)
+    REFERENCES contact(contact_id)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+)
+TYPE=InnoDB;
 
+CREATE TABLE organization_industries (
+  industry_id INTEGER(10) UNSIGNED NOT NULL,
+  org_id INTEGER(10) UNSIGNED NOT NULL,
+  PRIMARY KEY(industry_id, org_id),
+  INDEX organization_industries_org_id(org_id),
+  INDEX organization_industries_industry_id(industry_id),
+  FOREIGN KEY(industry_id)
+    REFERENCES industry(industry_id)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(org_id)
+    REFERENCES organization(org_id)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+)
+TYPE=InnoDB;
 
-CREATE TABLE `industry` (
-  `group_id` int(10) unsigned NOT NULL default '0',
-  `industry_id` int(10) unsigned NOT NULL default '0',
-  `name` varchar(80) default NULL,
-  PRIMARY KEY  (`group_id`, `industry_id`),
-  INDEX `industry_group_id` (`group_id`),
-  FOREIGN KEY (`group_id`) REFERENCES `organization_group`(`group_id`)
-) TYPE=INNODB;
+CREATE TABLE job_locations (
+  job_id INTEGER(10) UNSIGNED NOT NULL,
+  location_id INTEGER(10) UNSIGNED NOT NULL,
+  PRIMARY KEY(job_id),
+  INDEX job_posting_job_id(job_id),
+  FOREIGN KEY(job_id)
+    REFERENCES job_posting(job_id)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(location_id)
+    REFERENCES location(location_id)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+)
+TYPE=InnoDB;
 
-
-CREATE TABLE `location` (
-  `group_id` int(10) unsigned NOT NULL default '0',
-  `location_id` int(10) unsigned NOT NULL default '0',
-  `name` varchar(80) default NULL,
-  `location_type` enum('region','country','state','city','zip') default NULL,
-  PRIMARY KEY  (`group_id`, `location_id`),
-  INDEX `location_group_id` (`group_id`),
-  FOREIGN KEY (`group_id`) REFERENCES `organization_group`(`group_id`)
-) TYPE=INNODB;
-
-
-CREATE TABLE `job_locations` (
-  `location_id` int(10) unsigned NOT NULL default '0',
-  `group_id` int(10) unsigned NOT NULL default '0',
-  `job_id` int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`location_id`,`group_id`,`job_id`),
-  INDEX `job_posting_job_id` (`job_id`),
-  INDEX `job_posting_location_id` (`group_id`,`location_id`),
-  FOREIGN KEY (`job_id`) REFERENCES `organization_group`(`group_id`),
-  FOREIGN KEY (`group_id`,`location_id`) REFERENCES `location`(`group_id`,`location_id`)
-) TYPE=INNODB;
-
-
-CREATE TABLE `job_professions` (
-  `profession_id` int(10) unsigned NOT NULL default '0',
-  `group_id` int(10) unsigned NOT NULL default '0',
-  `job_id` int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`profession_id`,`job_id`),
-  INDEX `job_profession_job_id` (`job_id`),
-  INDEX `job_profession_profession_id` (`group_id`,`profession_id`),
-  FOREIGN KEY (`job_id`) REFERENCES `organization_group`(`group_id`),
-  FOREIGN KEY (`group_id`,`profession_id`) REFERENCES `profession`(`group_id`,`profession_id`)
-) TYPE=INNODB;
-
-
-CREATE TABLE `organization_industries` (
-  `industry_id` int(10) unsigned NOT NULL default '0',
-  `group_id` int(10) unsigned NOT NULL default '0',
-  `org_id` int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`industry_id`,`group_id`,`org_id`),
-  INDEX `organization_industries_org_id` (`org_id`),
-  INDEX `organization_industries_industry_id` (`group_id`,`industry_id`),
-  FOREIGN KEY (`org_id`) REFERENCES `organization_group`(`group_id`),
-  FOREIGN KEY (`group_id`,`industry_id`) REFERENCES `industry`(`group_id`,`industry_id`)
-) TYPE=INNODB;
+CREATE TABLE job_professions (
+  profession_id INTEGER(10) UNSIGNED NOT NULL,
+  job_id INTEGER(10) UNSIGNED NOT NULL,
+  PRIMARY KEY(profession_id, job_id),
+  INDEX job_profession_job_id(job_id),
+  INDEX job_profession_profession_id(profession_id),
+  FOREIGN KEY(job_id)
+    REFERENCES job_posting(job_id)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(profession_id)
+    REFERENCES profession(profession_id)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+)
+TYPE=InnoDB;
 
