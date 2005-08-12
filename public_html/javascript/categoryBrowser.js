@@ -10,7 +10,7 @@
     }
 
     function setFormValueFromBrowseWin(fName,formBrowserObj)    {
-        var formObj = setFormValue_getFObj(fName)
+        var formObj = getFrom(fName)
         
         if (formObj)    {
             fObj = formObj[fName+"[]"];
@@ -28,7 +28,7 @@
     }
     
     function addValue(value,text,fName)    {
-        var formObj = setFormValue_getFObj(fName)
+        var formObj = getFrom(fName)
         if (formObj)    {
             fObj = formObj[fName+"[]"];
             var l = fObj.length;
@@ -45,9 +45,22 @@
             fObjHid.value+=fObjSel.options[a].value+",";
         }
     }
+    
+    function addCategory(name) {
+    	var form = getFrom(name)
+    	if (form) {
+	    	var selection = form[name+"_add"];
+	    	for (a=0;a<selection.length;a++)    {
+	    		if (selection.options[a].selected==1) {
+		    		addValue(selection.options[a].value,selection.options[a].text,name);
+	    			break;
+	    		}
+	    	}
+    	}
+    }
 
     function setFormValueManipulate(fName,type)    {
-        var formObj = setFormValue_getFObj(fName)
+        var formObj = getFrom(fName)
         if (formObj)    {
             var localArray_V = new Array();
             var localArray_L = new Array();
@@ -72,7 +85,7 @@
         }
     }
 
-    function setFormValue_getFObj(fName)    {
+    function getFrom(fName)    {
         var formObj = document.edit;
         if (formObj)    {
             if (formObj[fName+"[]"] && formObj[fName+"_list"] && formObj[fName+"[]"].type=="select-multiple")    {

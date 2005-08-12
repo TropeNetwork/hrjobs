@@ -8,6 +8,7 @@ require_once 'HiringOrg.php';
 require_once 'PostalAddress.php';
 require_once 'DBTableList.php';
 require_once 'DBTableList/Renderer/Sigma.php';
+require_once 'form/Form_Organization.php';
 require_once 'Database.php';
 require_once 'HttpParameter.php';
 require_once 'Categories.php';
@@ -32,8 +33,7 @@ if (isset($id)) {
 
 $group_id = $org_usr->getGroupId();
 
-$form = new HTML_QuickForm('edit','POST');
-$form->setRequiredNote("<font color=\"red\" size=\"1\"> *</font><font size=\"1\"> Pflichtfelder</font>");
+$form = new Form_Organization('edit','POST');
 
 if (!isset($group_id) || $group_id===0) {
     if (!checkRights(HRJOBS_RIGHT_SYSTEM)) {
@@ -44,58 +44,13 @@ if (!isset($group_id) || $group_id===0) {
     $form->addRule('group',          _("Please select a \"Group\" "), 'required', null,'server');
 }
 
-$form->addElement('header','test',_("Contact"));
-$form->addElement('text','org_name', _("Name"),
-            array('maxlength'=>'100',
-                  'size'=>'40',
-                  'class'=>'formFieldLong'));
-$form->addElement('text','website', _("Website"),
-            array('maxlength'=>'100',
-                  'size'=>'40',
-                  'class'=>'formFieldLong'));      
-$form->addElement('textarea','org_description', _("Description"),
-            array('rows'=>'10',
-                  'cols'=>'70',
-                  'wrap'=>'on',
-                  'class'=>'formFieldTextArea'));
-
-$form->addElement('text','address', _("Address"),
-            array('maxlength'=>'100',
-                  'size'=>'40',
-                  'class'=>'formFieldLong'));  
-$form->addElement('text','street', _("Street"),
-            array('maxlength'=>'100',
-                  'size'=>'40',
-                  'class'=>'formFieldLong'));  
-$form->addElement('text','building_number', _("Building Number"),
-            array('maxlength'=>'10',
-                  'size'=>'3',
-                  'class'=>'formFieldLong'));  
-$form->addElement('text','postal_code', _("Zip"),
-            array('maxlength'=>'10',
-                  'size'=>'5',
-                  'class'=>'formFieldLong'));  
-$form->addElement('text','region', _("City"),
-            array('maxlength'=>'100',
-                  'size'=>'40',
-                  'class'=>'formFieldLong'));  
-$form->addElement('text','country_code', _("Country"),
-            array('maxlength'=>'30',
-                  'size'=>'20',
-                  'class'=>'formFieldLong'));  
-$file =& $form->addElement('file', 'logo', _("Logo"));
-
-
-$form->addElement('select','industry', _("Industry"),null, 
-           array("size"=>"5",
-                 "style"=>"width:200px;",
-                 "multiple"=>"multiple") );
-$form->addElement('hidden','industry_list');
-
-$form->addElement('submit','save',_("Save"));
 if (isset($id)) {
     $form->addElement('hidden', 'id', $id);
-} 
+}
+$industry = $form->getElement('industry');
+$industry->loadQuery(Database::getConnection(DSN),'SELECT industry_id, name from industry where group_id='.$group_id.';','name','industry_id');
+$industry->setSelected(array_keys($org->getIndustries()));
+
 $defaults = array(
     'group'             => $org->getValue('group_id'),
     'org_name'          => $org->getValue('org_name'),
@@ -109,13 +64,6 @@ $defaults = array(
     'country_code'      => $address->getValue('country_code'),
 );
 $form->setDefaults($defaults);
-$form->addRule('org_name',          _("Please enter a \"Name\" "), 'required', null,'server');
-$form->addRule('street',            _("Please enter a \"Street\" "), 'required', null,'server');
-$form->addRule('building_number',   _("Please enter a \"Building Number\" "), 'required', null,'server');
-$form->addRule('region',            _("Please enter a \"City\" "), 'required', null,'server');
-$form->addRule('postal_code',       _("Please enter a \"Zip\" "), 'required', null,'server');
-$form->addRule('country_code',      _("Please enter a \"Country\" "), 'required', null,'server');
-$form->addRule('website',           _("Please enter a \"Website\" "), 'required', null,'server');
 
 
 if ($form->validate()) {    
@@ -127,12 +75,10 @@ if ($form->validate()) {
     if (isset($group_id)) {
         $org->setValue('group_id',$group_id);
     }
-    $list = $form->exportValue('industry_list');
-    $cat = split(",",$list);
-    sort($cat);
-    $org->setIndustries(array_unique($cat));
+    $org->setIndustries($form->exportValue('industry'));
     
     $org->save();
+    $file = $form->getFile();
     if ($file->isUploadedFile()) {
         
         $path = realpath('logos').'/'.$org->getValue('org_id');
@@ -159,20 +105,8 @@ if ($form->validate()) {
 if ($org->getValue('logo_file_name')) {
     $tpl->setVariable('logo','<img title="'.$org->getValue('org_name').'" src="/logos/'.$org->getValue('org_id').'/'.$org->getValue('logo_file_name').'" alt="logo">');
 }
-/*
-$category = Categories::getCategoryValues($org->getIndustries(),Categories::TYPE_INDUSTRY);
-$script = '
-       <script type="text/javascript">
-       <!--
-';     
-foreach ($category as $key => $value) {       
-    $script .= "addValue('$key','$value','industry');\n";
-}              
-$script .= '
-        -->
-     </script>'; 
-$tpl->setVariable('industry_script',$script);
-*/
+
+
 $renderer =& new HTML_QuickForm_Renderer_ITStatic($tpl);
 $renderer->setRequiredTemplate('{label}<font color="red" size="1"> *</font>');
 $renderer->setErrorTemplate('');

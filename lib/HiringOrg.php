@@ -141,10 +141,10 @@ class HiringOrg {
             return array();        
         }
         $db = Database::getConnection(DSN);
-        $query="SELECT industry_id FROM organization_industries WHERE org_id=".$this->values['org_id'];
-        $data = $db->getCol($query);
-        if (isset($data)) {
-            $this->industries = $data;            
+        $query="SELECT i.industry_id, i.name FROM organization_industries oi, industry i WHERE oi.industry_id=i.industry_id AND oi.org_id=".$this->values['org_id'];
+        $res = $db->query($query);
+        while ($row =& $res->fetchRow()) {
+            $this->industries[$row['industry_id']] = $row['name'];            
         }
         return $this->industries;
     }

@@ -8,6 +8,8 @@ require_once 'OrgUser.php';
 require_once 'Date.php';
 require_once 'HttpParameter.php';
 require_once 'Categories.php';
+require_once 'form/Form_Job.php';
+require_once 'Database.php';
 
 $id = HttpParameter::getParameter('id');
 
@@ -17,7 +19,7 @@ if (isset($id) && !$org_usr->hasRightOnJob($id)
     header("Location: noright.php");
     exit;
 }
-
+$group_id = $org_usr->getGroupId();
 $org = $org_usr->getOrganizations();
 $job = new JobPositionPosting($id);
 $disabled = false;
@@ -25,8 +27,7 @@ if (isset($id)) {
     $disabled = ($job->getValue('job_status')!=JobPositionPosting::STATUS_ACTIVE);
 }
 
-$form = new HTML_QuickForm('edit','POST');
-$form->setRequiredNote("<font color=\"red\" size=\"1\"> *</font><font size=\"1\"> "._("Required")."</font>");
+$form = new Form_Job('edit','POST');
 $form->addElement('header','test',_("Contact"));
 $orgs = array();
 if (empty($org)) {
@@ -37,35 +38,7 @@ if (empty($org)) {
     }
 }
 $form->addElement('select','org_id', _("Organization"),$orgs);
-$form->addElement('text','job_title', _("Job Titel"),
-            array('maxlength'=>'100',
-                  'size'=>'40',
-                  'class'=>'formFieldLong'));
-$form->addElement('text','job_reference', _("Job Reference"),
-            array('maxlength'=>'30',
-                  'size'=>'40',
-                  'class'=>'formFieldLong'));
-$form->addElement('textarea','job_description', _("Description"),
-            array('rows'=>'10',
-                  'cols'=>'70',
-                  'wrap'=>'on',
-                  'class'=>'formFieldTextArea'));
-$form->addElement('textarea','job_requirements', _("Requirements"),
-            array('rows'=>'10',
-                  'cols'=>'70',
-                  'wrap'=>'on',
-                  'class'=>'formFieldTextArea'));
-$form->addElement('checkbox','byphone', null, _("Phone"),
-            array('class'=>'formFieldCheckbox'));
-$form->addElement('checkbox','apply_by_email', null,_("Email"),
-            array('checked'=>'true',
-                  'class'=>'formFieldCheckbox'));   
-$form->addElement('checkbox','apply_by_web', null, _("Web"),
-            array('class'=>'formFieldCheckbox'));
-$form->addElement('text','apply_by_web_url', _("URL:"),
-            array('maxlength'=>'255',
-                  'size'=>'60',
-                  'class'=>'formFieldLong'));
+
 $form->registerElementType('dyndate','DynDate.php','HTML_QuickForm_dyndate');
 $dateelement = 'dyndate';
 if ($disabled) {
@@ -116,16 +89,7 @@ if ($job->getValue('org_id')) {
 }
 $contact_select = $form->addElement('select','apply_contact',_("Contact"));
 
-$form->addElement('select','profession', _("Profession"),null, 
-           array("size"=>"5",
-                 "style"=>"width:200px;",
-                 "multiple"=>"multiple") );
-$form->addElement('hidden','profession_list');
-$form->addElement('select','location', _("Location"),null, 
-           array("size"=>"5",
-                 "style"=>"width:200px;",
-                 "multiple"=>"multiple") );
-$form->addElement('hidden','location_list');
+
 
 if (isset($id)) {
     $form->addElement('hidden', 'id', $id);
@@ -141,8 +105,17 @@ if (!$job->getValue('end_date')
 } else {
     $end = $job->getValue('end_date');
 }
-$professions = $job->getProfessions();
-$locations = $job->getLocations();
+
+
+$cat = $form->getElement('profession');
+$cat->loadQuery(Database::getConnection(DSN),'SELECT profession_id, name from profession where group_id='.$group_id.';','name','profession_id');
+$cat->setSelected(array_keys($job->getProfessions()));
+
+$cat = $form->getElement('location');
+$cat->loadQuery(Database::getConnection(DSN),'SELECT location_id, name from location where group_id='.$group_id.';','name','location_id');
+$cat->setSelected(array_keys($job->getLocations()));
+
+
 $defaults = array(
     'job_title'             => $job->getValue('job_title'),
     'job_reference'         => $job->getValue('job_reference'),
@@ -156,8 +129,6 @@ $defaults = array(
     'apply_by_web'          => $job->getValue('apply_by_web'),
     'apply_by_web_url'      => $job->getValue('apply_by_web_url'),
     'stylesheet'            => $job->getValue('stylesheet'),    
-    'profession_list'       => implode(",", $professions),
-    'location_list'         => implode(",", $locations),
 );
 
 $form->setDefaults($defaults);
@@ -183,14 +154,9 @@ if ($form->validate()) {
     if ($job->getValue('apply_contact_id')==='-1') {
     	$job->setValue('apply_contact_id',null);
     }
-    $list = $form->exportValue('profession_list');
-    $prof = split(",",$list);
-    sort($prof);
-    $job->setProfessions(array_unique($prof));
-    $list = $form->exportValue('location_list');
-    $loc = split(",",$list);
-    sort($loc);
-    $job->setLocations(array_unique($loc));
+    
+    $job->setProfessions($form->exportValue('profession'));
+    $job->setLocations($form->exportValue('location'));
     if ($job->getValue('is_template')===null) {
         $job->setValue('is_template',false);
     }
@@ -243,32 +209,7 @@ if ($form->validate()) {
     
     
 } 
-/*
-$professions = Categories::getCategoryValues($job->getProfessions());
-$script = '
-       <script type="text/javascript">
-       <!--
-';     
-foreach ($professions as $key => $value) {       
-    $script .= "addValue('$key','$value','profession');\n";
-}              
-$script .= '
-        -->
-     </script>'; 
-$tpl->setVariable('profession_script',$script);
-$locations = Categories::getCategoryValues($job->getLocations(),Categories::TYPE_LOCATION);
-$script = '
-       <script type="text/javascript">
-       <!--
-';     
-foreach ($locations as $key => $value) {       
-    $script .= "addValue('$key','$value','location');\n";
-}              
-$script .= '
-        -->
-     </script>'; 
-$tpl->setVariable('location_script',$script);
-*/
+
 $contact_select->loadArray($contact_options);
 $renderer =& new HTML_QuickForm_Renderer_ITStatic($tpl);
 $renderer->setRequiredTemplate('{label}<font color="red" size="1"> *</font>');

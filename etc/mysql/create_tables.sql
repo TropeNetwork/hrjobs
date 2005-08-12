@@ -126,11 +126,6 @@ TYPE=InnoDB;
 -----------------------
 -- HRJOBS TABLES ------
 -----------------------
-
-
-
-
-
 CREATE TABLE organization_group (
   group_id INTEGER(10) UNSIGNED NOT NULL,
   group_name VARCHAR(45) NOT NULL,
@@ -251,19 +246,20 @@ TYPE=InnoDB;
 
 CREATE TABLE job_posting (
   job_id INTEGER(10) UNSIGNED NOT NULL,
+  job_reference VARCHAR(30) NULL,
   org_id INTEGER(10) UNSIGNED NOT NULL,
   job_title VARCHAR(255) NOT NULL,
-  job_description BLOB NOT NULL,
-  job_requirements BLOB NOT NULL,
-  start_date DATE NOT NULL,
-  end_date DATE NOT NULL,
-  apply_contact_id INTEGER(10) UNSIGNED NOT NULL,
-  apply_by_email TINYINT(1) NOT NULL,
-  apply_by_web TINYINT(1) NOT NULL,
-  apply_by_web_url VARCHAR(255) NOT NULL,
-  job_status ENUM('active','inactive','deleted') NOT NULL,
-  is_template TINYINT(1) NOT NULL,
-  stylesheet VARCHAR(45) NOT NULL,
+  job_description BLOB NULL,
+  job_requirements BLOB NULL,
+  start_date DATE NULL,
+  end_date DATE NULL,
+  apply_contact_id INTEGER(10) UNSIGNED NULL,
+  apply_by_email TINYINT(1) NULL,
+  apply_by_web TINYINT(1) NULL,
+  apply_by_web_url VARCHAR(255) NULL,
+  job_status ENUM('active','inactive','deleted') NULL,
+  is_template TINYINT(1) NULL,
+  stylesheet VARCHAR(45) NULL,
   PRIMARY KEY(job_id),
   INDEX job_org_id(org_id),
   INDEX job_contact_id(apply_contact_id),
@@ -298,8 +294,9 @@ TYPE=InnoDB;
 CREATE TABLE job_locations (
   job_id INTEGER(10) UNSIGNED NOT NULL,
   location_id INTEGER(10) UNSIGNED NOT NULL,
-  PRIMARY KEY(job_id),
+  PRIMARY KEY(job_id, location_id),
   INDEX job_posting_job_id(job_id),
+  INDEX job_locations_location_id(location_id),
   FOREIGN KEY(job_id)
     REFERENCES job_posting(job_id)
       ON DELETE NO ACTION

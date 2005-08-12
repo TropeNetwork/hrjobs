@@ -67,7 +67,8 @@ class JobPositionPosting
               $this->values['job_reference']=$this->values['job_id'];
             }
             foreach($this->values as $key=>$val){
-                $query="UPDATE job_posting SET $key='".addslashes($val)."' 
+            	
+                $query="UPDATE job_posting SET $key=".($val==null?'null ':"'".addslashes($val)."'")." 
                              WHERE job_id=".$this->values['job_id'];
                 $db->query($query);                
             }       
@@ -154,10 +155,10 @@ class JobPositionPosting
             return array();        
         }
         $db = Database::getConnection(DSN);
-        $query="SELECT profession_id FROM job_professions WHERE job_id=".$this->values['job_id'];
-        $data = $db->getCol($query);
-        if (isset($data)) {
-            $this->professions = $data;            
+        $query="SELECT p.profession_id, p.name FROM job_professions jp, profession p WHERE jp.profession_id=p.profession_id AND jp.job_id=".$this->values['job_id'];
+        $res = $db->query($query);
+        while ($row =& $res->fetchRow()) {
+            $this->professions[$row['profession_id']] = $row['name'];            
         }
         return $this->professions;
     }
@@ -181,10 +182,10 @@ class JobPositionPosting
             return array();        
         }
         $db = Database::getConnection(DSN);
-        $query="SELECT location_id FROM job_locations WHERE job_id=".$this->values['job_id'];
-        $data = $db->getCol($query);
-        if (isset($data)) {
-            $this->locations = $data;            
+        $query="SELECT l.location_id, l.name FROM job_locations jl, location l WHERE jl.location_id=l.location_id AND jl.job_id=".$this->values['job_id'];
+        $res = $db->query($query);
+        while ($row =& $res->fetchRow()) {
+            $this->locations[$row['location_id']] = $row['name'];            
         }
         return $this->locations;
     }
