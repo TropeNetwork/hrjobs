@@ -54,7 +54,7 @@ class JobRowRenderer implements DBTableList_Renderer_Sigma_RowRenderer {
     }
 }
 $templates = HttpParameter::getParameter('templates');
-$org_usr = new OrgUser($usr->getProperty('authUserId'));
+$org_usr = new OrgUser($usr->getProperty('auth_user_id'));
 
 $form = new HTML_QuickForm('search','POST');
 $form->setRequiredNote("<font color=\"red\" size=\"1\"> *</font><font size=\"1\"> "._("Required")."</font>");

@@ -17,7 +17,7 @@ if (!checkRights(HRJOBS_RIGHT_SYSTEM)) {
 }
 $id = HttpParameter::getParameter('id');
 
-$org_usr = new OrgUser($usr->getProperty('authUserId'));
+$org_usr = new OrgUser($usr->getProperty('auth_user_id'));
 if (isset($id)) {
     $group = new OrgGroup($id);
 } else {

@@ -6,7 +6,7 @@ require_once 'DBTableList/Renderer/Sigma.php';
 require_once 'Database.php';
 require_once 'OrgUser.php';
 
-$org_usr = new OrgUser($usr->getProperty('authUserId'));
+$org_usr = new OrgUser($usr->getProperty('auth_user_id'));
 
 $list = new DBTableList(DSN, 10,'org');
 $list->setTable('organization left join organization_group on organization.group_id=organization_group.group_id');

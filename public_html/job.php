@@ -13,7 +13,7 @@ require_once 'Database.php';
 
 $id = HttpParameter::getParameter('id');
 
-$org_usr = new OrgUser($usr->getProperty('authUserId'));
+$org_usr = new OrgUser($usr->getProperty('auth_user_id'));
 if (isset($id) && !$org_usr->hasRightOnJob($id) 
   && !checkRights(HRJOBS_RIGHT_SYSTEM)) {
     header("Location: noright.php");

@@ -11,7 +11,7 @@ require_once 'HttpParameter.php';
 
 $auth_user_id = HttpParameter::getParameter('id');
 
-$org_usr = new OrgUser($usr->getProperty('authUserId'));
+$org_usr = new OrgUser($usr->getProperty('auth_user_id'));
 
 if (!checkRights(HRJOBS_RIGHT_SYSTEM) 
   && (!$org_usr->getValue('is_group_admin')

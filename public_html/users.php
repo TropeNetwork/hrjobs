@@ -9,7 +9,7 @@ require_once 'DBTableList/Renderer/User.php';
 
 
 // Users
-$org_usr = new OrgUser($usr->getProperty('authUserId'));
+$org_usr = new OrgUser($usr->getProperty('auth_user_id'));
 if (!checkRights(HRJOBS_RIGHT_SYSTEM) && !$org_usr->getValue('is_group_admin')) {
     header("Location: noright.php");
 }

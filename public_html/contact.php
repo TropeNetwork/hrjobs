@@ -12,7 +12,7 @@ require_once 'HttpParameter.php';
 $id = HttpParameter::getParameter('id');
 $cid = HttpParameter::getParameter('cid');
 
-$org_usr = new OrgUser($usr->getProperty('authUserId'));
+$org_usr = new OrgUser($usr->getProperty('auth_user_id'));
 if (isset($id) && !$org_usr->hasRightOnOrganization($id)  && !$org_usr->getValue('is_group_admin')) {
     header("Location: noright.php");
     exit;

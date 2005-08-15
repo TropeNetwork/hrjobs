@@ -25,7 +25,7 @@ class GroupRowRenderer implements DBTableList_Renderer_Sigma_RowRenderer {
         
     }
 }
-$org_usr = new OrgUser($usr->getProperty('authUserId'));
+$org_usr = new OrgUser($usr->getProperty('auth_user_id'));
 $list = new DBTableList(DSN, 10,'group');
 $list->setTable('organization_group');
 $list->setColumns(array (

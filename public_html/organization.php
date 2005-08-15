@@ -15,7 +15,7 @@ require_once 'Categories.php';
 require_once 'OrgUser.php';
 
 $id = HttpParameter::getParameter('id');
-$org_usr = new OrgUser($usr->getProperty('authUserId'));
+$org_usr = new OrgUser($usr->getProperty('auth_user_id'));
 if (isset($id) && !$org_usr->hasRightOnOrganization($id) 
   && !checkRights(HRJOBS_RIGHT_SYSTEM)) {
     header("Location: noright.php");
@@ -38,6 +38,7 @@ $form = new Form_Organization('edit','POST');
 if (!isset($group_id) || $group_id===0) {
     if (!checkRights(HRJOBS_RIGHT_SYSTEM)) {
         header("Location: noright.php");
+        exit;
     }
     $select_group = getGroups();
     $form->addElement('select','group', _("Gruppe"),$select_group);
