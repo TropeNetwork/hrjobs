@@ -7,7 +7,7 @@ abstract class Form extends HTML_QuickForm {
 
     function __construct($name,$method){
         parent::__construct($name,$method);
-        $this->setRequiredNote('<font color=\"red\" size=\"1\"> *</font><font size=\"1\"> Pflichtfelder</font>');
+        $this->setRequiredNote('<font color="red" size="1"> *</font><font size="1"> '._("Required fields").'</font>');
         $this->addFields();  
         $this->setRules();
     }

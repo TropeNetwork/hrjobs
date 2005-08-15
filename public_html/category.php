@@ -14,11 +14,13 @@ require_once 'DBTableList/Renderer/Sigma.php';
 
 $org_usr = new OrgUser($usr->getProperty('authUserId'));
 if (!checkRights(HRJOBS_RIGHT_SYSTEM) && !$org_usr->getValue('is_group_admin')) {
-      header("Location: noright.php");
+	header("Location: noright.php");
 }    
 
-$cat_id   = HttpParameter::getParameter('cat_id');
-$cat_type   = HttpParameter::getParameter('cat_type');
+$cat_id   	= HttpParameter::getParameter('cat_id');
+$cat_type	= HttpParameter::getParameter('cat_type');
+$form 		= new Form_Category('cat','GET');
+
 
 switch ($cat_type) {
 	case Categories::SECTION_PROFESSION:
@@ -32,23 +34,39 @@ switch ($cat_type) {
 	case Categories::SECTION_LOCATION:
 		$cat = new Location($cat_id);
 		$title = _("Location");
+		$form->addElement(
+			'select', 
+			'type', 
+			_("Location Type"),
+			array(
+				'region'	=> _("region"),
+				'country'	=> _("country"),
+				'state'		=> _("state"),
+				'city'		=> _("city"),
+				'zip'		=> _("zip")
+			)
+		);
+		$defaults['type'] = $cat->getValue('location_type');
 		break;
 	default:
 		header('Location: categories.php');
 		break;
 }
-$form = new Form_Category('cat','POST');
+
 $form->addElement('hidden', 'cat_id', $cat_id);
 $form->addElement('hidden', 'cat_type', $cat_type);
 
-$defaults = array(
-	'name'	=> $cat->getValue('name'),
-);    
+$defaults['name'] = $cat->getValue('name');
+
+  
 $form->setDefaults($defaults);
 
 if ($form->validate()) {
 	
 	if ($form->exportValue('save')) {
+		if ($form->exportValue('type')) {
+			$cat->setValue('location_type',$form->exportValue('type'));
+		}
 		$cat->setValue('group_id',$org_usr->getValue('group_id'));
 		$cat->setValue('name',$form->exportValue('name'));
 		$cat->save();

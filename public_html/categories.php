@@ -25,8 +25,6 @@ if ($form->validate()) {
 $tpl->addBlockfile('contentmain','main', 'categories.html');
 $renderer =& new HTML_QuickForm_Renderer_ITStatic($tpl);
 
-#$renderer->setElementBlock(array('category'     => 'qf_group_table'));        
-
 $form->accept($renderer);
 
 $tpl->touchBlock('main');
@@ -55,7 +53,7 @@ $tpl->touchBlock('profession');
 $list = new DBTableList(DSN, 10, 'industry');
 $list->setTable('industry');
 $list->setColumns(array (
-    'industry_id' => 'Id.',
+    'industry_id' 	=> 'Id.',
     'name'			=> 'Name',
 ));
 $list->orderby('industry_id');
