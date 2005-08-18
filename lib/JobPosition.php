@@ -143,11 +143,13 @@ class JobPositionPosting
         $db = Database::getConnection(DSN);
         $query="DELETE FROM job_professions WHERE job_id=".$this->values['job_id'];
         $res = $db->query($query);
-        foreach($this->professions as $profs) {
-            if ($profs!=='') {
-                $query="INSERT INTO job_professions (job_id, profession_id) VALUES (".$this->values['job_id'].", ".$profs.")";
-                $db->query($query);
-            }
+        if (isset($this->professions)) {
+	        foreach($this->professions as $profs) {
+	            if ($profs!=='') {
+	                $query="INSERT INTO job_professions (job_id, profession_id) VALUES (".$this->values['job_id'].", ".$profs.")";
+	                $db->query($query);
+	            }
+	        }
         }
     }
     public function getProfessions() {
@@ -170,11 +172,13 @@ class JobPositionPosting
         $db = Database::getConnection(DSN);
         $query="DELETE FROM job_locations WHERE job_id=".$this->values['job_id'];
         $res = $db->query($query);
-        foreach($this->locations as $profs) {
-            if ($profs!=='') {
-                $query="INSERT INTO job_locations (job_id, location_id) VALUES (".$this->values['job_id'].", ".$profs.")";
-                $db->query($query);
-            }
+        if (isset($this->locations)) {
+	        foreach($this->locations as $profs) {
+	            if ($profs!=='') {
+	                $query="INSERT INTO job_locations (job_id, location_id) VALUES (".$this->values['job_id'].", ".$profs.")";
+	                $db->query($query);
+	            }
+	        }
         }
     }
     public function getLocations() {

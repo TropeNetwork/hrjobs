@@ -111,9 +111,10 @@ class HiringOrg {
                 "WHERE org_id=".$this->values['org_id'].
                 "  AND start_date<='".date('Y-m-d',time())."'".
                 "  AND job_status='active'" .
-                "  AND is_template=0" .
+                "  AND (is_template=0 OR is_template IS NULL)" .
                 "  AND (end_date>'".date('Y-m-d',time())."' OR end_date='0000-00-00')";
         $data = $db->getCol($query);
+        $jobs = array();
         if (isset($data)) {
             foreach($data as $id) {
                 $jobs[$id] = new JobPositionPosting($id);

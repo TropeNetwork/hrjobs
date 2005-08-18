@@ -127,20 +127,22 @@ TYPE=InnoDB;
 -- HRJOBS TABLES ------
 -----------------------
 CREATE TABLE organization_group (
-  group_id INTEGER(10) UNSIGNED NOT NULL,
+  group_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   group_name VARCHAR(45) NOT NULL,
   disabled TINYINT(1) NOT NULL,
+  export_key VARCHAR(32) NULL,
   PRIMARY KEY(group_id)
 )
 TYPE=InnoDB;
 
 CREATE TABLE organization (
   org_id INTEGER(10) UNSIGNED NOT NULL,
-  group_id INTEGER(10) UNSIGNED NOT NULL,
+  group_id INTEGER UNSIGNED NOT NULL,
   org_name VARCHAR(255) NOT NULL,
   website VARCHAR(255) NOT NULL,
   org_description BLOB NOT NULL,
   logo_file_name VARCHAR(45) NOT NULL,
+  enable_export BOOL NULL,
   PRIMARY KEY(org_id),
   INDEX group_id(group_id),
   FOREIGN KEY(group_id)
@@ -152,7 +154,7 @@ TYPE=InnoDB;
 
 CREATE TABLE organization_user (
   organization_user_id INTEGER(10) UNSIGNED NOT NULL,
-  group_id INTEGER(10) UNSIGNED NOT NULL,
+  group_id INTEGER UNSIGNED NOT NULL,
   is_group_admin TINYINT(1) NOT NULL,
   PRIMARY KEY(organization_user_id),
   INDEX org_user_group_id(group_id),
@@ -165,7 +167,7 @@ TYPE=InnoDB;
 
 CREATE TABLE profession (
   profession_id INTEGER(10) UNSIGNED NOT NULL,
-  group_id INTEGER(10) UNSIGNED NOT NULL,
+  group_id INTEGER UNSIGNED NOT NULL,
   name VARCHAR(80) NOT NULL,
   PRIMARY KEY(profession_id),
   INDEX profession_group_id(group_id),
@@ -196,7 +198,7 @@ TYPE=InnoDB;
 
 CREATE TABLE location (
   location_id INTEGER(10) UNSIGNED NOT NULL,
-  group_id INTEGER(10) UNSIGNED NOT NULL,
+  group_id INTEGER UNSIGNED NOT NULL,
   name VARCHAR(80) NOT NULL,
   location_type ENUM('region','country','state','city','zip') NOT NULL,
   PRIMARY KEY(location_id),
@@ -210,7 +212,7 @@ TYPE=InnoDB;
 
 CREATE TABLE industry (
   industry_id INTEGER(10) UNSIGNED NOT NULL,
-  group_id INTEGER(10) UNSIGNED NOT NULL,
+  group_id INTEGER UNSIGNED NOT NULL,
   name VARCHAR(80) NOT NULL,
   PRIMARY KEY(industry_id),
   INDEX industry_group_id(group_id),

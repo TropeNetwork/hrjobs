@@ -5,7 +5,6 @@ require_once 'HTML/QuickForm.php';
 require_once 'HTML/QuickForm/Renderer/ITStatic.php';
 require_once 'OrgUser.php';
 require_once 'OrgGroup.php';
-require_once 'GroupKeys.php';
 require_once 'Key.php';
 require_once 'Validate.php';
 require_once 'HttpParameter.php';
@@ -15,7 +14,6 @@ if (!checkRights(HRJOBS_RIGHT_SYSTEM) && !$org_usr->getValue('is_group_admin')) 
       header("Location: noright.php");
 }    
 
-$keys = new GroupKeys($org_usr->getGroupId());
 $group=new OrgGroup($org_usr->getGroupId());
 
 $form = new HTML_QuickForm('export','POST');
@@ -52,6 +50,7 @@ if (checkRights(HRJOBS_RIGHT_SYSTEM)){
     $form->addElement('hidden','group_id',$org_usr->getGroupId());
     $form->addElement('hidden','name','OHRwurm');
     $form->addElement('submit','request',_("Save"));
+    $form->addElement('submit','run',_("Run Export"));
     $form->addRule('key',     _("key is invalid"), 'checkKey');
     
 
@@ -66,26 +65,33 @@ if (checkRights(HRJOBS_RIGHT_SYSTEM)){
 }
 
 if ($form->validate()) {
-    if ($form->exportValue('key') && !HTML_QuickForm::isError($form->exportValue('key'))){
-        $group->setValue('export_key',$form->exportValue('key') );
-        $group->save();
-    }
-    if ($form->exportValue('wsdl') && !HTML_QuickForm::isError($form->exportValue('wsdl'))){
-        require_once('Config.php');
-        $config = new Config;
-        $root =& $config->parseConfig(_HRJOBS_CONFIG_FILE, 'XML');
-        $settings = $root->toArray();
-        $settings = $settings['root']['conf'];
-        $settings['ohrwurm']['wsdl']   = $form->exportValue('wsdl');
-        $settings['ohrwurm']['active'] = $form->exportValue('active');
-        $config = new Config;
-        $root =& $config->parseConfig($settings, 'phparray');
-        $res = $config->writeConfig( _HRJOBS_CONFIG_FILE, 'XML');
-        if (PEAR::isError($res)) {
-            $tpl->setVariable('errors','<div class="error">'.$res->getMessage());
-        } else {
-        }                                                               
-    }
+	
+	if ($form->exportValue('request') && !HTML_QuickForm::isError($form->exportValue('request'))) {
+	    if ($form->exportValue('key') && !HTML_QuickForm::isError($form->exportValue('key'))){
+	        $group->setValue('export_key',$form->exportValue('key') );
+	        $group->save();
+	    }
+	    if ($form->exportValue('wsdl') && !HTML_QuickForm::isError($form->exportValue('wsdl'))){
+	        require_once('Config.php');
+	        $config = new Config;
+	        $root =& $config->parseConfig(_HRJOBS_CONFIG_FILE, 'XML');
+	        $settings = $root->toArray();
+	        $settings = $settings['root']['conf'];
+	        $settings['ohrwurm']['wsdl']   = $form->exportValue('wsdl');
+	        $settings['ohrwurm']['active'] = $form->exportValue('active');
+	        $config = new Config;
+	        $root =& $config->parseConfig($settings, 'phparray');
+	        $res = $config->writeConfig( _HRJOBS_CONFIG_FILE, 'XML');
+	        if (PEAR::isError($res)) {
+	            $tpl->setVariable('errors','<div class="error">'.$res->getMessage());
+	        } else {
+	        }                                                               
+	    }
+	} elseif ($form->exportValue('run') && !HTML_QuickForm::isError($form->exportValue('run'))) {
+		require_once('JobExporter.php');
+		$exporter = new JobExporter($group);
+		$exporter->run();
+	}
 }
 
 $renderer =& new HTML_QuickForm_Renderer_ITStatic($tpl);
