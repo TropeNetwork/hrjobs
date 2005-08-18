@@ -55,10 +55,10 @@ function getMenuString() {
     $menu .= ".|"   .gettext("Settings")."|configuration.php|".gettext("Settings")."|configs.png\n";
     $menu .= "..|"  .gettext("User Administration")."|users.php|".gettext("User Administration")."|users.png\n";
     $menu .= "..|"  .gettext("Categories")."|categories.php|".gettext("Categories")."|kcmdf_16x16.png\n";
+    $menu .= "..|"  .gettext("Jobs Export")."|export.php|".gettext("Jobs Export")."|multisynk_16x16.png\n";
     $menu .= "..|---\n";
     $menu .= "..|"  .gettext("Administration")."|admin.php|".gettext("Administration")."|configs.png\n";
     $menu .= "...|"  .gettext("Groups")."|groups.php|".gettext("Groups")."|groups.png\n";
-    $menu .= "...|"  .gettext("Jobs Export")."|export.php|".gettext("Jobs Export")."|multisynk_16x16.png\n";
     $menu .= ".|"   .gettext("Logout")."|?logout=1|".gettext("Logout")."|\n";
     $menu .= ".|"   .gettext("Help")."|about.php|".gettext("Help")."|help.png\n";
     $menu .= "..|"  .gettext("Support")."|about.php|".gettext("Support")."|help.png\n";

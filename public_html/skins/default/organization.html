@@ -4,6 +4,7 @@
 <li><a title="func_gettext("Details")" href="#" onClick="return expandcontent('sc2', this)" >func_gettext("Details")</a></li>
 <li><a title="func_gettext("Design")" href="#" onClick="return expandcontent('sc3', this)" >func_gettext("Design")</a></li>
 <li><a title="func_gettext("Contact")" href="#" onClick="return expandcontent('sc4', this)" >func_gettext("Contact")</a></li>
+<li><a title="func_gettext("Export")" href="#" onClick="return expandcontent('sc5', this)" >func_gettext("Export")</a></li>
 </ul>
 <form {edit_attributes}>
 <div id="tabcontentcontainer">
@@ -83,6 +84,15 @@
 <h2>func_gettext("Contacts")</h2>
 {new_contact}
 {contacts}
+</div>
+<div id="sc5" class="tabcontent">
+<h2>func_gettext("Export")</h2>
+<table>
+   <tr>
+     <th>{edit_enable_export_label}</th>
+     <td>{edit_enable_export_html}</td> 
+   </tr> 
+</table>
 </div>
 <br/>
 {edit_required_note}<br/>

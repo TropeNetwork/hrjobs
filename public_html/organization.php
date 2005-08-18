@@ -63,6 +63,7 @@ $defaults = array(
     'region'            => $address->getValue('region'),
     'postal_code'       => $address->getValue('postal_code'),
     'country_code'      => $address->getValue('country_code'),
+    'enable_export'		=> $org->getValue('enable_export'),
 );
 $form->setDefaults($defaults);
 
@@ -72,6 +73,7 @@ if ($form->validate()) {
     $org->setValue('website',$form->exportValue('website'));
     $org->setValue('group_id',$org_usr->getGroupId());
     $org->setValue('org_description',$form->exportValue('org_description'));
+    $org->setValue('enable_export',$form->exportValue('enable_export'));
     $group_id = $form->getSubmitValue("group");
     if (isset($group_id)) {
         $org->setValue('group_id',$group_id);

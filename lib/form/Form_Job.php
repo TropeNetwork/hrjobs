@@ -34,12 +34,12 @@ class Form_Job extends Form {
                   'class'=>'formFieldLong'));
 		$this->addElement('textarea','job_description', _("Description"),
             array('rows'=>'10',
-                  'cols'=>'70',
+                  'cols'=>'50',
                   'wrap'=>'on',
                   'class'=>'formFieldTextArea'));
 		$this->addElement('textarea','job_requirements', _("Requirements"),
             array('rows'=>'10',
-                  'cols'=>'70',
+                  'cols'=>'50',
                   'wrap'=>'on',
                   'class'=>'formFieldTextArea'));
 		$this->addElement('checkbox','byphone', null, _("Phone"),

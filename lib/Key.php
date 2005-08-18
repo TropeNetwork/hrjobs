@@ -88,6 +88,7 @@ class Key {
         } catch (SoapFault $fault) {
             trigger_error("SOAP Fault: (faultcode: {$fault->faultcode}, faultstring: {$fault->faultstring})", E_ERROR);
         } 
+        echo ':::'.$return;
         return $return;
     }
 }

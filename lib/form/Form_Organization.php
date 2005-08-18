@@ -35,7 +35,7 @@ class Form_Organization extends Form {
                   'class'=>'formFieldLong'));      
 		$this->addElement('textarea','org_description', _("Description"),
             array('rows'=>'10',
-                  'cols'=>'70',
+                  'cols'=>'50',
                   'wrap'=>'on',
                   'class'=>'formFieldTextArea'));
 
@@ -69,6 +69,7 @@ class Form_Organization extends Form {
                  "style"=>"width:200px;",
                  "multiple"=>"multiple") 
 		); 
+		$this->addElement('checkbox','enable_export', _("Enable Export"));
 		$this->addElement('submit','save',_("Save"));
 		$this->addElement('submit','delete',_("Delete"));
     }
