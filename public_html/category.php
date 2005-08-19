@@ -50,6 +50,7 @@ switch ($cat_type) {
 		break;
 	default:
 		header('Location: categories.php');
+		exit;
 		break;
 }
 
@@ -64,13 +65,24 @@ $form->setDefaults($defaults);
 if ($form->validate()) {
 	
 	if ($form->exportValue('save')) {
-		if ($form->exportValue('type')) {
+		if ($form->exportValue('type') && !HTML_QuickForm::isError($form->exportValue('type'))) {
 			$cat->setValue('location_type',$form->exportValue('type'));
 		}
 		$cat->setValue('group_id',$org_usr->getValue('group_id'));
 		$cat->setValue('name',$form->exportValue('name'));
 		$cat->save();
+		header('Location: categories.php');
+		exit;
+	} else if ($form->exportValue('delete') 
+		&& !HTML_QuickForm::isError($form->exportValue('delete'))) {
+		if ($form->exportValue('cat_id') 
+			&& !HTML_QuickForm::isError($form->exportValue('cat_id'))) {
+			$cat->delete();
+		}
+		header('Location: categories.php');
+		exit;
 	}
+	
 }
 
 $tpl->addBlockfile('contentmain','main', 'category.html');
