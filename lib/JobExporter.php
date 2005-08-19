@@ -36,6 +36,22 @@ class JobExporter {
 	private function exportJobs($org) {
 		$client = new SoapClient($GLOBALS['settings']['ohrwurm']['wsdl'],array('trace' =>1));
 		$jobs = $org->getPublishedJobs();
+		try{
+			$exported_jobs = $client->listJobPostings($this->group->getValue('export_key'));
+		} catch (SoapFault $fault) {
+		    trigger_error("SOAP Fault: (faultcode: {$fault->faultcode}, faultstring: {$fault->faultstring})", E_ERROR);
+			echo $fault->faultstring;
+		}
+		$old_jobs = array();
+		foreach ($exported_jobs as $exported_job) {
+			$old_jobs[$exported_job->jobId]=array(
+		    	'jobId'				=> $exported_job->jobId,
+				'url'				=> $exported_job->url,
+				'title'				=> $exported_job->title,
+				'organizationId'	=> $exported_job->organizationId,
+			);
+		}
+		
 		$_jobs = array();
 		foreach ($jobs as $job) {
 			array_push($_jobs, array(
@@ -44,7 +60,15 @@ class JobExporter {
 				'title'				=> $job->getValue('job_title'),
 				'organizationId'	=> $job->getValue('org_id'),
 			));
-
+			unset($old_jobs[$job->getValue('job_id')]);
+		}
+		if (count($old_jobs)>0) {
+			try {
+		        $result=$client->deleteJobPostings($this->group->getValue('export_key'),$old_jobs);
+		    } catch (SoapFault $fault) {
+		        trigger_error("SOAP Fault: (faultcode: {$fault->faultcode}, faultstring: {$fault->faultstring})", E_ERROR);
+		        echo $fault->faultstring;
+		    }
 		}
 		try {
 		    $result=$client->setJobPostings($this->group->getValue('export_key'),$_jobs);
