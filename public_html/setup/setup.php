@@ -97,26 +97,26 @@ $form->setDefaults($defaults);
 $form->registerRule ('db_connect', 'callback', 'db_connect');
 $form->registerRule ('db_exists', 'callback', 'db_exists');
 $form->registerRule ('db_select', 'callback', 'db_select');
-$form->addRule('base',          "Base darf nicht leer sein", 'required');
-$form->addRule('theme',         "Base darf nicht leer sein", 'required');
-$form->addRule('skin',          "Skin darf nicht leer sein", 'required');
-$form->addRule('db_host',       "Host darf nicht leer sein", 'required');
-$form->addRule('db_name',       "Name darf nicht leer sein", 'required');
-$form->addRule('db_user',       "User darf nicht leer sein", 'required');
+$form->addRule('base',          _("Base is required"), 'required');
+$form->addRule('theme',         _("Base is required"), 'required');
+$form->addRule('skin',          _("Skin is required"), 'required');
+$form->addRule('db_host',       _("Host is required"), 'required');
+$form->addRule('db_name',       _("Name is required"), 'required');
+$form->addRule('db_user',       _("User is required"), 'required');
 
     
 $form->addRule(array(
     'db_type',
     'db_host', 
     'db_user',
-    'db_pass'), 'Keine Verbindung zum Server!', 'db_connect');
+    'db_pass'), _("No connection to server!"), 'db_connect');
 
 $form->addRule(array(
     'db_type',
     'db_host', 
     'db_name',
     'db_user',
-    'db_pass'), 'Keine Vebindung zur Datenbank!', 'db_select');        
+    'db_pass'), _("No connection to database!"), 'db_select');        
 
 if ($form->validate()) {
     if ($form->exportValue('save')) {
@@ -147,7 +147,7 @@ $renderer->setRequiredTemplate('{label}<font color="red" size="1"> *</font>');
 $renderer->setErrorTemplate('<font color="orange" size="1">{error}</font><br/>{html}');
 $form->accept($renderer);
 
-$tpl->setVariable('title',"Setup Step 2 of 3");
+$tpl->setVariable('title',_("Setup Step 2 of 3"));
 $tpl->show();
 
 function setupHrAdmin($settings = array()) {
@@ -325,7 +325,7 @@ function setupRights($adminPerm,$areaid,$settings) {
         }
     }
     if (!$login) {
-        $res = addRight($adminPerm,$areaid,'LOGIN',"Login","Login Recht");
+        $res = addRight($adminPerm,$areaid,'LOGIN',"Login","Login Right");
         if (PEAR::isError($res)) {
             print 'impossible to initialize: ' . $res->getMessage();
         } else {
@@ -333,7 +333,7 @@ function setupRights($adminPerm,$areaid,$settings) {
         }
     }
     if (!$admin) {
-        $res = addRight($adminPerm,$areaid,'SYSTEM',"System","System Recht");
+        $res = addRight($adminPerm,$areaid,'SYSTEM',"System","System Right");
         if (PEAR::isError($res)) {
             print 'impossible to initialize: ' . $res->getMessage();
         } else {

@@ -7,7 +7,7 @@
 msgid	""
 msgstr	"Project-Id-Version: 0.0.1\n"
 	"Report-Msgid-Bugs-To: \n"
-	"POT-Creation-Date: 2004-11-05 12:39+0100\n"
+	"POT-Creation-Date: 2005-08-23 13:24+0200\n"
 	"PO-Revision-Date: 2004-11-04 08:00+0100\n"
 	"Last-Translator: Gerrit Goetsch <goetsch@cross-solution.de>\n"
 	"Language-Team: German <DE@li.org>\n"
@@ -16,16 +16,16 @@ msgstr	"Project-Id-Version: 0.0.1\n"
 	"Content-Transfer-Encoding: 8bit\n"
 
 msgid	"About HRJobs"
-msgstr	""
+msgstr	"Über HRJobs"
 
-msgid	"About HRjobs"
-msgstr	"Über HRjobs"
+msgid	"Activate Job"
+msgstr	"Job aktivieren"
 
 msgid	"Address"
 msgstr	"Adresse"
 
 msgid	"Admin"
-msgstr	""
+msgstr	"Admin"
 
 msgid	"Administration"
 msgstr	"Administration"
@@ -39,15 +39,23 @@ msgstr	"Zurück"
 msgid	"Base"
 msgstr	""
 
+#, fuzzy
+msgid	"Base is required"
+msgstr	"Name is ein Pflichtfeld"
+
 msgid	"Browser"
 msgstr	""
 
 msgid	"Building Number"
 msgstr	"Hausnummer"
 
+msgid	"Categories"
+msgstr	"Kategorien"
+
 msgid	"Check Connection"
 msgstr	"Prüfe Verbindung"
 
+#, fuzzy
 msgid	"City"
 msgstr	"Stadt"
 
@@ -56,6 +64,9 @@ msgstr	"Allgemeines"
 
 msgid	"Configuration"
 msgstr	"Konfiguration"
+
+msgid	"Connect to OHRwurm"
+msgstr	"Verbindung zum OHRwurm"
 
 msgid	"Contact"
 msgstr	"Kontakt"
@@ -69,14 +80,15 @@ msgstr	"Kontakte"
 msgid	"Continue"
 msgstr	"Weiter"
 
+#, fuzzy
 msgid	"Country"
 msgstr	"Land"
 
-msgid	"Create Database"
-msgstr	"Datenbank anlegen"
-
 msgid	"Create an organization first!"
 msgstr	"Bitte zuerst einen Organization anlegen!"
+
+msgid	"DB Type"
+msgstr	""
 
 msgid	"Delete"
 msgstr	"Löschen"
@@ -114,6 +126,10 @@ msgstr	"Email fehlt"
 msgid	"Enable"
 msgstr	"Aktivieren"
 
+#, fuzzy
+msgid	"Enable Export"
+msgstr	"Aktivieren"
+
 msgid	"Enabled"
 msgstr	"Aktiv"
 
@@ -126,11 +142,11 @@ msgstr	"Ende"
 msgid	"Error"
 msgstr	"Fehler"
 
+msgid	"Export"
+msgstr	""
+
 msgid	"Family Name"
 msgstr	"Name"
-
-msgid	"Family name"
-msgstr	""
 
 msgid	"Fax"
 msgstr	""
@@ -141,8 +157,9 @@ msgstr	"Ferig"
 msgid	"First Name"
 msgstr	"Vorname"
 
-msgid	"First name"
-msgstr	""
+#, fuzzy
+msgid	"Group"
+msgstr	"Gruppen"
 
 msgid	"Group Administration"
 msgstr	"Gruppenverwaltung"
@@ -150,9 +167,12 @@ msgstr	"Gruppenverwaltung"
 msgid	"Groups"
 msgstr	"Gruppen"
 
-msgid	"HRJobs is an <b>OpenSource-Entwicklung</b> development of<br>CROSS-"
-	"Solution"
-msgstr	""
+#, fuzzy
+msgid	"Gruppe"
+msgstr	"Gruppen"
+
+msgid	"HRJobs is an <b>Open Source</b> development of "
+msgstr	"HRJobs is eine <b>Open Source</b> Entwicklung von "
 
 msgid	"Help"
 msgstr	"Hilfe"
@@ -163,8 +183,16 @@ msgstr	"Start"
 msgid	"Host"
 msgstr	""
 
+#, fuzzy
+msgid	"Host is required"
+msgstr	"Name is ein Pflichtfeld"
+
 msgid	"Id"
 msgstr	""
+
+#, fuzzy
+msgid	"Industries"
+msgstr	"Branche"
 
 msgid	"Industry"
 msgstr	"Branche"
@@ -175,20 +203,32 @@ msgstr	""
 msgid	"Job"
 msgstr	""
 
-msgid	"Job Id."
-msgstr	""
-
 msgid	"Job Posting"
 msgstr	"Stellenanzeige"
 
 msgid	"Job Postings"
 msgstr	"Stellenanzeigen"
 
+#, fuzzy
+msgid	"Job Reference"
+msgstr	"Referenz"
+
+#, fuzzy
 msgid	"Job Titel"
-msgstr	""
+msgstr	"Überschrift"
+
+#, fuzzy
+msgid	"JobID"
+msgstr	"Stellen"
 
 msgid	"Jobs"
 msgstr	"Stellen"
+
+msgid	"Jobs Export"
+msgstr	""
+
+msgid	"Language"
+msgstr	"Sprache"
 
 msgid	"Last Login"
 msgstr	"Letzte Anmeldung"
@@ -196,23 +236,32 @@ msgstr	"Letzte Anmeldung"
 msgid	"Location"
 msgstr	"Ort"
 
+#, fuzzy
+msgid	"Location Type"
+msgstr	"Ort"
+
+#, fuzzy
+msgid	"Locations"
+msgstr	"Ort"
+
 msgid	"Login"
 msgstr	"Anmeldung"
 
+#, fuzzy
 msgid	"Logo"
-msgstr	""
+msgstr	"Abmelden"
 
 msgid	"Logout"
 msgstr	"Abmelden"
 
 msgid	"Must be a number"
-msgstr	""
+msgstr	"Muß eine Nummer sein"
 
 msgid	"Name"
 msgstr	""
 
 msgid	"Name is required"
-msgstr	""
+msgstr	"Name is ein Pflichtfeld"
 
 msgid	"New Contact"
 msgstr	"Neuer Kontakt"
@@ -220,20 +269,42 @@ msgstr	"Neuer Kontakt"
 msgid	"New Group"
 msgstr	"Neue Gruppe"
 
+#, fuzzy
+msgid	"New Industry"
+msgstr	"Branche"
+
 msgid	"New Job"
 msgstr	"Neue Stelle"
 
 msgid	"New Job Posting"
 msgstr	"Neue Stellenanzeige"
 
+#, fuzzy
+msgid	"New Location"
+msgstr	"Ort"
+
 msgid	"New Organization"
 msgstr	"Neue Organisation"
+
+#, fuzzy
+msgid	"New Profession"
+msgstr	"Berufsfeld"
 
 msgid	"New User"
 msgstr	"Neuer Benutzer"
 
-msgid	"Oragnizations"
+msgid	"No connection to database!"
 msgstr	""
+
+msgid	"No connection to server!"
+msgstr	""
+
+msgid	"OHRwurm connection"
+msgstr	"Ohrwurm Verbindung"
+
+#, fuzzy
+msgid	"Oragnizations"
+msgstr	"Organisationen"
 
 msgid	"Organization"
 msgstr	"Organisation"
@@ -241,26 +312,20 @@ msgstr	"Organisation"
 msgid	"Organizations"
 msgstr	"Organisationen"
 
-msgid	"PEAR HTML_QuickForm"
+msgid	"Other DBMs not tested yet"
 msgstr	""
 
-msgid	"PEAR HTML_Template_Sigma"
-msgstr	""
-
-msgid	"PEAR LiveUser"
-msgstr	""
-
-msgid	"PHP 5"
-msgstr	""
+msgid	"Packages"
+msgstr	"Pakete"
 
 msgid	"Password"
 msgstr	"Passwort"
 
 msgid	"Password is required"
-msgstr	""
+msgstr	"Passwort ist ein Pflichtfeld"
 
 msgid	"Passwords are not equal"
-msgstr	""
+msgstr	"Passwörter sind nicht gleich"
 
 msgid	"Pending"
 msgstr	""
@@ -268,41 +333,51 @@ msgstr	""
 msgid	"Phone"
 msgstr	"Telefon"
 
+#, fuzzy
 msgid	"Please enter a \"Building Number\" "
-msgstr	""
+msgstr	"Bitte geben Sie einen Namen ein"
 
+#, fuzzy
 msgid	"Please enter a \"City\" "
-msgstr	""
+msgstr	"Bitte geben Sie eine Email ein"
 
+#, fuzzy
 msgid	"Please enter a \"Country\" "
-msgstr	""
+msgstr	"Bitte geben Sie einen Namen ein"
 
+#, fuzzy
 msgid	"Please enter a \"Name\" "
-msgstr	""
+msgstr	"Bitte geben Sie einen Namen ein"
 
+#, fuzzy
 msgid	"Please enter a \"Street\" "
-msgstr	""
+msgstr	"Bitte geben Sie einen Namen ein"
 
+#, fuzzy
 msgid	"Please enter a \"Website\" "
-msgstr	""
+msgstr	"Bitte geben Sie einen Namen ein"
 
+#, fuzzy
 msgid	"Please enter a \"Zip\" "
-msgstr	""
+msgstr	"Bitte geben Sie eine Email ein"
 
 msgid	"Please enter a name"
-msgstr	""
+msgstr	"Bitte geben Sie einen Namen ein"
 
 msgid	"Please enter a valid \"Email\""
-msgstr	""
+msgstr	"Bitte geben Sie eine gültige Email ein"
 
 msgid	"Please enter a valid \"Email\" "
 msgstr	""
 
 msgid	"Please enter the \"Email\" "
-msgstr	""
+msgstr	"Bitte geben Sie eine Email ein"
 
 msgid	"Please enter the \"Name\" "
-msgstr	""
+msgstr	"Bitte geben Sie einen Namen ein"
+
+msgid	"Please select a \"Group\" "
+msgstr	"Bitte wählen Sie eine Gruppe"
 
 msgid	"Post"
 msgstr	""
@@ -310,14 +385,28 @@ msgstr	""
 msgid	"Profession"
 msgstr	"Berufsfeld"
 
+#, fuzzy
+msgid	"Professions"
+msgstr	"Berufsfeld"
+
+msgid	"Reference"
+msgstr	"Referenz"
+
 msgid	"Repeat"
 msgstr	"Wiederholung"
 
 msgid	"Required"
 msgstr	"Pflichtfeld"
 
+#, fuzzy
+msgid	"Required fields"
+msgstr	"Pflichtfeld"
+
 msgid	"Requirements"
 msgstr	"Anforderungen"
+
+msgid	"Run Export"
+msgstr	"Export starten"
 
 msgid	"Save"
 msgstr	"Speichern"
@@ -325,11 +414,21 @@ msgstr	"Speichern"
 msgid	"Save as Template"
 msgstr	"Speichern als Vorlage"
 
+msgid	"Search"
+msgstr	"Suche"
+
 msgid	"Settings"
 msgstr	"Einstellungen"
 
+msgid	"Setup Step 2 of 3"
+msgstr	""
+
 msgid	"Skin"
 msgstr	""
+
+#, fuzzy
+msgid	"Skin is required"
+msgstr	"Email fehlt"
 
 msgid	"Start"
 msgstr	"Start"
@@ -361,11 +460,11 @@ msgstr	"Abgelaufen"
 msgid	"Titel"
 msgstr	"Überschrift"
 
+msgid	"URL is invalid"
+msgstr	"Die URL is ungültig"
+
 msgid	"URL:"
 msgstr	""
-
-msgid	"Use exist User"
-msgstr	"Vorhandenen Benutzer verwenden"
 
 msgid	"Used OpenSource-Components"
 msgstr	""
@@ -376,6 +475,10 @@ msgstr	"Benutzer"
 msgid	"User Administration"
 msgstr	"Benutzerverwaltung"
 
+#, fuzzy
+msgid	"User is required"
+msgstr	"Benutzername fehlt"
+
 msgid	"Username"
 msgstr	"Benuzername"
 
@@ -384,6 +487,9 @@ msgstr	"Benutzer existiert bereits"
 
 msgid	"Username is required"
 msgstr	"Benutzername fehlt"
+
+msgid	"WSDL URL"
+msgstr	""
 
 msgid	"Web"
 msgstr	""
@@ -394,5 +500,65 @@ msgstr	""
 msgid	"You have no right for this site!"
 msgstr	"Sie haben keine Berechtigung für diesen Bereich!"
 
+#, fuzzy
 msgid	"Zip"
 msgstr	"PLZ"
+
+msgid	"activate"
+msgstr	"aktivieren"
+
+#, fuzzy
+msgid	"city"
+msgstr	"Stadt"
+
+#, fuzzy
+msgid	"country"
+msgstr	"Land"
+
+msgid	"deutsch"
+msgstr	""
+
+msgid	"englisch"
+msgstr	""
+
+msgid	"key"
+msgstr	"Key"
+
+msgid	"key is invalid"
+msgstr	"Ungültiger Key"
+
+#, fuzzy
+msgid	"region"
+msgstr	"Berufsfeld"
+
+#, fuzzy
+msgid	"required fields"
+msgstr	"Pflichtfeld"
+
+#, fuzzy
+msgid	"state"
+msgstr	"Start"
+
+msgid	"utitities"
+msgstr	""
+
+#, fuzzy
+msgid	"various"
+msgstr	"Verschiedene"
+
+msgid	"various JavaScripts inspired by MamboServer, Typo3"
+msgstr	""
+
+#, fuzzy
+msgid	"zip"
+msgstr	"PLZ"
+
+#, fuzzy
+#~ msgid	"About HRjobs"
+#~ msgstr	"Über HRJobs"
+
+#~ msgid	"Create Database"
+#~ msgstr	"Datenbank anlegen"
+
+#~ msgid	"Use exist User"
+#~ msgstr	"Vorhandenen Benutzer verwenden"

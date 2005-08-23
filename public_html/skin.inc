@@ -63,7 +63,7 @@ function getMenuString() {
     $menu .= ".|"   .gettext("Help")."|about.php|".gettext("Help")."|help.png\n";
     $menu .= "..|"  .gettext("Support")."|about.php|".gettext("Support")."|help.png\n";
     $menu .= "..|---\n";
-    $menu .= "..|"  .gettext("Info")."|about.php|".gettext("About HRjobs")."|info.png\n";
+    $menu .= "..|"  .gettext("Info")."|about.php|".gettext("About HRJobs")."|info.png\n";
     return $menu;
 }
 
