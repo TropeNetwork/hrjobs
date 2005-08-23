@@ -17,7 +17,7 @@ $list = new DBTableList(DSN, 10);
 $list->setTable('job_posting');
 $list->setColumns(array (
     'job_id'                => 'Job Id.',
-    'org_id'   => 'Organisation',
+    'org_id'   				=> 'Organisation',
     'job_title'             => 'Titel',
     'start_date'            => 'Start',
     'end_date'              => 'Ende'));
@@ -26,12 +26,13 @@ $list->orderby('job_id');
 $list->where('org_id='.HttpParameter::getParameter('org_id').
         " AND start_date<='".date('Y-m-d',time())."'".
         " AND job_status='active'" .
-        " AND is_template=0" .
+        " AND (is_template=0 OR is_template IS NULL)" .
         " AND (end_date>'".date('Y-m-d',time())."' OR end_date='0000-00-00')");
 $listrenderer = new DBTableList_Renderer_Sigma(
     & $tpl, 
     'joblist.html',
     'contentmain',
+    'jobs',
     'job'
 );
 

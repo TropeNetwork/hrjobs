@@ -24,6 +24,7 @@ $listrenderer = new DBTableList_Renderer_Sigma(
     & $tpl, 
     'organizationlist.html',
     'contentmain',
+    'orgs',
     'org'
 );
 
