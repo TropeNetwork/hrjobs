@@ -130,11 +130,13 @@ class HiringOrg {
         $db = Database::getConnection(DSN);
         $query="DELETE FROM organization_industries WHERE org_id=".$this->values['org_id'];
         $res = $db->query($query);
-        foreach($this->industries as $profs) {
-            if ($profs!=='') {
-                $query="INSERT INTO organization_industries (org_id, industry_id) VALUES (".$this->values['org_id'].", ".$profs.")";
-                $db->query($query);
-            }
+        if (isset($this->industries)) {
+	        foreach($this->industries as $profs) {
+	            if ($profs!=='') {
+	                $query="INSERT INTO organization_industries (org_id, industry_id) VALUES (".$this->values['org_id'].", ".$profs.")";
+	                $db->query($query);
+	            }
+	        }
         }
     }
     public function getIndustries() {
