@@ -79,11 +79,7 @@ $list->setColumns(array (
 ));
 
 $list->orderby('job_id');
-if (!checkRights(HRJOBS_RIGHT_SYSTEM)) {
-    $where = 'job_posting.org_id=org.org_id AND org.group_id='.$org_usr->getGroupId().' AND ';
-} else {
-    $where = 'job_posting.org_id=org.org_id AND ';
-}
+$where = 'job_posting.org_id=org.org_id AND org.group_id='.$org_usr->getGroupId().' AND ';
 
 if ($form->validate()) {
     $where .= ' (job_title like \'%'.addslashes($form->exportValue('search')).'%\' 

@@ -86,7 +86,7 @@ if (isset($auth_user_id)) {
     $defaults['email']  = $user['email'];
     $defaults['active'] = $user['is_active'];
     $defaults['admin']  = $organization_user->getValue('is_group_admin');
-    $defaults['group'] =  $organization_user->getValue('organization_group_id');
+    $defaults['group'] =  $organization_user->getValue('group_id');
 }
 
 $form->setDefaults($defaults);
@@ -126,7 +126,7 @@ if ($form->validate()) {
             
             $group_id = $form->getSubmitValue("group");
             if (isset($group_id)) {
-                $organization_user->setValue('organization_group_id',$group_id);
+                $organization_user->setValue('group_id',$group_id);
             }
             $luConfig->getPermAdmin()->addUserToGroup(array('perm_user_id'=>$perm_user_id,'group_id'=>HRADMIN_GROUP_USERS));
             $organization_user->setValue('is_group_admin',$form->exportValue('admin'));

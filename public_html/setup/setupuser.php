@@ -5,7 +5,8 @@ require_once 'Config.php';
 require_once 'HTML/Template/Sigma.php';
 require_once 'HTML/QuickForm.php';
 require_once 'HTML/QuickForm/Renderer/ITStatic.php';
-
+require_once 'OrgGroup.php';
+require_once 'Database.php';
 require_once 'OrgUser.php';
 require_once 'LiveUserConfiguration.php';
 $luConfig = new LiveUserConfiguration($settings);
@@ -113,15 +114,34 @@ if ($form->validate()) {
                 $perm_id, 
                 $data);          
         }
-        $res = $admin->perm->addUserToGroup(array('perm_user_id'=>$perm_id,'group_id'=>@$settings['groups']['users']));
+        $res = $admin->perm->addUserToGroup(array(
+			'perm_user_id'	=> $perm_id,
+			'group_id'		=> @$settings['groups']['users']
+		));
         if (PEAR::isError($res)) {
             print_r($res);
         }
-        $res = $admin->perm->addUserToGroup(array('perm_user_id'=>$perm_id,'group_id'=>@$settings['groups']['admins']));
+        $res = $admin->perm->addUserToGroup(array(
+			'perm_user_id'	=> $perm_id,
+			'group_id'		=> @$settings['groups']['admins']
+		));
         if (PEAR::isError($res)) {
             print_r($res);
         }
-        
+        $db = Database::getConnection(DSN);
+        $res = $db->getOne('SELECT group_id FROM organization_group WHERE group_name=\'Admin Group\'');
+        $admin_group_id = null;
+        if ($res!==null) {
+        	$admin_group_id = $res;
+        }
+        $org_group =  new OrgGroup($admin_group_id);
+        $org_group->setValue('group_name','Admin Group');
+        $org_group->save();
+        $org_group->enable();
+        $org_group->addUser($auth_id);
+        $organization_user = new OrgUser($auth_id);
+        $organization_user->setValue('is_group_admin',true);
+        $organization_user->save();
         // set the configuration to initialized
         $settings['setup']['initialized'] = true;
         $config = new Config;

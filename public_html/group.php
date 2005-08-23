@@ -94,6 +94,7 @@ $clistrenderer = new DBTableList_Renderer_Sigma(
     'users.html', 
     'users', 
     'user',
+    'user_entry',
     new UserColumnRenderer(),
     new UserRowRenderer($luConfig->getAdmin())
 );

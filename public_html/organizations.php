@@ -30,9 +30,8 @@ $list->setColumns(array(
     'enable_export'					=> _("Enable Export"),
 ));
 $list->orderby('org_name');
-if (!checkRights(HRJOBS_RIGHT_SYSTEM)) {
-    $list->where('organization.group_id='.$org_usr->getGroupId());
-}
+$list->where('organization.group_id='.$org_usr->getGroupId());
+
 $listrenderer = new DBTableList_Renderer_Sigma(
 	& $tpl, 
 	'organizations.html',
