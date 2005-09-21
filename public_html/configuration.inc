@@ -42,4 +42,9 @@ define('IMAGES_DIR',THEME_BASE.'/'.THEME_SKIN.'/images');
 define('LOCALE',$settings['i18n']['locale']);
 define('CHARSET',$settings['i18n']['charset']);
 
+if (!isset($settings['ohrwurm'])){
+    $settings['ohrwurm']['wsdl']="http://ohrwurm.net/soap/index/OHRwurmIndex.wsdl";
+    $settings['ohrwurm']['active']=false;
+}
+
 ?>
