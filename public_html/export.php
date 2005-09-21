@@ -28,7 +28,7 @@ if (checkRights(HRJOBS_RIGHT_SYSTEM)){
                   'size'=>'80',
                   'class'=>'formFieldLong'));
     $form->addElement('checkbox','active', _("activate"));
-    $form->addElement('submit','request',_("Save"));
+    
 
     $form->addRule('wsdl',     _("URL is invalid"), 'uri');
     $form->setDefaults(array(
@@ -37,7 +37,8 @@ if (checkRights(HRJOBS_RIGHT_SYSTEM)){
                        );
                        
     $tpl->setVariable('export_title',_('OHRwurm connection'));
-} elseif ($org_usr->getValue('is_group_admin')) {
+} 
+if ($org_usr->getValue('is_group_admin')) {
     
     $form->registerRule('checkKey', 'callback', 'checkKey', 'Key');
     $form->setRequiredNote("<font color=\"red\" size=\"1\"> *</font><font size=\"1\"> "._("Required")."</font>");
@@ -49,7 +50,6 @@ if (checkRights(HRJOBS_RIGHT_SYSTEM)){
                   'class'     => 'formFieldLong'));
     $form->addElement('hidden','group_id',$org_usr->getGroupId());
     $form->addElement('hidden','name','OHRwurm');
-    $form->addElement('submit','request',_("Save"));
     $form->addElement('submit','run',_("Run Export"));
     $form->addRule('key',     _("key is invalid"), 'checkKey');
     
@@ -63,6 +63,8 @@ if (checkRights(HRJOBS_RIGHT_SYSTEM)){
     $tpl->setVariable('export_title',_('Connect to OHRwurm'));  
     $tpl->setVariable('groupname',$group->getValue('group_name'));
 }
+
+$form->addElement('submit','request',_("Save"));
 
 if ($form->validate()) {
 	
